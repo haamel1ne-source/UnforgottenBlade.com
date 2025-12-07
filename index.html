@@ -1,10 +1,167 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="uk">
 <head>
-    <meta charset="utf-8">
-    <title>Марців Давид</title>
+<meta charset="UTF-8">
+<title>Fitness Tracker</title>
+<style>
+    body {
+        font-family: Arial;
+        margin: 0;
+        background: #f5f5f5;
+    }
+    header {
+        background: #2b2b2b;
+        padding: 15px;
+        color: white;
+        font-size: 22px;
+    }
+    nav {
+        background: #444;
+        color: white;
+        padding: 10px;
+    }
+    nav ul { list-style: none; padding: 0; }
+    nav li { display: inline-block; margin-right: 20px; cursor: pointer; position: relative; }
+
+    /* Випадне меню */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background: #666;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    li:hover .dropdown-content {
+        display: block;
+    }
+
+    .section {
+        padding: 20px;
+        display: none;
+        animation: fade 0.6s;
+    }
+    @keyframes fade {
+        from {opacity: 0;} to {opacity: 1;}
+    }
+
+    /* Модальне вікно */
+    .modal-bg {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+    }
+    .modal {
+        background: white;
+        width: 300px;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 100px auto;
+    }
+
+    button { padding: 10px; margin-top: 10px; }
+</style>
 </head>
 <body>
-    <h1>Моя перша сторінка</h1>
+
+<header>Fitness Tracker</header>
+
+<nav>
+    <ul>
+        <li>Тренування
+            <div class="dropdown-content">
+                <div onclick="showSection('timer')">Таймер</div>
+                <div onclick="showSection('bmi')">Калькулятор ІМТ</div>
+            </div>
+        </li>
+        <li onclick="showSection('converter')">Конвертер</li>
+        <li onclick="openModal()">Порада дня</li>
+    </ul>
+</nav>
+
+<!-- СЕКЦІЇ -->
+
+<div id="timer" class="section">
+    <h2>Таймер зворотного відліку</h2>
+    <input id="secondsInput" type="number" placeholder="Секунди">
+    <button onclick="startTimer()">Старт</button>
+    <p id="timerDisplay"></p>
+</div>
+
+<div id="bmi" class="section">
+    <h2>Калькулятор ІМТ</h2>
+    <input id="weight" type="number" placeholder="Вага (кг)">
+    <input id="height" type="number" placeholder="Зріст (см)">
+    <button onclick="calcBMI()">Розрахувати</button>
+    <p id="bmiResult"></p>
+</div>
+
+<div id="converter" class="section">
+    <h2>Конвертер кг ↔ фунти</h2>
+    <input id="kg" type="number" placeholder="Кілограми">
+    <button onclick="toLb()">У фунти</button>
+    <p id="lbResult"></p>
+</div>
+
+<!-- МОДАЛЬНЕ ВІКНО -->
+<div class="modal-bg" id="modalBg">
+    <div class="modal">
+        <h3>Порада дня</h3>
+        <p>Пий більше води! 💧</p>
+        <button onclick="closeModal()">Закрити</button>
+    </div>
+</div>
+
+<script>
+function showSection(id) {
+    document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+}
+
+/* Модальне вікно */
+function openModal() {
+    document.getElementById('modalBg').style.display = 'block';
+}
+function closeModal() {
+    document.getElementById('modalBg').style.display = 'none';
+}
+
+/* Таймер */
+function startTimer() {
+    let sec = document.getElementById('secondsInput').value;
+    const label = document.getElementById('timerDisplay');
+
+    let interval = setInterval(() => {
+        label.textContent = "Залишилось: " + sec + " c.";
+        sec--;
+        if (sec < 0) {
+            clearInterval(interval);
+            label.textContent = "Готово!";
+        }
+    }, 1000);
+}
+
+/* ІМТ */
+function calcBMI() {
+    let w = parseFloat(document.getElementById('weight').value);
+    let h = parseFloat(document.getElementById('height').value) / 100;
+
+    let bmi = (w / (h*h)).toFixed(2);
+    document.getElementById('bmiResult').textContent = "Ваш ІМТ: " + bmi;
+}
+
+/* Конвертер */
+function toLb() {
+    let kg = document.getElementById('kg').value;
+    let lb = (kg * 2.205).toFixed(2);
+    document.getElementById('lbResult').textContent = kg + " кг = " + lb + " фунтів";
+}
+
+/* Поп-ап при виході */
+document.addEventListener('mouseleave', () => {
+    openModal();
+}, { once: true });
+</script>
+
 </body>
 </html>
