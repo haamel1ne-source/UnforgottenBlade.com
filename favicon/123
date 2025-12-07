@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CookBook — Кулінарні рецепти</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="icon" type="image/png" href="favicon/burger.png">
+<style>
+    :root {
+        --primary: #2e7d32;
+        --primary-light: #4caf50;
+        --primary-dark: #1b5e20;
+        --secondary: #ff9800;
+        --light: #f1f8e9;
+        --lighter: #f9fffa;
+        --text: #2d5016;
+        --text-light: #558b2f;
+        --white: #ffffff;
+        --shadow: rgba(46, 125, 50, 0.1);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', 'Roboto', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--lighter);
+        color: var(--text);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Верхня панель */
+    .header-container {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        padding: 0 40px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .nav-btn {
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 14px 24px;
+        border-radius: 50px;
+        color: var(--white);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--white);
+        letter-spacing: 1px;
+        padding: 15px 0;
+    }
+
+    .logo-icon {
+        font-size: 40px;
+        filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
+    }
+
+    .logo-text {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Бургер меню */
+    .burger-menu {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 28px;
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    /* Основной контент */
+    .content-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px 20px;
+        flex: 1;
+    }
+
+    .page-title {
+        text-align: center;
+        margin: 20px 0 40px;
+        position: relative;
+    }
+
+    .page-title h1 {
+        font-size: 3rem;
+        color: var(--primary-dark);
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    .page-title h1:after {
+        content: '';
+        display: block;
+        width: 100px;
+        height: 4px;
+        background: var(--secondary);
+        margin: 10px auto;
+        border-radius: 2px;
+    }
+
+    .page-title p {
+        font-size: 1.2rem;
+        color: var(--text-light);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* Пошук */
+    .search-box {
+        padding: 40px 20px;
+        text-align: center;
+        position: relative;
+    }
+
+    .search-container {
+        position: relative;
+        display: inline-block;
+        width: 80%;
+        max-width: 600px;
+    }
+
+    .search-box input {
+        padding: 18px 25px 18px 55px;
+        width: 100%;
+        border: 2px solid var(--primary-light);
+        border-radius: 50px;
+        font-size: 18px;
+        background: var(--white);
+        outline: none;
+        transition: 0.3s;
+        box-shadow: 0 5px 15px var(--shadow);
+    }
+
+    .search-box input:focus {
+        border-color: var(--primary-dark);
+        box-shadow: 0 8px 20px rgba(46, 125, 50, 0.2);
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 25px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-light);
+        font-size: 22px;
+        z-index: 2;
+    }
+
+    /* Категории */
+    .categories {
+        text-align: center;
+        margin: 50px 0;
+        padding: 30px;
+        background: var(--white);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px var(--shadow);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .categories:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+    }
+
+    .categories h2 {
+        margin-bottom: 25px;
+        color: var(--primary-dark);
+        font-size: 1.8rem;
+    }
+
+    .categories button {
+        margin: 10px;
+        padding: 14px 28px;
+        background: var(--light);
+        border: 2px solid transparent;
+        border-radius: 50px;
+        color: var(--text);
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s;
+        font-size: 16px;
+    }
+
+    .categories button:hover {
+        background: var(--primary);
+        color: var(--white);
+        border-color: var(--primary);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+    }
+
+    /* Рецепти */
+    .recipes-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 35px;
+        padding: 20px 0 50px;
+    }
+
+    .recipe {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 0;
+        cursor: pointer;
+        transition: 0.4s;
+        overflow: hidden;
+        box-shadow: 0 10px 25px var(--shadow);
+        border: 1px solid rgba(76, 175, 80, 0.1);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .recipe:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(46, 125, 50, 0.2);
+    }
+
+    .recipe-img-container {
+        width: 100%;
+        height: 220px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .recipe-img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+
+    .recipe:hover .recipe-img-container img {
+        transform: scale(1.05);
+    }
+
+    .recipe-category {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: var(--primary);
+        color: white;
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .recipe-content {
+        padding: 20px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .recipe h3 {
+        margin: 0 0 10px;
+        color: var(--primary-dark);
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .recipe p {
+        color: var(--text-light);
+        margin: 8px 0;
+        flex-grow: 1;
+    }
+
+    .recipe-time {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--secondary);
+        font-weight: 600;
+        margin-top: 15px;
+    }
+
+    .recipe-time i {
+        font-size: 18px;
+    }
+
+    /* Сирники - особливе обрізання фото */
+    .recipe[data-cat="dessert"]:nth-child(4) .recipe-img-container img {
+        object-position: center 70%;
+    }
+
+    /* Підвал */
+    footer {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, #1a472a 100%);
+        color: var(--white);
+        padding: 60px 0 30px;
+        margin-top: auto;
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+    }
+
+    .footer-section h3 {
+        font-size: 22px;
+        margin-bottom: 25px;
+        position: relative;
+        display: inline-block;
+    }
+
+    .footer-section h3:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 40px;
+        height: 3px;
+        background: var(--secondary);
+        border-radius: 2px;
+    }
+
+    .footer-section p, .footer-section a {
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 12px;
+        display: block;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .footer-section a:hover {
+        color: var(--white);
+        transform: translateX(5px);
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .social-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        transition: 0.3s;
+    }
+
+    .social-icon:hover {
+        background: var(--secondary);
+        transform: translateY(-5px);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        margin-top: 50px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+    }
+
+    /* Адаптивність */
+    @media (max-width: 992px) {
+        .header-container {
+            padding: 0 20px;
+        }
+        
+        .burger-menu {
+            display: block;
+        }
+        
+        .nav-buttons {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--primary-dark);
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .nav-buttons.active {
+            display: flex;
+        }
+        
+        .nav-btn {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .page-title h1 {
+            font-size: 2.5rem;
+        }
+        
+        .search-container {
+            width: 90%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .recipes-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .categories button {
+            padding: 12px 20px;
+            font-size: 15px;
+        }
+        
+        .footer-container {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        
+        .footer-section h3:after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .social-icons {
+            justify-content: center;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="header-container">
+    <button class="burger-menu" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="nav-buttons" id="navButtons">
+        <button class="nav-btn" onclick="showSection('recipes')"><i class="fas fa-home"></i> Головна</button>
+        <button class="nav-btn" onclick="showSection('categories')"><i class="fas fa-list"></i> Категорії</button>
+        <button class="nav-btn" onclick="showSection('about')"><i class="fas fa-info-circle"></i> Про нас</button>
+    </div>
+    
+    <div class="logo">
+        <span class="logo-icon">🍔</span>
+        <span class="logo-text">CookBook</span>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="page-title">
+        <h1>Смачні рецепти</h1>
+        <p>Відкрийте для себе найкращі рецепти для будь-якої нагоди. Готуйте з насолодою!</p>
+    </div>
+
+    <div class="search-box">
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input id="search" type="text" placeholder="Пошук рецептів за назвою чи інгредієнтами..." onkeyup="searchRecipes()">
+        </div>
+    </div>
+
+    <div class="categories">
+        <h2>Категорії страв</h2>
+        <button onclick="filterRecipes('all')"><i class="fas fa-utensils"></i> Усі</button>
+        <button onclick="filterRecipes('soup')"><i class="fas fa-utensil-spoon"></i> Супи</button>
+        <button onclick="filterRecipes('dessert')"><i class="fas fa-ice-cream"></i> Десерти</button>
+        <button onclick="filterRecipes('meat')"><i class="fas fa-drumstick-bite"></i> М'ясні страви</button>
+        <button onclick="filterRecipes('vegetarian')"><i class="fas fa-leaf"></i> Вегетаріанські</button>
+        <button onclick="filterRecipes('breakfast')"><i class="fas fa-egg"></i> Сніданки</button>
+    </div>
+
+    <div class="recipes-container" id="recipes">
+        <!-- Борщ -->
+        <a href="borshch.html" class="recipe" data-cat="soup">
+            <div class="recipe-img-container">
+                <img src="https://recepty.24tv.ua/resources/photos/recipe/1200x675_DIR/201912/86d3f0ec08-b061-4a2d-afa7-f053527f4f06.jpg?1582905806000" alt="Борщ">
+                <span class="recipe-category">Супи</span>
+            </div>
+            <div class="recipe-content">
+                <h3>Борщ український</h3>
+                <p>Класичний червоний борщ зі сметаною та свіжою зеленню</p>
+                <div class="recipe-time">
+                    <i class="far fa-clock"></i>
+                    <span>1 год 20 хв</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Панкейки -->
+        <a href="pancake.html" class="recipe" data-cat="dessert">
+            <div class="recipe-img-container">
+                <img src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg" alt="Панкейки">
+                <span class="recipe-category">Десерти</span>
+            </div>
+            <div class="recipe-content">
+                <h3>Панкейки з ягодами</h3>
+                <p>Повітряні млинці зі свіжими ягодами та солодким сиропом</p>
+                <div class="recipe-time">
+                    <i class="far fa-clock"></i>
+                    <span>25 хв</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Лазанья -->
+        <a href="lasanga.html" class="recipe" data-cat="meat">
+            <div class="recipe-img-container">
+                <img src="https://images.pexels.com/photos/5949896/pexels-photo-5949896.jpeg" alt="Лазанья">
+                <span class="recipe-category">М'ясні</span>
+            </div>
+            <div class="recipe-content">
+                <h3>М'ясна лазанья</h3>
+                <p>Класична італійська лазанья з м'ясним соусом та сиром</p>
+                <div class="recipe-time">
+                    <i class="far fa-clock"></i>
+                    <span>1 год 15 хв</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Сирники -->
+        <a href="cheesecake.html" class="recipe" data-cat="dessert">
+            <div class="recipe-img-container">
+                <img src="https://images.pexels.com/photos/6168339/pexels-photo-6168339.jpeg" alt="Сирники">
+                <span class="recipe-category">Десерти</span>
+            </div>
+            <div class="recipe-content">
+                <h3>Сирники</h3>
+                <p>Ніжні сирники з родзинками, подаються зі сметаною</p>
+                <div class="recipe-time">
+                    <i class="far fa-clock"></i>
+                    <span>30 хв</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Омлет -->
+        <a href="omlet.html" class="recipe" data-cat="breakfast">
+            <div class="recipe-img-container">
+                <img src="https://images.pexels.com/photos/17198757/pexels-photo-17198757.jpeg" alt="Омлет з овочами">
+                <span class="recipe-category">Сніданки</span>
+            </div>
+            <div class="recipe-content">
+                <h3>Омлет з овочами</h3>
+                <p>Поживний сніданок зі свіжими овочами та сиром</p>
+                <div class="recipe-time">
+                    <i class="far fa-clock"></i>
+                    <span>20 хв</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Каррі з куркою -->
+        <a href="curry.html" class="recipe" data-cat="meat">
+            <div class="recipe-img-container">
+                <img src="https://images.pexels.com/photos/674574/pexels-photo-674574.jpeg" alt="Каррі з куркою та рисом">
+                <span class="recipe-category">М'ясні</span>
+            </div>
+            <div class="recipe-content">
+                <h3>Каррі з куркою та рисом</h3>
+                <p>Ароматне каррі з кокосовим молоком та свіжими овочами</p>
+                <div class="recipe-time">
+                    <i class="far fa-clock"></i>
+                    <span>45 хв</span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- Підвал -->
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>CookBook</h3>
+            <p>Ваш помічник у світі кулінарії. Ми збираємо найсмачніші рецепти з усього світу, адаптовані для української кухні.</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Навігація</h3>
+            <a href="#" onclick="showSection('recipes')">Головна</a>
+            <a href="#" onclick="showSection('categories')">Категорії</a>
+            <a href="#" onclick="showSection('about')">Про нас</a>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Контакти</h3>
+            <p><i class="fas fa-envelope"></i> info@cookbook.ua</p>
+            <p><i class="fas fa-phone"></i> +380 44 123 4567</p>
+            <p><i class="fas fa-map-marker-alt"></i> м. Київ, вул. Кулінарна, 10</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Розсилка</h3>
+            <p>Підпишіться на нашу розсилку, щоб отримувати нові рецепти щотижня.</p>
+            <input type="email" placeholder="Ваш email" style="padding: 10px; border-radius: 5px; border: none; width: 100%; margin-bottom: 10px;">
+            <button style="background: var(--secondary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;">Підписатися</button>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>© 2023 CookBook. Всі права захищені. | Створено з <i class="fas fa-heart" style="color: #ff6b6b;"></i> для кулінарів</p>
+    </div>
+</footer>
+
+<script>
+/* Фільтрація за категоріями */
+function filterRecipes(cat) {
+    document.querySelectorAll('.recipe').forEach(r => {
+        r.style.display = (cat === 'all' || r.dataset.cat === cat) ? 'flex' : 'none';
+    });
+}
+
+/* Пошук */
+function searchRecipes() {
+    let text = document.getElementById('search').value.toLowerCase();
+    document.querySelectorAll('.recipe').forEach(r => {
+        let title = r.querySelector('h3').textContent.toLowerCase();
+        let desc = r.querySelector('p').textContent.toLowerCase();
+        r.style.display = (title.includes(text) || desc.includes(text)) ? 'flex' : 'none';
+    });
+}
+
+/* Бургер меню */
+function toggleMenu() {
+    const navButtons = document.getElementById('navButtons');
+    navButtons.classList.toggle('active');
+}
+
+/* Навігація */
+function showSection(section) {
+    // Закриваємо меню на мобільних пристроях
+    const navButtons = document.getElementById('navButtons');
+    if (navButtons.classList.contains('active')) {
+        navButtons.classList.remove('active');
+    }
+    
+    // Для демонстрації - просто скролимо до відповідного розділу
+    switch(section) {
+        case 'recipes':
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            break;
+        case 'categories':
+            document.querySelector('.categories').scrollIntoView({behavior: 'smooth'});
+            break;
+        case 'about':
+            window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+            break;
+    }
+}
+
+// Закриваємо меню при кліку поза ним
+document.addEventListener('click', function(event) {
+    const navButtons = document.getElementById('navButtons');
+    const burgerMenu = document.querySelector('.burger-menu');
+    
+    if (!navButtons.contains(event.target) && !burgerMenu.contains(event.target)) {
+        navButtons.classList.remove('active');
+    }
+});
+
+// Ініціалізація - показуємо всі рецепти при завантаженні
+window.onload = function() {
+    filterRecipes('all');
+};
+</script>
+
+</body>
+</html>
