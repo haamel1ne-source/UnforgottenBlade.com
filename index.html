@@ -1,167 +1,307 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<title>Fitness Tracker</title>
-<style>
-    body {
-        font-family: Arial;
-        margin: 0;
-        background: #f5f5f5;
-    }
-    header {
-        background: #2b2b2b;
-        padding: 15px;
-        color: white;
-        font-size: 22px;
-    }
-    nav {
-        background: #444;
-        color: white;
-        padding: 10px;
-    }
-    nav ul { list-style: none; padding: 0; }
-    nav li { display: inline-block; margin-right: 20px; cursor: pointer; position: relative; }
-
-    /* Випадне меню */
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background: #666;
-        padding: 10px;
-        border-radius: 5px;
-    }
-    li:hover .dropdown-content {
-        display: block;
-    }
-
-    .section {
-        padding: 20px;
-        display: none;
-        animation: fade 0.6s;
-    }
-    @keyframes fade {
-        from {opacity: 0;} to {opacity: 1;}
-    }
-
-    /* Модальне вікно */
-    .modal-bg {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.6);
-    }
-    .modal {
-        background: white;
-        width: 300px;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 100px auto;
-    }
-
-    button { padding: 10px; margin-top: 10px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlavorFusion - Кулінарні рецепти</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<header>Fitness Tracker</header>
-
-<nav>
-    <ul>
-        <li>Тренування
-            <div class="dropdown-content">
-                <div onclick="showSection('timer')">Таймер</div>
-                <div onclick="showSection('bmi')">Калькулятор ІМТ</div>
-            </div>
-        </li>
-        <li onclick="showSection('converter')">Конвертер</li>
-        <li onclick="openModal()">Порада дня</li>
-    </ul>
-</nav>
-
-<!-- СЕКЦІЇ -->
-
-<div id="timer" class="section">
-    <h2>Таймер зворотного відліку</h2>
-    <input id="secondsInput" type="number" placeholder="Секунди">
-    <button onclick="startTimer()">Старт</button>
-    <p id="timerDisplay"></p>
-</div>
-
-<div id="bmi" class="section">
-    <h2>Калькулятор ІМТ</h2>
-    <input id="weight" type="number" placeholder="Вага (кг)">
-    <input id="height" type="number" placeholder="Зріст (см)">
-    <button onclick="calcBMI()">Розрахувати</button>
-    <p id="bmiResult"></p>
-</div>
-
-<div id="converter" class="section">
-    <h2>Конвертер кг ↔ фунти</h2>
-    <input id="kg" type="number" placeholder="Кілограми">
-    <button onclick="toLb()">У фунти</button>
-    <p id="lbResult"></p>
-</div>
-
-<!-- МОДАЛЬНЕ ВІКНО -->
-<div class="modal-bg" id="modalBg">
-    <div class="modal">
-        <h3>Порада дня</h3>
-        <p>Пий більше води! 💧</p>
-        <button onclick="closeModal()">Закрити</button>
+    <!-- Спливаюче вікно підписки -->
+    <div id="subscribeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-envelope"></i> Підпишіться на новини!</h2>
+            <p>Отримуйте нові рецепти щотижня безкоштовно!</p>
+            <input type="email" id="subscribeEmail" placeholder="Ваша електронна пошта">
+            <button id="subscribeBtn" class="btn">Підписатися</button>
+        </div>
     </div>
-</div>
 
-<script>
-function showSection(id) {
-    document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-    document.getElementById(id).style.display = 'block';
-}
+    <!-- Діалогове вікно з кулінарним фактом -->
+    <div id="factModal" class="modal fact-modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-lightbulb"></i> Цікавий кулінарний факт!</h2>
+            <p id="factText">Завантаження факту...</p>
+            <button id="closeFact" class="btn">Закрити</button>
+        </div>
+    </div>
 
-/* Модальне вікно */
-function openModal() {
-    document.getElementById('modalBg').style.display = 'block';
-}
-function closeModal() {
-    document.getElementById('modalBg').style.display = 'none';
-}
+    <!-- Затемнення фону для модальних вікон -->
+    <div id="overlay" class="overlay"></div>
 
-/* Таймер */
-function startTimer() {
-    let sec = document.getElementById('secondsInput').value;
-    const label = document.getElementById('timerDisplay');
+    <!-- Головний контейнер -->
+    <div class="container">
+        <!-- Шапка сайту -->
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-utensils"></i>
+                    <span class="logo-text">Flavor<span>Fusion</span></span>
+                </div>
+                
+                <!-- Випадаюче меню -->
+                <div class="nav-menu">
+                    <ul>
+                        <li><a href="#"><i class="fas fa-home"></i> Головна</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropbtn"><i class="fas fa-book-open"></i> Рецепти <i class="fas fa-chevron-down"></i></a>
+                            <div class="dropdown-content">
+                                <a href="#" data-category="breakfast">Сніданки</a>
+                                <a href="#" data-category="lunch">Обіди</a>
+                                <a href="#" data-category="dinner">Вечері</a>
+                                <a href="#" data-category="dessert">Десерти</a>
+                            </div>
+                        </li>
+                        <li><a href="#" id="calculatorLink"><i class="fas fa-calculator"></i> Калькулятор</a></li>
+                        <li><a href="#" id="converterLink"><i class="fas fa-balance-scale"></i> Конвертер</a></li>
+                        <li><a href="#" id="quizLink"><i class="fas fa-question-circle"></i> Опитування</a></li>
+                    </ul>
+                </div>
+                
+                <div class="nav-actions">
+                    <button id="themeToggle" class="btn-icon" title="Змінити тему">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button id="showFactBtn" class="btn-icon" title="Цікавий факт">
+                        <i class="fas fa-lightbulb"></i>
+                    </button>
+                    <button id="timerBtn" class="btn" title="Таймер приготування">
+                        <i class="fas fa-clock"></i> Таймер
+                    </button>
+                </div>
+            </nav>
+        </header>
 
-    let interval = setInterval(() => {
-        label.textContent = "Залишилось: " + sec + " c.";
-        sec--;
-        if (sec < 0) {
-            clearInterval(interval);
-            label.textContent = "Готово!";
-        }
-    }, 1000);
-}
+        <!-- Головний контент -->
+        <main>
+            <section class="hero">
+                <div class="hero-content">
+                    <h1 class="animated-title">Відкрийте світ смаку</h1>
+                    <p class="hero-subtitle">Понад 1000 кулінарних рецептів для будь-якої нагоди</p>
+                    <button id="exploreBtn" class="btn btn-large">Почати кулінарну подорож</button>
+                </div>
+                <div class="hero-image">
+                    <div class="floating-image" id="floatingFood">
+                        <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Смачна страва">
+                    </div>
+                </div>
+            </section>
 
-/* ІМТ */
-function calcBMI() {
-    let w = parseFloat(document.getElementById('weight').value);
-    let h = parseFloat(document.getElementById('height').value) / 100;
+            <!-- Таймер зворотного відліку -->
+            <section class="section">
+                <h2><i class="fas fa-hourglass-half"></i> Таймер до Дня Шефа</h2>
+                <div class="countdown-container">
+                    <div class="countdown-box">
+                        <span id="days" class="countdown-number">00</span>
+                        <span class="countdown-label">Днів</span>
+                    </div>
+                    <div class="countdown-box">
+                        <span id="hours" class="countdown-number">00</span>
+                        <span class="countdown-label">Годин</span>
+                    </div>
+                    <div class="countdown-box">
+                        <span id="minutes" class="countdown-number">00</span>
+                        <span class="countdown-label">Хвилин</span>
+                    </div>
+                    <div class="countdown-box">
+                        <span id="seconds" class="countdown-number">00</span>
+                        <span class="countdown-label">Секунд</span>
+                    </div>
+                </div>
+                <button id="setTimerBtn" class="btn btn-secondary">Встановити власний таймер</button>
+            </section>
 
-    let bmi = (w / (h*h)).toFixed(2);
-    document.getElementById('bmiResult').textContent = "Ваш ІМТ: " + bmi;
-}
+            <!-- Калькулятор калорій -->
+            <section class="section calculator-section">
+                <h2><i class="fas fa-calculator"></i> Калькулятор калорій</h2>
+                <div class="calculator">
+                    <div class="calculator-inputs">
+                        <div class="input-group">
+                            <label for="foodItem"><i class="fas fa-apple-alt"></i> Назва продукту:</label>
+                            <input type="text" id="foodItem" placeholder="Наприклад, яблуко">
+                        </div>
+                        <div class="input-group">
+                            <label for="caloriesPer100g"><i class="fas fa-fire"></i> Калорій на 100г:</label>
+                            <input type="number" id="caloriesPer100g" placeholder="52">
+                        </div>
+                        <div class="input-group">
+                            <label for="weight"><i class="fas fa-weight"></i> Вага (грами):</label>
+                            <input type="number" id="weight" placeholder="150">
+                        </div>
+                        <button id="calculateCalories" class="btn">Розрахувати</button>
+                    </div>
+                    <div class="calculator-result">
+                        <h3>Результат:</h3>
+                        <div id="caloriesResult" class="result-box">
+                            <p>Введіть дані для розрахунку</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-/* Конвертер */
-function toLb() {
-    let kg = document.getElementById('kg').value;
-    let lb = (kg * 2.205).toFixed(2);
-    document.getElementById('lbResult').textContent = kg + " кг = " + lb + " фунтів";
-}
+            <!-- Конвертер одиниць вимірювання -->
+            <section class="section converter-section">
+                <h2><i class="fas fa-balance-scale"></i> Кулінарний конвертер</h2>
+                <div class="converter">
+                    <div class="converter-row">
+                        <div class="input-group">
+                            <input type="number" id="converterValue" placeholder="0" value="1">
+                        </div>
+                        <div class="input-group">
+                            <select id="converterFrom">
+                                <option value="grams">Грами</option>
+                                <option value="cups">Чашки</option>
+                                <option value="tablespoons">Столові ложки</option>
+                                <option value="teaspoons">Чайні ложки</option>
+                                <option value="ml">Мілілітри</option>
+                            </select>
+                        </div>
+                        <div class="converter-arrow">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="input-group">
+                            <select id="converterTo">
+                                <option value="grams">Грами</option>
+                                <option value="cups">Чашки</option>
+                                <option value="tablespoons">Столові ложки</option>
+                                <option value="teaspoons">Чайні ложки</option>
+                                <option value="ml">Мілілітри</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <button id="convertBtn" class="btn">Конвертувати</button>
+                        </div>
+                    </div>
+                    <div class="converter-result">
+                        <h3>Результат:</h3>
+                        <div id="conversionResult" class="result-box">
+                            <p>1 грам = 1 грам</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-/* Поп-ап при виході */
-document.addEventListener('mouseleave', () => {
-    openModal();
-}, { once: true });
-</script>
+            <!-- Опитування -->
+            <section class="section quiz-section">
+                <h2><i class="fas fa-question-circle"></i> Кулінарне опитування</h2>
+                <div class="quiz-container">
+                    <div id="quizQuestion" class="quiz-question">
+                        <h3>Як часто ви готуєте вдома?</h3>
+                    </div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-value="1">
+                            <i class="fas fa-utensils"></i>
+                            <span>Щодня</span>
+                        </div>
+                        <div class="quiz-option" data-value="2">
+                            <i class="fas fa-calendar-week"></i>
+                            <span>Кілька разів на тиждень</span>
+                        </div>
+                        <div class="quiz-option" data-value="3">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Кілька разів на місяць</span>
+                        </div>
+                        <div class="quiz-option" data-value="4">
+                            <i class="fas fa-pizza-slice"></i>
+                            <span>Тільки у свята</span>
+                        </div>
+                    </div>
+                    <div class="quiz-result">
+                        <h3>Ваш рівень кулінарних навичок:</h3>
+                        <div id="quizResult" class="result-box">
+                            <p>Пройдіть опитування, щоб дізнатися</p>
+                        </div>
+                    </div>
+                    <button id="resetQuiz" class="btn btn-secondary">Почати спочатку</button>
+                </div>
+            </section>
 
+            <!-- Рецепти -->
+            <section class="section recipes-section">
+                <h2><i class="fas fa-book-open"></i> Популярні рецепти</h2>
+                <div class="recipes-filter">
+                    <button class="filter-btn active" data-category="all">Всі</button>
+                    <button class="filter-btn" data-category="breakfast">Сніданки</button>
+                    <button class="filter-btn" data-category="lunch">Обіди</button>
+                    <button class="filter-btn" data-category="dinner">Вечері</button>
+                    <button class="filter-btn" data-category="dessert">Десерти</button>
+                </div>
+                <div class="recipes-grid">
+                    <!-- Рецепти будуть додаватися через JavaScript -->
+                </div>
+                <button id="loadMoreRecipes" class="btn">Завантажити більше рецептів</button>
+            </section>
+        </main>
+
+        <!-- Футер -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>FlavorFusion</h3>
+                    <p>Відкрийте для себе світ кулінарних можливостей з нашими рецептами та інструментами</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Контакти</h3>
+                    <p><i class="fas fa-envelope"></i> info@flavorfusion.com</p>
+                    <p><i class="fas fa-phone"></i> +380 (XX) XXX-XX-XX</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Підписатися на оновлення</h3>
+                    <div class="footer-subscribe">
+                        <input type="email" id="footerEmail" placeholder="Ваш email">
+                        <button id="footerSubscribe" class="btn">Підписатися</button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 FlavorFusion. Всі права захищені.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Таймер приготування (спливаюче вікно) -->
+    <div id="cookingTimerModal" class="modal timer-modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-clock"></i> Таймер приготування</h2>
+            <div class="timer-inputs">
+                <div class="input-group">
+                    <label>Хвилини:</label>
+                    <input type="number" id="timerMinutes" min="0" max="120" value="10">
+                </div>
+                <div class="input-group">
+                    <label>Секунди:</label>
+                    <input type="number" id="timerSeconds" min="0" max="59" value="0">
+                </div>
+            </div>
+            <div class="timer-display">
+                <div id="timerDisplay">10:00</div>
+                <div class="timer-controls">
+                    <button id="startTimer" class="btn"><i class="fas fa-play"></i> Старт</button>
+                    <button id="pauseTimer" class="btn"><i class="fas fa-pause"></i> Пауза</button>
+                    <button id="resetTimer" class="btn"><i class="fas fa-redo"></i> Скинути</button>
+                </div>
+            </div>
+            <div id="timerAlert" class="timer-alert">
+                <i class="fas fa-bell"></i> Час вийшов! Ваша страва готова!
+            </div>
+            <button id="closeTimer" class="btn btn-secondary">Закрити</button>
+        </div>
+    </div>
+
+    <!-- Динамічне вікно рецепту -->
+    <div id="recipeModal" class="modal recipe-modal">
+        <div class="modal-content">
+            <span class="close-recipe-modal">&times;</span>
+            <div id="recipeModalContent">
+                <!-- Вміст буде додаватися динамічно -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript файл -->
+    <script src="script.js"></script>
 </body>
 </html>
