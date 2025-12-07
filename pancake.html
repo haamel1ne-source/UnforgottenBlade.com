@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Панкейки з ягодами — CookBook</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="icon" type="image/png" href="favicon/burger.png">
+<style>
+    :root {
+        --primary: #2e7d32;
+        --primary-light: #4caf50;
+        --primary-dark: #1b5e20;
+        --secondary: #ff9800;
+        --light: #f1f8e9;
+        --lighter: #f9fffa;
+        --text: #2d5016;
+        --text-light: #558b2f;
+        --white: #ffffff;
+        --shadow: rgba(46, 125, 50, 0.1);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', 'Roboto', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--lighter);
+        color: var(--text);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Верхня панель */
+    .header-container {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        padding: 0 40px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .nav-btn {
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 14px 24px;
+        border-radius: 50px;
+        color: var(--white);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--white);
+        letter-spacing: 1px;
+        padding: 15px 0;
+    }
+
+    .logo-icon {
+        font-size: 40px;
+        filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
+    }
+
+    .logo-text {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Бургер меню */
+    .burger-menu {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 28px;
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    /* Основной контент */
+    .content-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px 20px;
+        flex: 1;
+    }
+
+    /* Хлібні крихти */
+    .breadcrumbs {
+        margin: 20px 0 30px;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(76, 175, 80, 0.2);
+    }
+
+    .breadcrumbs a {
+        color: var(--primary);
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .breadcrumbs a:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+    }
+
+    .breadcrumbs span {
+        color: var(--text-light);
+    }
+
+    /* Заголовок рецепту */
+    .recipe-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .recipe-header h1 {
+        font-size: 3rem;
+        color: var(--primary-dark);
+        margin-bottom: 15px;
+    }
+
+    .recipe-header .category {
+        display: inline-block;
+        background: var(--light);
+        color: var(--primary-dark);
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .recipe-header .description {
+        font-size: 1.2rem;
+        color: var(--text-light);
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    /* Контейнер рецепту */
+    .recipe-detail-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        margin: 40px 0;
+        align-items: start;
+    }
+
+    @media (max-width: 900px) {
+        .recipe-detail-container {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Фото рецепту */
+    .recipe-image {
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(46, 125, 50, 0.15);
+    }
+
+    .recipe-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.5s;
+    }
+
+    .recipe-image:hover img {
+        transform: scale(1.03);
+    }
+
+    /* Деталі рецепту */
+    .recipe-details {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    /* Карточки з деталями */
+    .info-card {
+        background: var(--white);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 25px var(--shadow);
+        border-left: 5px solid var(--secondary);
+    }
+
+    .info-card h3 {
+        color: var(--primary-dark);
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .info-card h3 i {
+        color: var(--secondary);
+    }
+
+    /* Інгредієнти */
+    .ingredients-list {
+        list-style: none;
+    }
+
+    .ingredients-list li {
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .ingredients-list li:last-child {
+        border-bottom: none;
+    }
+
+    .ingredient-name {
+        font-weight: 500;
+    }
+
+    .ingredient-amount {
+        color: var(--primary);
+        font-weight: 600;
+    }
+
+    /* Інструкції */
+    .instructions-list {
+        list-style: none;
+        counter-reset: instruction-counter;
+    }
+
+    .instructions-list li {
+        counter-increment: instruction-counter;
+        padding: 20px 0 20px 60px;
+        position: relative;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .instructions-list li:last-child {
+        border-bottom: none;
+    }
+
+    .instructions-list li:before {
+        content: counter(instruction-counter);
+        position: absolute;
+        left: 0;
+        top: 15px;
+        width: 40px;
+        height: 40px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    /* Підвал */
+    footer {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, #1a472a 100%);
+        color: var(--white);
+        padding: 60px 0 30px;
+        margin-top: auto;
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+    }
+
+    .footer-section h3 {
+        font-size: 22px;
+        margin-bottom: 25px;
+        position: relative;
+        display: inline-block;
+    }
+
+    .footer-section h3:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 40px;
+        height: 3px;
+        background: var(--secondary);
+        border-radius: 2px;
+    }
+
+    .footer-section p, .footer-section a {
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 12px;
+        display: block;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .footer-section a:hover {
+        color: var(--white);
+        transform: translateX(5px);
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .social-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        transition: 0.3s;
+    }
+
+    .social-icon:hover {
+        background: var(--secondary);
+        transform: translateY(-5px);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        margin-top: 50px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+    }
+
+    /* Кнопка назад */
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--primary);
+        color: white;
+        padding: 12px 25px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+        margin-top: 30px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .back-button:hover {
+        background: var(--primary-dark);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+    }
+
+    /* Адаптивність */
+    @media (max-width: 992px) {
+        .header-container {
+            padding: 0 20px;
+        }
+        
+        .burger-menu {
+            display: block;
+        }
+        
+        .nav-buttons {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--primary-dark);
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .nav-buttons.active {
+            display: flex;
+        }
+        
+        .nav-btn {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .recipe-header h1 {
+            font-size: 2.5rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .footer-container {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        
+        .footer-section h3:after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .social-icons {
+            justify-content: center;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="header-container">
+    <button class="burger-menu" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="nav-buttons" id="navButtons">
+        <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Головна</a>
+        <button class="nav-btn" onclick="showSection('categories')"><i class="fas fa-list"></i> Категорії</button>
+        <button class="nav-btn" onclick="showSection('about')"><i class="fas fa-info-circle"></i> Про нас</button>
+    </div>
+    
+    <div class="logo">
+        <span class="logo-icon">🍔</span>
+        <span class="logo-text">CookBook</span>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <!-- Хлібні крихти -->
+    <div class="breadcrumbs">
+        <a href="index.html">Головна</a> / <a href="index.html#recipes">Рецепти</a> / <span>Панкейки з ягодами</span>
+    </div>
+
+    <!-- Заголовок рецепту -->
+    <div class="recipe-header">
+        <div class="category">Десерти</div>
+        <h1>Панкейки з ягодами</h1>
+        <p class="description">Повітряні, ніжні млинці з ароматними свіжими ягодами, які тануть у роті. Ідеальний сніданок або легкий десерт для всієї родини.</p>
+    </div>
+
+    <!-- Основний контент -->
+    <div class="recipe-detail-container">
+        <!-- Фото зліва -->
+        <div class="recipe-image">
+            <img src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg" alt="Панкейки з ягодами">
+        </div>
+
+        <!-- Рецепт посередині-праворуч -->
+        <div class="recipe-details">
+            <!-- Інфо картка з часом та складністю -->
+            <div class="info-card">
+                <h3><i class="fas fa-info-circle"></i> Деталі рецепту</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <h4 style="color: var(--primary); margin-bottom: 5px;">Час приготування</h4>
+                        <p style="font-size: 1.2rem; font-weight: bold;">25 хвилин</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--primary); margin-bottom: 5px;">Складність</h4>
+                        <p style="font-size: 1.2rem; font-weight: bold;">Легко</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--primary); margin-bottom: 5px;">Порції</h4>
+                        <p style="font-size: 1.2rem; font-weight: bold;">4 особи</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--primary); margin-bottom: 5px;">Калорійність</h4>
+                        <p style="font-size: 1.2rem; font-weight: bold;">~250 ккал/порція</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Інгредієнти -->
+            <div class="info-card">
+                <h3><i class="fas fa-shopping-basket"></i> Інгредієнти</h3>
+                <ul class="ingredients-list">
+                    <li><span class="ingredient-name">Борошно пшеничне</span><span class="ingredient-amount">200 г</span></li>
+                    <li><span class="ingredient-name">Молоко</span><span class="ingredient-amount">250 мл</span></li>
+                    <li><span class="ingredient-name">Яйця</span><span class="ingredient-amount">2 шт.</span></li>
+                    <li><span class="ingredient-name">Цукор</span><span class="ingredient-amount">2 ст. ложки</span></li>
+                    <li><span class="ingredient-name">Розпушувач</span><span class="ingredient-amount">1 ч. ложка</span></li>
+                    <li><span class="ingredient-name">Ванілін</span><span class="ingredient-amount">½ ч. ложки</span></li>
+                    <li><span class="ingredient-name">Сіль</span><span class="ingredient-amount">¼ ч. ложки</span></li>
+                    <li><span class="ingredient-name">Свіжі ягоди (полуниця, малина, чорниця)</span><span class="ingredient-amount">150 г</span></li>
+                    <li><span class="ingredient-name">Вершкове масло</span><span class="ingredient-amount">для смаження</span></li>
+                    <li><span class="ingredient-name">Кленовий сироп або мед</span><span class="ingredient-amount">для подачі</span></li>
+                </ul>
+            </div>
+
+            <!-- Інструкції -->
+            <div class="info-card">
+                <h3><i class="fas fa-list-ol"></i> Приготування</h3>
+                <ol class="instructions-list">
+                    <li>У глибокій мисці збийте яйця з цукром до легкої пишної піни. Додайте ванілін та щіпку солі.</li>
+                    <li>Повільно влийте молоко кімнатної температури, продовжуючи збивати суміш.</li>
+                    <li>Просійте борошно разом з розпушувачем. Поступово додавайте борошно до рідкої суміші, акуратно перемішуючи лопаткою до однорідної консистенції.</li>
+                    <li>Обережно введіть в тісто свіжі ягоди, залишивши декілька для подачі. Не перемішуйте надто активно, щоб ягоди не розчавилися.</li>
+                    <li>Розігрійте сковороду на середньому вогні, додайте невеликий шматочок вершкового масла.</li>
+                    <li>Викладіть тісто порційно за допомогою поварської ложки або соусника. Смажте панкейки 2-3 хвилини з одного боку до появи бульбашок на поверхні.</li>
+                    <li>Переверніть панкейки та смажте ще 1-2 хвилини з іншого боку до золотисто-коричневого кольору.</li>
+                    <li>Повторюйте процес, доки не використаєте все тісто. Між партіями додавайте трохи масла на сковороду.</li>
+                </ol>
+            </div>
+
+            <!-- Поради -->
+            <div class="info-card">
+                <h3><i class="fas fa-lightbulb"></i> Поради шефа</h3>
+                <ul class="instructions-list" style="counter-reset: none;">
+                    <li style="padding-left: 0; padding-top: 10px; padding-bottom: 10px;">Для повітряності не перемішуйте тісто надто довго - достатньо до з'єднання інгредієнтів.</li>
+                    <li style="padding-left: 0; padding-top: 10px; padding-bottom: 10px;">Якщо використовуєте заморожені ягоди, попередньо розморозьте їх та протріть від зайвої вологи.</li>
+                    <li style="padding-left: 0; padding-top: 10px; padding-bottom: 10px;">Для дієтичного варіанту замініть цукор на стевію або мед, а біле борошно - на цільнозернове.</li>
+                    <li style="padding-left: 0; padding-top: 10px; padding-bottom: 10px;">Подавайте панкейки гарячими з кленовим сиропом, медом, додатковою порцією свіжих ягід та шматочком вершкового масла.</li>
+                </ul>
+            </div>
+
+            <!-- Кнопка назад -->
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Повернутися до всіх рецептів
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Підвал -->
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>CookBook</h3>
+            <p>Ваш помічник у світі кулінарії. Ми збираємо найсмачніші рецепти з усього світу, адаптовані для української кухні.</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Навігація</h3>
+            <a href="index.html">Головна</a>
+            <a href="#" onclick="showSection('categories')">Категорії</a>
+            <a href="#" onclick="showSection('about')">Про нас</a>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Контакти</h3>
+            <p><i class="fas fa-envelope"></i> info@cookbook.ua</p>
+            <p><i class="fas fa-phone"></i> +380 44 123 4567</p>
+            <p><i class="fas fa-map-marker-alt"></i> м. Київ, вул. Кулінарна, 10</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Розсилка</h3>
+            <p>Підпишіться на нашу розсилку, щоб отримувати нові рецепти щотижня.</p>
+            <input type="email" placeholder="Ваш email" style="padding: 10px; border-radius: 5px; border: none; width: 100%; margin-bottom: 10px;">
+            <button style="background: var(--secondary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;">Підписатися</button>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>© 2023 CookBook. Всі права захищені. | Створено з <i class="fas fa-heart" style="color: #ff6b6b;"></i> для кулінарів</p>
+    </div>
+</footer>
+
+<script>
+/* Бургер меню */
+function toggleMenu() {
+    const navButtons = document.getElementById('navButtons');
+    navButtons.classList.toggle('active');
+}
+
+/* Навігація */
+function showSection(section) {
+    // Закриваємо меню на мобільних пристроях
+    const navButtons = document.getElementById('navButtons');
+    if (navButtons.classList.contains('active')) {
+        navButtons.classList.remove('active');
+    }
+    
+    // Для демонстрації - просто скролимо до відповідного розділу
+    switch(section) {
+        case 'categories':
+            alert('Поверніться на головну сторінку для фільтрації за категоріями');
+            break;
+        case 'about':
+            window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+            break;
+    }
+}
+
+// Закриваємо меню при кліку поза ним
+document.addEventListener('click', function(event) {
+    const navButtons = document.getElementById('navButtons');
+    const burgerMenu = document.querySelector('.burger-menu');
+    
+    if (!navButtons.contains(event.target) && !burgerMenu.contains(event.target)) {
+        navButtons.classList.remove('active');
+    }
+});
+</script>
+
+</body>
+</html>
