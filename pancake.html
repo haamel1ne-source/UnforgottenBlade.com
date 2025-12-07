@@ -723,6 +723,70 @@ document.addEventListener('click', function(event) {
         navButtons.classList.remove('active');
     }
 });
+   // Таймер приготування
+let cookingTimer = null;
+let timeLeft = 1500; // 25 хвилин в секундах
+
+function startTimer() {
+    if (cookingTimer) {
+        clearInterval(cookingTimer);
+    }
+    
+    const timerDisplay = document.getElementById('timerDisplay');
+    cookingTimer = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        
+        if (timeLeft <= 0) {
+            clearInterval(cookingTimer);
+            timerDisplay.textContent = "Час вийшов! 🍽️";
+            showNotification("Ваші панкейки готові!");
+            return;
+        }
+        
+        timeLeft--;
+    }, 1000);
+}
+
+function pauseTimer() {
+    if (cookingTimer) {
+        clearInterval(cookingTimer);
+        cookingTimer = null;
+    }
+}
+
+function resetTimer() {
+    clearInterval(cookingTimer);
+    cookingTimer = null;
+    timeLeft = 1500;
+    document.getElementById('timerDisplay').textContent = "25:00";
+}
+
+function setCustomTime() {
+    const minutes = parseInt(prompt("Введіть час приготування у хвилинах:", "25"));
+    if (!isNaN(minutes) && minutes > 0) {
+        timeLeft = minutes * 60;
+        document.getElementById('timerDisplay').textContent = `${minutes}:00`;
+    }
+}
+
+// Інтерактивний список покупок
+function toggleIngredient(element) {
+    const ingredient = element.closest('li');
+    ingredient.classList.toggle('checked');
+    
+    const checkedCount = document.querySelectorAll('.ingredients-list .checked').length;
+    const totalCount = document.querySelectorAll('.ingredients-list li').length;
+    
+    const progress = (checkedCount / totalCount) * 100;
+    document.getElementById('shoppingProgress').style.width = progress + '%';
+    document.getElementById('progressText').textContent = `${checkedCount}/${totalCount}`;
+    
+    if (checkedCount === totalCount) {
+        showNotification("Усі інгредієнти придбані! 🛒");
+    }
+}
 </script>
 
 </body>
