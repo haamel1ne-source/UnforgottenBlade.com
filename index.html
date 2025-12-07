@@ -3,150 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <title>CookBook — Рецепти</title>
-<style>
-    body {
-        margin: 0;
-        font-family: Arial;
-        background: #fffaf3;
-    }
-
-    header {
-        background: #ff7b00;
-        padding: 15px;
-        text-align: center;
-        font-size: 28px;
-        color: white;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }
-
-    /* Пошук */
-    .search-box {
-        padding: 20px;
-        text-align: center;
-    }
-    .search-box input {
-        padding: 10px;
-        width: 60%;
-        border: 2px solid #ff7b00;
-        border-radius: 10px;
-        font-size: 16px;
-    }
-
-    /* Категорії */
-    .categories {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    .categories button {
-        margin: 5px;
-        padding: 10px 15px;
-        background: #ffe2c6;
-        border: 1px solid #ff7b00;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    .categories button:hover {
-        background: #ff7b00;
-        color: white;
-    }
-
-    /* Рецепти */
-    .recipes-container {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        padding: 20px;
-        width: 90%;
-        margin: auto;
-    }
-
-    .recipe {
-        background: white;
-        border-radius: 12px;
-        padding: 10px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    .recipe:hover {
-        transform: scale(1.03);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
-    .recipe img {
-        width: 100%;
-        border-radius: 10px;
-    }
-
-    .recipe h3 {
-        margin: 10px 0;
-    }
-
-    /* Модальне вікно */
-    .modal-bg {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.6);
-    }
-    .modal {
-        background: white;
-        width: 400px;
-        padding: 20px;
-        margin: 100px auto;
-        border-radius: 12px;
-    }
-
-    .close-btn {
-        background: #ff7b00;
-        color: white;
-        padding: 10px;
-        border-radius: 10px;
-        border: none;
-        cursor: pointer;
-        margin-top: 15px;
-        width: 100%;
-    }
-
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <header>CookBook — Смачні рецепти</header>
-
 <div class="search-box">
     <input id="search" type="text" placeholder="Пошук рецептів..." onkeyup="searchRecipes()">
 </div>
-
 <div class="categories">
     <button onclick="filterRecipes('all')">Усі</button>
     <button onclick="filterRecipes('soup')">Супи</button>
     <button onclick="filterRecipes('dessert')">Десерти</button>
     <button onclick="filterRecipes('meat')">М'ясні страви</button>
 </div>
-
 <div class="recipes-container" id="recipes">
     <div class="recipe" data-cat="soup" onclick="openRecipe('Борщ', 'Вода, буряк, капуста...')">
         <img src="https://i.imgur.com/o8CjJrT.jpeg">
         <h3>Борщ</h3>
         <p>Український червоний борщ</p>
     </div>
-
     <div class="recipe" data-cat="dessert" onclick="openRecipe('Панкейки', 'Борошно, молоко, яйця...')">
         <img src="https://i.imgur.com/5N9HD1L.jpeg">
         <h3>Панкейки</h3>
         <p>Повітряні та солодкі</p>
     </div>
-
     <div class="recipe" data-cat="meat" onclick="openRecipe('Курка в соусі', 'Куряче філе, вершки...')">
         <img src="https://i.imgur.com/yo1N4XP.jpeg">
         <h3>Курка у вершках</h3>
         <p>Ніжна та соковита страва</p>
     </div>
 </div>
-
-<!-- Модалка -->
 <div class="modal-bg" id="modalBg">
     <div class="modal">
         <h2 id="modalTitle"></h2>
@@ -154,36 +40,7 @@
         <button class="close-btn" onclick="closeModal()">Закрити</button>
     </div>
 </div>
-
-<script>
-/* Фільтрація за категоріями */
-function filterRecipes(cat) {
-    document.querySelectorAll('.recipe').forEach(r => {
-        r.style.display = (cat === 'all' || r.dataset.cat === cat) ? 'block' : 'none';
-    });
-}
-
-/* Пошук */
-function searchRecipes() {
-    let text = document.getElementById('search').value.toLowerCase();
-    document.querySelectorAll('.recipe').forEach(r => {
-        let title = r.querySelector('h3').textContent.toLowerCase();
-        r.style.display = title.includes(text) ? 'block' : 'none';
-    });
-}
-
-/* Модалка */
-function openRecipe(title, text) {
-    document.getElementById('modalTitle').textContent = title;
-    document.getElementById('modalText').textContent = text;
-    document.getElementById('modalBg').style.display = 'block';
-}
-
-function closeModal() {
-    document.getElementById('modalBg').style.display = 'none';
-}
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
 
