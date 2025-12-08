@@ -8,17 +8,22 @@
 <link rel="icon" type="image/png" href="favicon/burger.png">
 <style>
     :root {
-    --primary: #228B22; /* ForestGreen */
-    --primary-light: #32CD32; /* LimeGreen */
-    --primary-dark: #006400; /* DarkGreen */
-    --secondary: #7CFC00; /* LawnGreen */
-    --light: #F0FFF0; /* HoneyDew */
-    --lighter: #E6FFE6; /* Very light green */
-    --text: #2F4F4F; /* Dark Slate Gray */
-    --text-light: #556B2F; /* Dark Olive Green */
-    --white: #ffffff;
-    --shadow: rgba(34, 139, 34, 0.15); /* зеленувата тінь */
-}
+        --primary: #FF4500;
+        --primary-light: #FF7F50;
+        --primary-dark: #CD3700;
+        --secondary: #32CD32;
+        --light: #FFF5EE;
+        --lighter: #FFFAF0;
+        --text: #8B4513;
+        --text-light: #A0522D;
+        --white: #ffffff;
+        --shadow: rgba(255, 69, 0, 0.15);
+        --dark-bg: #1a1a1a;
+        --dark-text: #f0f0f0;
+        --dark-light: #2d2d2d;
+        --card-bg: #ffffff;
+        --modal-bg: #ffffff;
+    }
 
     * {
         margin: 0;
@@ -40,6 +45,9 @@
     body.dark-theme {
         background: var(--dark-bg);
         color: var(--dark-text);
+        --card-bg: var(--dark-light);
+        --modal-bg: var(--dark-light);
+        --light: #333;
     }
 
     /* Верхня панель */
@@ -53,10 +61,6 @@
         position: sticky;
         top: 0;
         z-index: 1000;
-    }
-
-    .dark-theme .header-container {
-        background: linear-gradient(135deg, #333 0%, #222 100%);
     }
 
     .theme-switcher {
@@ -105,7 +109,7 @@
         background: var(--primary-dark);
     }
 
-    .converter-modal {
+    .converter-modal, .calorie-modal {
         display: none;
         position: fixed;
         top: 0;
@@ -124,19 +128,15 @@
         to { opacity: 1; }
     }
 
-    .converter-content {
-        background: white;
+    .converter-content, .calorie-content {
+        background: var(--modal-bg);
         padding: 30px;
         border-radius: 15px;
         width: 90%;
         max-width: 500px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         animation: slideUp 0.4s;
-    }
-
-    .dark-theme .converter-content {
-        background: var(--dark-light);
-        color: var(--dark-text);
+        border: 2px solid var(--primary-light);
     }
 
     @keyframes slideUp {
@@ -209,17 +209,13 @@
 
     /* Система підбору рецептів */
     .recipe-finder {
-        background: white;
+        background: var(--card-bg);
         padding: 30px;
         border-radius: 15px;
         margin: 30px 0;
         box-shadow: 0 10px 25px var(--shadow);
         border: 2px solid var(--primary-light);
         animation: slideInLeft 0.5s;
-    }
-
-    .dark-theme .recipe-finder {
-        background: var(--dark-light);
     }
 
     @keyframes slideInLeft {
@@ -255,13 +251,14 @@
         border: 2px solid var(--primary-light);
         border-radius: 8px;
         font-size: 16px;
-        background: white;
+        background: var(--card-bg);
+        color: var(--text);
     }
 
     .dark-theme .question-group select,
     .dark-theme .question-group input {
         background: #333;
-        color: white;
+        color: var(--dark-text);
         border-color: #555;
     }
 
@@ -273,10 +270,7 @@
         display: none;
         animation: fadeIn 0.5s;
         border-left: 5px solid var(--primary);
-    }
-
-    .dark-theme .finder-result {
-        background: #333;
+        border: 2px solid var(--primary-light);
     }
 
     /* Прогрес бар для опитування */
@@ -299,64 +293,6 @@
         width: 0%;
         transition: width 0.5s ease;
         border-radius: 10px;
-    }
-
-    /* Спливаюче вікно при покиданні сторінки */
-    .exit-popup {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-        z-index: 2000;
-        width: 90%;
-        max-width: 400px;
-        text-align: center;
-        animation: popIn 0.4s;
-    }
-
-    .dark-theme .exit-popup {
-        background: var(--dark-light);
-        color: var(--dark-text);
-    }
-
-    @keyframes popIn {
-        0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
-        100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    }
-
-    /* Модальне вікно калькулятора калорій */
-    .calorie-modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 1000;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .calorie-content {
-        background: white;
-        padding: 30px;
-        border-radius: 15px;
-        width: 90%;
-        max-width: 600px;
-        max-height: 80vh;
-        overflow-y: auto;
-        animation: slideUp 0.4s;
-    }
-
-    .dark-theme .calorie-content {
-        background: var(--dark-light);
-        color: var(--dark-text);
     }
 
     /* Анімовані кнопки */
@@ -517,6 +453,10 @@
         line-height: 1.8;
     }
 
+    .dark-theme .page-title p {
+        color: #aaa;
+    }
+
     .search-box {
         padding: 40px 20px;
         text-align: center;
@@ -536,16 +476,11 @@
         border: 2px solid var(--primary);
         border-radius: 50px;
         font-size: 18px;
-        background: var(--white);
+        background: var(--card-bg);
         outline: none;
         transition: 0.3s;
         box-shadow: 0 5px 15px var(--shadow);
-    }
-
-    .dark-theme .search-box input {
-        background: #333;
-        color: white;
-        border-color: #555;
+        color: var(--text);
     }
 
     .search-box input:focus {
@@ -567,17 +502,12 @@
         text-align: center;
         margin: 50px 0;
         padding: 30px;
-        background: var(--white);
+        background: var(--card-bg);
         border-radius: 20px;
         box-shadow: 0 10px 30px var(--shadow);
         position: relative;
         overflow: hidden;
         border: 2px solid var(--primary-light);
-    }
-
-    .dark-theme .categories {
-        background: var(--dark-light);
-        color: var(--dark-text);
     }
 
     .categories:before {
@@ -635,7 +565,7 @@
     }
 
     .recipe {
-        background: var(--white);
+        background: var(--card-bg);
         border-radius: 20px;
         padding: 0;
         cursor: pointer;
@@ -649,12 +579,6 @@
         text-decoration: none;
         color: inherit;
         position: relative;
-    }
-
-    .dark-theme .recipe {
-        background: var(--dark-light);
-        color: var(--dark-text);
-        border-color: #444;
     }
 
     .recipe:hover {
@@ -742,10 +666,6 @@
         padding: 60px 0 30px;
         margin-top: auto;
         border-top: 3px solid var(--primary-light);
-    }
-
-    .dark-theme footer {
-        background: linear-gradient(135deg, #333 0%, #222 100%);
     }
 
     .footer-container {
@@ -856,10 +776,6 @@
             border-top: 2px solid var(--primary);
         }
         
-        .dark-theme .nav-buttons {
-            background: #222;
-        }
-        
         .nav-buttons.active {
             display: flex;
         }
@@ -950,17 +866,6 @@
     <i class="fas fa-balance-scale"></i>
 </div>
 
-<!-- Спливаюче вікно при покиданні сторінки -->
-<div class="exit-popup" id="exitPopup">
-    <h3>Не йди! 🍕</h3>
-    <p>У нас ще стільки смачних рецептів!</p>
-    <p>Отримай знижку 10% на перше замовлення!</p>
-    <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: center;">
-        <button class="nav-btn" onclick="closeExitPopup()" style="background: var(--primary); color: white;">Залишитись</button>
-        <button class="nav-btn" onclick="window.open('https://www.google.com', '_blank'); closeExitPopup();" style="background: #ccc; color: #333;">Все одно піти</button>
-    </div>
-</div>
-
 <!-- Модальне вікно конвертера -->
 <div class="converter-modal" id="converterModal">
     <div class="converter-content">
@@ -970,7 +875,7 @@
         <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 15px; align-items: end;">
             <div>
                 <label for="converterValue">Значення:</label>
-                <input type="number" id="converterValue" value="100" min="0" step="0.1" style="width: 100%; padding: 10px; border: 2px solid var(--primary-light); border-radius: 8px; font-size: 18px;">
+                <input type="number" id="converterValue" value="100" min="0" step="0.1" style="width: 100%; padding: 10px; border: 2px solid var(--primary-light); border-radius: 8px; font-size: 18px; background: var(--card-bg); color: var(--text);">
             </div>
             
             <div style="text-align: center; padding-bottom: 10px;">
@@ -979,14 +884,14 @@
             
             <div>
                 <label for="converterResult">Результат:</label>
-                <input type="text" id="converterResult" readonly style="width: 100%; padding: 10px; border: 2px solid var(--secondary); border-radius: 8px; font-size: 18px; background: var(--light);">
+                <input type="text" id="converterResult" readonly style="width: 100%; padding: 10px; border: 2px solid var(--secondary); border-radius: 8px; font-size: 18px; background: var(--light); color: var(--text);">
             </div>
         </div>
         
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
             <div>
                 <label for="fromUnit">З одиниці:</label>
-                <select id="fromUnit" onchange="convertUnits()" style="width: 100%; padding: 10px; border: 2px solid var(--primary-light); border-radius: 8px;">
+                <select id="fromUnit" onchange="convertUnits()" style="width: 100%; padding: 10px; border: 2px solid var(--primary-light); border-radius: 8px; background: var(--card-bg); color: var(--text);">
                     <option value="grams">Грами (г)</option>
                     <option value="ml">Мілілітри (мл)</option>
                     <option value="cups">Чашки</option>
@@ -999,7 +904,7 @@
             
             <div>
                 <label for="toUnit">В одиницю:</label>
-                <select id="toUnit" onchange="convertUnits()" style="width: 100%; padding: 10px; border: 2px solid var(--primary-light); border-radius: 8px;">
+                <select id="toUnit" onchange="convertUnits()" style="width: 100%; padding: 10px; border: 2px solid var(--primary-light); border-radius: 8px; background: var(--card-bg); color: var(--text);">
                     <option value="grams">Грами (г)</option>
                     <option value="ml">Мілілітри (мл)</option>
                     <option value="cups" selected>Чашки</option>
@@ -1027,34 +932,36 @@
 <div class="calorie-modal" id="calorieModal">
     <div class="calorie-content">
         <h3><i class="fas fa-calculator"></i> Калькулятор калорійності</h3>
-        <p style="margin-bottom: 20px; color: var(--text-light);">Розрахуйте калорійність вашої страви</p>
+        <p style="margin-bottom: 20px; color: var(--text-light);">
+            <i class="fas fa-info-circle"></i> Калькулятор підраховує калорії на основі загальних значень. 
+            <br>Для точних розрахунків використовуйте спеціальні додатки.
+        </p>
         
         <div id="calorieIngredients">
             <!-- Інгредієнти додаються динамічно -->
         </div>
         
         <div style="display: flex; gap: 10px; margin-top: 20px;">
-            <input type="text" id="newIngredient" placeholder="Назва інгредієнту" style="flex: 1; padding: 10px; border: 2px solid var(--primary-light); border-radius: 8px;">
-            <input type="number" id="newWeight" placeholder="Вага (г)" min="0" style="width: 100px; padding: 10px; border: 2px solid var(--primary-light); border-radius: 8px;">
+            <input type="text" id="newIngredient" placeholder="Назва інгредієнту" style="flex: 1; padding: 10px; border: 2px solid var(--primary-light); border-radius: 8px; background: var(--card-bg); color: var(--text);">
+            <input type="number" id="newWeight" placeholder="Вага (г)" min="0" style="width: 100px; padding: 10px; border: 2px solid var(--primary-light); border-radius: 8px; background: var(--card-bg); color: var(--text);">
             <button onclick="addIngredient()" class="nav-btn" style="background: var(--secondary); color: white;">
                 <i class="fas fa-plus"></i> Додати
             </button>
         </div>
         
-        <div style="margin-top: 25px; padding: 20px; background: var(--light); border-radius: 10px; border-left: 5px solid var(--primary);">
+        <div style="margin-top: 25px; padding: 20px; background: var(--light); border-radius: 10px; border-left: 5px solid var(--primary); border: 2px solid var(--primary-light);">
             <h4>Загальна калорійність:</h4>
             <p id="totalCalories" style="font-size: 32px; font-weight: bold; color: var(--primary); text-align: center; margin: 10px 0;">0 ккал</p>
             <p id="calorieInfo" style="font-size: 14px; color: var(--text-light); text-align: center;"></p>
         </div>
         
-        <div style="margin-top: 20px; font-size: 14px; color: var(--text-light);">
-            <p><i class="fas fa-lightbulb"></i> Середня калорійність інгредієнтів (на 100г):</p>
+        <div style="margin-top: 20px; font-size: 14px; color: var(--text-light); padding: 15px; background: var(--light); border-radius: 10px; border: 1px solid var(--primary-light);">
+            <p><i class="fas fa-lightbulb"></i> <strong>Як працює підрахунок:</strong></p>
             <ul style="margin-left: 20px; margin-top: 10px;">
-                <li>Куряче філе: 165 ккал</li>
-                <li>Картопля: 77 ккал</li>
-                <li>Рис: 130 ккал</li>
-                <li>Олія: 884 ккал</li>
-                <li>Сир: 350 ккал</li>
+                <li>Калькулятор використовує середні значення калорійності для кожного типу інгредієнтів</li>
+                <li>Для розрахунку: (вага інгредієнта × калорійність на 100г) ÷ 100</li>
+                <li>Приклад: 200г курячого філе (165 ккал/100г) = (200 × 165) ÷ 100 = 330 ккал</li>
+                <li>Це приблизні значення, реальна калорійність може відрізнятися</li>
             </ul>
         </div>
         
@@ -1113,8 +1020,14 @@
             </div>
             
             <div class="question-group">
-                <label for="ingredients"><i class="fas fa-shopping-basket"></i> Є інгредієнти:</label>
-                <input type="text" id="ingredients" placeholder="Наприклад: курка, рис..." oninput="updateProgress()">
+                <label for="type"><i class="fas fa-leaf"></i> Тип страви:</label>
+                <select id="type" onchange="updateProgress()">
+                    <option value="">Оберіть тип</option>
+                    <option value="meat">М'ясна</option>
+                    <option value="vegetarian">Вегетаріанська</option>
+                    <option value="soup">Супи</option>
+                    <option value="salad">Салати</option>
+                </select>
             </div>
         </div>
         
@@ -1398,14 +1311,14 @@ function loadCalorieIngredients() {
     container.innerHTML = '';
     
     if (caloriesData.length === 0) {
-        container.innerHTML = '<p style="color: var(--text-light); text-align: center;">Додайте інгредієнти для розрахунку</p>';
+        container.innerHTML = '<p style="color: var(--text-light); text-align: center; padding: 20px; background: var(--light); border-radius: 8px; border: 1px solid var(--primary-light);">Додайте інгредієнти для розрахунку калорій</p>';
         updateTotalCalories();
         return;
     }
     
     caloriesData.forEach((item, index) => {
         const div = document.createElement('div');
-        div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 10px; margin-bottom: 10px; background: var(--light); border-radius: 8px;';
+        div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 10px; margin-bottom: 10px; background: var(--light); border-radius: 8px; border: 1px solid var(--primary-light);';
         div.innerHTML = `
             <div>
                 <strong>${item.name}</strong>
@@ -1413,7 +1326,9 @@ function loadCalorieIngredients() {
                     ${item.weight}г × ${item.caloriesPer100g} ккал/100г = <strong>${Math.round(item.calories)} ккал</strong>
                 </div>
             </div>
-            <button onclick="removeIngredient(${index})" style="background: #ff4757; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer;">
+            <button onclick="removeIngredient(${index})" style="background: #ff4757; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; transition: 0.3s;" 
+                    onmouseover="this.style.transform='scale(1.1)'" 
+                    onmouseout="this.style.transform='scale(1)'">
                 <i class="fas fa-times"></i>
             </button>
         `;
@@ -1432,7 +1347,12 @@ function addIngredient() {
         return;
     }
     
-    // Симулюємо калорійність (в реальному додатку була б база даних)
+    if (weight <= 0) {
+        showNotification('Вага повинна бути більше 0');
+        return;
+    }
+    
+    // Отримуємо калорійність на основі назви інгредієнта
     const caloriesPer100g = getCaloriesForIngredient(name);
     const calories = (weight * caloriesPer100g) / 100;
     
@@ -1451,18 +1371,72 @@ function addIngredient() {
 
 function getCaloriesForIngredient(name) {
     const lowerName = name.toLowerCase();
-    if (lowerName.includes('курк') || lowerName.includes('куряч')) return 165;
-    if (lowerName.includes('свин') || lowerName.includes('м\'яс')) return 250;
-    if (lowerName.includes('риб')) return 100;
-    if (lowerName.includes('картоп')) return 77;
-    if (lowerName.includes('рис') || lowerName.includes('греч')) return 130;
-    if (lowerName.includes('макарон')) return 131;
-    if (lowerName.includes('сир')) return 350;
-    if (lowerName.includes('яйц')) return 155;
-    if (lowerName.includes('олія') || lowerName.includes('масл')) return 884;
-    if (lowerName.includes('овоч') || lowerName.includes('салат')) return 50;
-    if (lowerName.includes('фрукт') || lowerName.includes('ягода')) return 60;
-    return 100; // усереднене значення
+    
+    // База даних калорійності (на 100г)
+    const calorieDatabase = {
+        // М'ясо та птиця
+        'курк': 165, 'куряч': 165, 'курин': 165,
+        'свин': 250, 'свиняч': 250,
+        'ялович': 250, 'говядин': 250,
+        'риб': 100, 'лосос': 208, 'тунець': 184,
+        'ковбас': 300, 'сосисок': 250,
+        
+        // Молочні продукти
+        'сир': 350, 'бринз': 260, 'моцарел': 280,
+        'молок': 42, 'кефір': 41, 'йогурт': 60,
+        'сметан': 210, 'вершки': 205,
+        'масл': 717, 'вершкове масл': 717,
+        
+        // Яйця
+        'яйц': 155, 'яєч': 155,
+        
+        // Крупи та зернові
+        'рис': 130, 'греч': 110, 'вівс': 389,
+        'манн': 360, 'пшоно': 119,
+        'макарон': 131, 'спагет': 131,
+        'хліб': 265, 'батон': 260,
+        
+        // Овочі
+        'картоп': 77, 'картопл': 77,
+        'моркв': 41, 'буряк': 43,
+        'капуст': 25, 'помідор': 18,
+        'огірок': 15, 'перець': 20,
+        'цибул': 40, 'часник': 149,
+        
+        // Фрукти та ягоди
+        'яблук': 52, 'банан': 89,
+        'апельсин': 47, 'лимон': 29,
+        'полуни': 32, 'малин': 52,
+        'вишн': 50, 'чорниц': 57,
+        
+        // Горіхи та насіння
+        'горіх': 654, 'волоський горіх': 654,
+        'міндаль': 579, 'арахіс': 567,
+        'сім': 584, 'соняшникове насіння': 584,
+        
+        // Олії та жири
+        'олі': 884, 'соняшникова олія': 884,
+        'оливкова олія': 884, 'рослинна олія': 884,
+        
+        // Солодощі
+        'цукор': 387, 'мед': 304,
+        'шоколад': 546, 'печиво': 500,
+        'торт': 350, 'пряник': 350,
+        
+        // Інше
+        'сіль': 0, 'перець': 0,
+        'спеці': 0, 'приправ': 0
+    };
+    
+    // Пошук інгредієнта в базі даних
+    for (const [key, value] of Object.entries(calorieDatabase)) {
+        if (lowerName.includes(key)) {
+            return value;
+        }
+    }
+    
+    // Якщо не знайдено - повертаємо середнє значення
+    return 150;
 }
 
 function removeIngredient(index) {
@@ -1478,18 +1452,16 @@ function updateTotalCalories() {
     if (total < 300) info = 'Легкий перекус';
     else if (total < 600) info = 'Невелика порція';
     else if (total < 900) info = 'Повноцінний прийом їжі';
-    else info = 'Висококалорійна страва';
+    else if (total < 1200) info = 'Висококалорійна страва';
+    else info = 'Дуже калорійна страва';
     
     document.getElementById('calorieInfo').textContent = info;
 }
 
 // Система підбору рецептів
 function updateProgress() {
-    const questions = document.querySelectorAll('.finder-questions select, .finder-questions input');
-    const answered = Array.from(questions).filter(q => {
-        if (q.type === 'text') return q.value.trim() !== '';
-        return q.value !== '';
-    }).length;
+    const questions = document.querySelectorAll('.finder-questions select');
+    const answered = Array.from(questions).filter(q => q.value !== '').length;
     
     const progress = (answered / questions.length) * 100;
     document.getElementById('finderProgress').style.width = progress + '%';
@@ -1499,7 +1471,7 @@ function findRecipe() {
     const time = document.getElementById('time').value;
     const difficulty = document.getElementById('difficulty').value;
     const category = document.getElementById('category').value;
-    const ingredients = document.getElementById('ingredients').value.toLowerCase();
+    const type = document.getElementById('type').value;
     
     let recommendations = [];
     const recipes = document.querySelectorAll('.recipe');
@@ -1508,7 +1480,6 @@ function findRecipe() {
         const recipeTime = parseInt(recipe.querySelector('.recipe-time span').textContent);
         const recipeCat = recipe.dataset.cat;
         const recipeTitle = recipe.querySelector('h3').textContent.toLowerCase();
-        const recipeDesc = recipe.querySelector('p').textContent.toLowerCase();
         
         let score = 0;
         
@@ -1536,21 +1507,36 @@ function findRecipe() {
             }
         }
         
-        // Перевірка інгредієнтів
-        if (ingredients) {
-            const ingList = ingredients.split(',').map(i => i.trim());
-            ingList.forEach(ing => {
-                if (recipeTitle.includes(ing) || recipeDesc.includes(ing)) {
-                    score += 25 / ingList.length;
-                }
-            });
+        // Перевірка типу
+        if (type) {
+            const typeMap = {
+                'meat': 'meat',
+                'vegetarian': 'vegetarian',
+                'soup': 'soup',
+                'salad': ['vegetarian', 'breakfast']
+            };
+            
+            if (Array.isArray(typeMap[type])) {
+                if (typeMap[type].includes(recipeCat)) score += 25;
+            } else if (typeMap[type] === recipeCat) {
+                score += 25;
+            }
+        }
+        
+        // Перевірка складності (спрощено)
+        if (difficulty) {
+            if (difficulty === 'easy' && recipeTime <= 30) score += 25;
+            else if (difficulty === 'medium' && recipeTime > 30 && recipeTime <= 60) score += 25;
+            else if (difficulty === 'hard' && recipeTime > 60) score += 25;
         }
         
         if (score > 0) {
             recommendations.push({
                 element: recipe,
                 score: score,
-                title: recipe.querySelector('h3').textContent
+                title: recipe.querySelector('h3').textContent,
+                time: recipeTime,
+                category: recipeCat
             });
         }
     });
@@ -1569,20 +1555,26 @@ function findRecipe() {
         top3.forEach((rec, index) => {
             const stars = '★'.repeat(Math.round(rec.score / 25)) + '☆'.repeat(4 - Math.round(rec.score / 25));
             html += `
-                <div style="display: flex; align-items: center; gap: 15px; padding: 15px; margin-top: 10px; background: rgba(255, 69, 0, 0.1); border-radius: 10px;">
+                <div style="display: flex; align-items: center; gap: 15px; padding: 15px; margin-top: 10px; background: var(--light); border-radius: 10px; border: 1px solid var(--primary-light);">
                     <div style="font-size: 24px; color: var(--primary);">${index + 1}</div>
                     <div style="flex: 1;">
                         <strong>${rec.title}</strong>
-                        <div style="color: var(--secondary); margin-top: 5px;">${stars} ${Math.round(rec.score)}%</div>
+                        <div style="color: var(--text-light); font-size: 14px; margin-top: 5px;">
+                            <span><i class="far fa-clock"></i> ${rec.time} хв</span> | 
+                            <span><i class="fas fa-${getCategoryIcon(rec.category)}"></i> ${getCategoryName(rec.category)}</span>
+                        </div>
+                        <div style="color: var(--secondary); margin-top: 5px; font-size: 14px;">${stars} ${Math.round(rec.score)}%</div>
                     </div>
-                    <button onclick="scrollToRecipe('${rec.title}')" style="background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer;">
+                    <button onclick="scrollToRecipe('${rec.title}')" style="background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; transition: 0.3s;" 
+                            onmouseover="this.style.transform='translateY(-2px)'" 
+                            onmouseout="this.style.transform='translateY(0)'">
                         Перейти
                     </button>
                 </div>
             `;
         });
         
-        html += `<p style="margin-top: 15px; font-size: 14px; color: var(--text-light);">
+        html += `<p style="margin-top: 15px; font-size: 14px; color: var(--text-light); padding: 10px; background: var(--light); border-radius: 8px; border: 1px solid var(--primary-light);">
             <i class="fas fa-lightbulb"></i> Знайдено ${recommendations.length} рецептів, які відповідають вашим критеріям
         </p>`;
         
@@ -1590,8 +1582,10 @@ function findRecipe() {
     } else {
         resultDiv.innerHTML = `
             <h4><i class="fas fa-search"></i> Результати пошуку</h4>
-            <p>Не знайдено рецептів, які відповідають вашим критеріям.</p>
-            <p style="color: var(--text-light); font-size: 14px;">Спробуйте змінити параметри пошуку.</p>
+            <div style="padding: 15px; background: var(--light); border-radius: 10px; border: 1px solid var(--primary-light);">
+                <p>Не знайдено рецептів, які відповідають вашим критеріям.</p>
+                <p style="color: var(--text-light); font-size: 14px; margin-top: 10px;">Спробуйте змінити параметри пошуку або оберіть інші категорії.</p>
+            </div>
         `;
     }
     
@@ -1602,6 +1596,28 @@ function findRecipe() {
     }, 10);
 }
 
+function getCategoryIcon(category) {
+    const icons = {
+        'soup': 'utensil-spoon',
+        'dessert': 'ice-cream',
+        'meat': 'drumstick-bite',
+        'vegetarian': 'leaf',
+        'breakfast': 'egg'
+    };
+    return icons[category] || 'utensils';
+}
+
+function getCategoryName(category) {
+    const names = {
+        'soup': 'Супи',
+        'dessert': 'Десерти',
+        'meat': 'М\'ясні',
+        'vegetarian': 'Вегетаріанські',
+        'breakfast': 'Сніданки'
+    };
+    return names[category] || 'Інше';
+}
+
 function scrollToRecipe(title) {
     const recipes = document.querySelectorAll('.recipe');
     recipes.forEach(recipe => {
@@ -1609,7 +1625,7 @@ function scrollToRecipe(title) {
             recipe.scrollIntoView({ behavior: 'smooth', block: 'center' });
             
             // Анімація виділення
-            recipe.style.boxShadow = '0 0 0 3px var(--secondary)';
+            recipe.style.boxShadow = '0 0 0 3px var(--secondary), 0 15px 35px rgba(255, 69, 0, 0.4)';
             setTimeout(() => {
                 recipe.style.boxShadow = '';
             }, 2000);
@@ -1617,27 +1633,8 @@ function scrollToRecipe(title) {
     });
 }
 
-// Спливаюче вікно при покиданні сторінки
-let mouseY = 0;
-document.addEventListener('mousemove', (e) => {
-    mouseY = e.clientY;
-});
-
-document.addEventListener('mouseleave', (e) => {
-    if (mouseY < 50) {
-        setTimeout(() => {
-            document.getElementById('exitPopup').style.display = 'block';
-        }, 500);
-    }
-});
-
-function closeExitPopup() {
-    document.getElementById('exitPopup').style.display = 'none';
-}
-
 // Утиліти
 function showNotification(message) {
-    // Створюємо спливаюче повідомлення
     const notification = document.createElement('div');
     notification.textContent = message;
     notification.style.cssText = `
@@ -1651,6 +1648,7 @@ function showNotification(message) {
         box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         z-index: 10000;
         animation: slideInRight 0.3s, fadeOut 0.3s 2.7s;
+        border: 2px solid var(--primary-dark);
     `;
     
     document.body.appendChild(notification);
@@ -1685,18 +1683,8 @@ window.onload = function() {
     setTimeout(() => {
         updateProgress();
     }, 500);
-    
-    // Додаємо події для підказок
-    document.querySelectorAll('.recipe-time').forEach(el => {
-        el.classList.add('tooltip');
-        const tooltip = document.createElement('span');
-        tooltip.className = 'tooltip-text';
-        tooltip.textContent = 'Час приготування може відрізнятись залежно від вашого досвіду';
-        el.appendChild(tooltip);
-    });
 };
 </script>
 
 </body>
 </html>
-
