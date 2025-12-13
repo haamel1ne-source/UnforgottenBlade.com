@@ -95,12 +95,36 @@
         padding: 15px 0;
     }
 
-    /* Герой секція */
+    /* Герой секція з окремим фоном */
     .hero-section {
         text-align: center;
         padding: 100px 20px;
         max-width: 800px;
-        margin: 0 auto;
+        margin: 80px auto;
+        background: linear-gradient(rgba(46, 139, 87, 0.85), rgba(218, 165, 32, 0.85)),
+                    url('https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg') center/cover;
+        border-radius: 30px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section:before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: float 20s linear infinite;
+        z-index: -1;
+    }
+
+    @keyframes float {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        100% { transform: translate(50px, 50px) rotate(360deg); }
     }
 
     .hero-section h1 {
@@ -113,6 +137,7 @@
         font-size: 1.3rem;
         margin-bottom: 30px;
         opacity: 0.9;
+        line-height: 1.8;
     }
 
     .hero-buttons {
@@ -157,6 +182,7 @@
         padding: 80px 20px;
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
+        margin-top: 50px;
     }
 
     .carousel-container {
@@ -173,6 +199,11 @@
     .carousel-title h2 {
         font-size: 2.5rem;
         margin-bottom: 10px;
+        color: white;
+    }
+
+    .carousel-title p {
+        color: rgba(255, 255, 255, 0.8);
     }
 
     .carousel {
@@ -195,10 +226,11 @@
         overflow: hidden;
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         transition: transform 0.3s ease;
+        cursor: pointer;
     }
 
     .carousel-item:hover {
-        transform: translateY(-10px);
+        transform: translateY(-10px) scale(1.05);
     }
 
     .carousel-item img {
@@ -267,6 +299,7 @@
 
     .feature-card:hover {
         transform: translateY(-10px);
+        background: white;
     }
 
     .feature-icon {
@@ -334,8 +367,17 @@
             display: flex;
         }
         
+        .hero-section {
+            margin: 40px 20px;
+            padding: 50px 20px;
+        }
+        
         .hero-section h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
+        }
+        
+        .hero-section p {
+            font-size: 1.1rem;
         }
         
         .hero-buttons {
@@ -357,9 +399,10 @@
     </button>
     
     <div class="nav-buttons" id="navButtons">
+        <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Головна</a>
         <a href="strava.html" class="nav-btn"><i class="fas fa-utensils"></i> Смачні страви</a>
-        <a href="navfour.html" class="nav-btn"><i class="fas fa-compass"></i> Навігатор</a>
-        <a href="#" class="nav-btn"><i class="fas fa-info-circle"></i> Про нас</a>
+        <a href="navfour.html" class="nav-btn"><i class="fas fa-lightbulb"></i> Кухонні поради</a>
+        <a href="pronas.html" class="nav-btn"><i class="fas fa-info-circle"></i> Про нас</a>
     </div>
     
     <div class="logo">
@@ -378,7 +421,7 @@
             <i class="fas fa-utensils"></i> Переглянути рецепти
         </a>
         <a href="navfour.html" class="hero-btn secondary">
-            <i class="fas fa-compass"></i> Навігатор рецептів
+            <i class="fas fa-lightbulb"></i> Кухонні поради
         </a>
     </div>
 </section>
@@ -464,9 +507,10 @@
         
         <div class="footer-section">
             <h3>Навігація</h3>
+            <a href="index.html">Головна</a>
             <a href="strava.html">Смачні страви</a>
-            <a href="navfour.html">Навігатор рецептів</a>
-            <a href="#">Про нас</a>
+            <a href="navfour.html">Кухонні поради</a>
+            <a href="pronas.html">Про нас</a>
         </div>
         
         <div class="footer-section">
@@ -491,40 +535,40 @@ function toggleMenu() {
 // Дані для каруселі
 const carouselRecipes = [
     {
-        title: "Борщ український",
-        image: "https://recepty.24tv.ua/resources/photos/recipe/1200x675_DIR/201912/86d3f0ec08-b061-4a2d-afa7-f053527f4f06.jpg?1582905806000",
+        title: "Приготування борщу",
+        image: "https://images.pexels.com/photos/5908066/pexels-photo-5908066.jpeg",
         time: "80 хв",
-        description: "Класичний червоний борщ зі сметаною та свіжою зеленню"
+        description: "Процес приготування українського борщу"
     },
     {
-        title: "Панкейки з ягодами",
-        image: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg",
-        time: "25 хв",
-        description: "Повітряні млинці зі свіжими ягодами та солодким сиропом"
+        title: "Випікання хліба",
+        image: "https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg",
+        time: "180 хв",
+        description: "Ароматний домашній хліб"
     },
     {
-        title: "М'ясна лазанья",
-        image: "https://images.pexels.com/photos/5949896/pexels-photo-5949896.jpeg",
-        time: "75 хв",
-        description: "Класична італійська лазанья з м'ясним соусом та сиром"
-    },
-    {
-        title: "Сирники",
-        image: "https://images.pexels.com/photos/6168339/pexels-photo-6168339.jpeg",
-        time: "30 хв",
-        description: "Ніжні сирники з родзинками, подаються зі сметаною"
-    },
-    {
-        title: "Омлет з овочами",
-        image: "https://images.pexels.com/photos/17198757/pexels-photo-17198757.jpeg",
+        title: "Салат з овочів",
+        image: "https://images.pexels.com/photos/5946089/pexels-photo-5946089.jpeg",
         time: "20 хв",
-        description: "Поживний сніданок зі свіжими овочами та сиром"
+        description: "Свіжі овочі та зелень"
     },
     {
-        title: "Каррі з куркою",
-        image: "https://images.pexels.com/photos/674574/pexels-photo-674574.jpeg",
+        title: "Готування десерту",
+        image: "https://images.pexels.com/photos/1055270/pexels-photo-1055270.jpeg",
         time: "45 хв",
-        description: "Ароматне каррі з кокосовим молоком та свіжими овочами"
+        description: "Солодкі домашні десерти"
+    },
+    {
+        title: "Приготування м'яса",
+        image: "https://images.pexels.com/photos/675951/pexels-photo-675951.jpeg",
+        time: "60 хв",
+        description: "М'ясні страви на грилі"
+    },
+    {
+        title: "Фінальне прикрашання",
+        image: "https://images.pexels.com/photos/952478/pexels-photo-952478.jpeg",
+        time: "15 хв",
+        description: "Останні штрихи до страви"
     }
 ];
 
