@@ -95,45 +95,52 @@
         padding: 15px 0;
     }
 
-    /* Герой секція з окремим фоном */
-    .hero-section {
-        text-align: center;
-        padding: 100px 20px;
-        max-width: 800px;
-        margin: 80px auto;
-        background: linear-gradient(rgba(46, 139, 87, 0.85), rgba(218, 165, 32, 0.85)),
-                    url('https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg') center/cover;
-        border-radius: 30px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    /* Герой секція з повноширинною каруселлю */
+    .hero-carousel {
         position: relative;
+        width: 100%;
+        height: 70vh;
         overflow: hidden;
+        margin-top: 20px;
     }
 
-    .hero-section:before {
-        content: '';
+    .carousel-slide {
         position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-        background-size: 50px 50px;
-        animation: float 20s linear infinite;
-        z-index: -1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    @keyframes float {
-        0% { transform: translate(0, 0) rotate(0deg); }
-        100% { transform: translate(50px, 50px) rotate(360deg); }
+    .carousel-slide.active {
+        opacity: 1;
     }
 
-    .hero-section h1 {
+    .hero-content {
+        text-align: center;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 40px 60px;
+        border-radius: 20px;
+        max-width: 800px;
+        margin: 0 20px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(218, 165, 32, 0.3);
+    }
+
+    .hero-content h1 {
         font-size: 3.5rem;
         margin-bottom: 20px;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
 
-    .hero-section p {
+    .hero-content p {
         font-size: 1.3rem;
         margin-bottom: 30px;
         opacity: 0.9;
@@ -177,8 +184,34 @@
         box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     }
 
-    /* Карусель */
-    .carousel-section {
+    /* Навігація каруселі */
+    .carousel-nav {
+        position: absolute;
+        bottom: 30px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        z-index: 10;
+    }
+
+    .carousel-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+        background: var(--secondary);
+        transform: scale(1.2);
+    }
+
+    /* Карусель рецептів */
+    .recipes-carousel-section {
         padding: 80px 20px;
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
@@ -227,6 +260,8 @@
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         transition: transform 0.3s ease;
         cursor: pointer;
+        text-decoration: none;
+        color: #333;
     }
 
     .carousel-item:hover {
@@ -241,7 +276,6 @@
 
     .carousel-content {
         padding: 20px;
-        color: #333;
     }
 
     .carousel-content h3 {
@@ -249,7 +283,15 @@
         margin-bottom: 10px;
     }
 
-    .carousel-nav {
+    .carousel-content .recipe-time {
+        color: var(--secondary);
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .carousel-nav-buttons {
         display: flex;
         justify-content: center;
         gap: 20px;
@@ -367,17 +409,21 @@
             display: flex;
         }
         
-        .hero-section {
-            margin: 40px 20px;
-            padding: 50px 20px;
+        .hero-carousel {
+            height: 60vh;
         }
         
-        .hero-section h1 {
-            font-size: 2.2rem;
+        .hero-content {
+            padding: 30px 20px;
+            margin: 0 15px;
         }
         
-        .hero-section p {
-            font-size: 1.1rem;
+        .hero-content h1 {
+            font-size: 2rem;
+        }
+        
+        .hero-content p {
+            font-size: 1rem;
         }
         
         .hero-buttons {
@@ -387,6 +433,21 @@
         
         .carousel-item {
             min-width: 250px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-carousel {
+            height: 50vh;
+        }
+        
+        .hero-content h1 {
+            font-size: 1.8rem;
+        }
+        
+        .hero-btn {
+            padding: 12px 24px;
+            font-size: 1rem;
         }
     }
 </style>
@@ -411,38 +472,33 @@
     </div>
 </div>
 
-<!-- Герой секція -->
-<section class="hero-section">
-    <h1>Ласкаво просимо до CookBook</h1>
-    <p>Відкрийте для себе світ кулінарних шедеврів. Від класичних українських страв до екзотичних делікатесів. Готуйте з насолодою та надихайтеся новими ідеями разом з нами!</p>
-    
-    <div class="hero-buttons">
-        <a href="strava.html" class="hero-btn primary">
-            <i class="fas fa-utensils"></i> Переглянути рецепти
-        </a>
-        <a href="navfour.html" class="hero-btn secondary">
-            <i class="fas fa-lightbulb"></i> Кухонні поради
-        </a>
-    </div>
-</section>
+<!-- Герой карусель -->
+<div class="hero-carousel" id="heroCarousel">
+    <!-- Слайди додаються динамічно -->
+</div>
+
+<!-- Навігація каруселі -->
+<div class="carousel-nav" id="carouselDots">
+    <!-- Крапки додаються динамічно -->
+</div>
 
 <!-- Карусель страв -->
-<section class="carousel-section">
+<section class="recipes-carousel-section">
     <div class="carousel-container">
         <div class="carousel-title">
-            <h2>Популярні страви тижня</h2>
+            <h2>Популярні страви</h2>
             <p>Найкращі рецепти, обрані нашими користувачами</p>
         </div>
         
         <div class="carousel" id="recipeCarousel">
-            <!-- Динамічно заповнюється JavaScript -->
+            <!-- Рецепти додаються динамічно -->
         </div>
         
-        <div class="carousel-nav">
-            <button class="carousel-btn" onclick="scrollCarousel(-300)">
+        <div class="carousel-nav-buttons">
+            <button class="carousel-btn" onclick="scrollRecipesCarousel(-300)">
                 <i class="fas fa-chevron-left"></i>
             </button>
-            <button class="carousel-btn" onclick="scrollCarousel(300)">
+            <button class="carousel-btn" onclick="scrollRecipesCarousel(300)">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
@@ -532,59 +588,129 @@ function toggleMenu() {
     navButtons.classList.toggle('active');
 }
 
-// Дані для каруселі
-const carouselRecipes = [
+// Дані для герой-каруселі
+const heroSlides = [
     {
-        title: "Приготування борщу",
-        image: "https://images.pexels.com/photos/5908066/pexels-photo-5908066.jpeg",
-        time: "80 хв",
-        description: "Процес приготування українського борщу"
+        background: 'https://images.pexels.com/photos/5908066/pexels-photo-5908066.jpeg',
+        title: 'Ласкаво просимо до CookBook',
+        description: 'Відкрийте для себе світ кулінарних шедеврів. Від класичних українських страв до екзотичних делікатесів. Готуйте з насолодою та надихайтеся новими ідеями разом з нами!'
     },
     {
-        title: "Випікання хліба",
-        image: "https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg",
-        time: "180 хв",
-        description: "Ароматний домашній хліб"
+        background: 'https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg',
+        title: 'Кулінарна майстерність',
+        description: 'Навчайтеся готувати як професіонали з нашими детальними рецептами та покроковими інструкціями'
     },
     {
-        title: "Салат з овочів",
-        image: "https://images.pexels.com/photos/5946089/pexels-photo-5946089.jpeg",
-        time: "20 хв",
-        description: "Свіжі овочі та зелень"
+        background: 'https://images.pexels.com/photos/5946089/pexels-photo-5946089.jpeg',
+        title: 'Свіжі продукти',
+        description: 'Відкрийте секрети роботи зі свіжими продуктами та створення неперевершених страв'
     },
     {
-        title: "Готування десерту",
-        image: "https://images.pexels.com/photos/1055270/pexels-photo-1055270.jpeg",
-        time: "45 хв",
-        description: "Солодкі домашні десерти"
-    },
-    {
-        title: "Приготування м'яса",
-        image: "https://images.pexels.com/photos/675951/pexels-photo-675951.jpeg",
-        time: "60 хв",
-        description: "М'ясні страви на грилі"
-    },
-    {
-        title: "Фінальне прикрашання",
-        image: "https://images.pexels.com/photos/952478/pexels-photo-952478.jpeg",
-        time: "15 хв",
-        description: "Останні штрихи до страви"
+        background: 'https://images.pexels.com/photos/1055270/pexels-photo-1055270.jpeg',
+        title: 'Десерти для душі',
+        description: 'Створюйте солодкі шедеври, які зроблять кожен день особливим'
     }
 ];
 
-// Ініціалізація каруселі
-function initCarousel() {
+// Дані для каруселі рецептів
+const carouselRecipes = [
+    {
+        title: "Борщ український",
+        image: "https://recepty.24tv.ua/resources/photos/recipe/1200x675_DIR/201912/86d3f0ec08-b061-4a2d-afa7-f053527f4f06.jpg?1582905806000",
+        time: "80 хв",
+        description: "Класичний червоний борщ зі сметаною та свіжою зеленню",
+        link: "strava.html"
+    },
+    {
+        title: "Панкейки з ягодами",
+        image: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg",
+        time: "25 хв",
+        description: "Повітряні млинці зі свіжими ягодами та солодким сиропом",
+        link: "strava.html"
+    },
+    {
+        title: "М'ясна лазанья",
+        image: "https://images.pexels.com/photos/5949896/pexels-photo-5949896.jpeg",
+        time: "75 хв",
+        description: "Класична італійська лазанья з м'ясним соусом та сиром",
+        link: "strava.html"
+    },
+    {
+        title: "Сирники",
+        image: "https://images.pexels.com/photos/6168339/pexels-photo-6168339.jpeg",
+        time: "30 хв",
+        description: "Ніжні сирники з родзинками, подаються зі сметаною",
+        link: "strava.html"
+    },
+    {
+        title: "Омлет з овочами",
+        image: "https://images.pexels.com/photos/17198757/pexels-photo-17198757.jpeg",
+        time: "20 хв",
+        description: "Поживний сніданок зі свіжими овочами та сиром",
+        link: "strava.html"
+    },
+    {
+        title: "Каррі з куркою та рисом",
+        image: "https://images.pexels.com/photos/674574/pexels-photo-674574.jpeg",
+        time: "45 хв",
+        description: "Ароматне каррі з кокосовим молоком та свіжими овочами",
+        link: "strava.html"
+    }
+];
+
+// Ініціалізація герой-каруселі
+function initHeroCarousel() {
+    const carousel = document.getElementById('heroCarousel');
+    const dotsContainer = document.getElementById('carouselDots');
+    
+    heroSlides.forEach((slide, index) => {
+        // Створення слайда
+        const slideElement = document.createElement('div');
+        slideElement.className = 'carousel-slide';
+        slideElement.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${slide.background}')`;
+        slideElement.innerHTML = `
+            <div class="hero-content">
+                <h1>${slide.title}</h1>
+                <p>${slide.description}</p>
+                <div class="hero-buttons">
+                    <a href="strava.html" class="hero-btn primary">
+                        <i class="fas fa-utensils"></i> Переглянути рецепти
+                    </a>
+                    <a href="navfour.html" class="hero-btn secondary">
+                        <i class="fas fa-lightbulb"></i> Кухонні поради
+                    </a>
+                </div>
+            </div>
+        `;
+        carousel.appendChild(slideElement);
+        
+        // Створення крапки
+        const dot = document.createElement('div');
+        dot.className = 'carousel-dot';
+        if (index === 0) dot.classList.add('active');
+        dot.dataset.index = index;
+        dot.addEventListener('click', () => goToSlide(index));
+        dotsContainer.appendChild(dot);
+    });
+    
+    // Активація першого слайда
+    document.querySelectorAll('.carousel-slide')[0].classList.add('active');
+}
+
+// Ініціалізація каруселі рецептів
+function initRecipesCarousel() {
     const carousel = document.getElementById('recipeCarousel');
     
     carouselRecipes.forEach(recipe => {
-        const item = document.createElement('div');
+        const item = document.createElement('a');
         item.className = 'carousel-item';
+        item.href = recipe.link;
         item.innerHTML = `
             <img src="${recipe.image}" alt="${recipe.title}">
             <div class="carousel-content">
                 <h3>${recipe.title}</h3>
                 <p>${recipe.description}</p>
-                <div style="color: #DAA520; margin-top: 10px;">
+                <div class="recipe-time">
                     <i class="far fa-clock"></i> ${recipe.time}
                 </div>
             </div>
@@ -593,8 +719,31 @@ function initCarousel() {
     });
 }
 
-// Прокрутка каруселі
-function scrollCarousel(distance) {
+// Управління герой-каруселлю
+let currentSlide = 0;
+let slideInterval;
+
+function startCarousel() {
+    slideInterval = setInterval(() => {
+        goToSlide((currentSlide + 1) % heroSlides.length);
+    }, 5000);
+}
+
+function goToSlide(index) {
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dot');
+    
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+    
+    currentSlide = index;
+    
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+}
+
+// Прокрутка каруселі рецептів
+function scrollRecipesCarousel(distance) {
     const carousel = document.getElementById('recipeCarousel');
     carousel.scrollBy({ left: distance, behavior: 'smooth' });
 }
@@ -610,7 +759,16 @@ document.addEventListener('click', (e) => {
 });
 
 // Ініціалізація при завантаженні
-window.onload = initCarousel;
+window.onload = function() {
+    initHeroCarousel();
+    initRecipesCarousel();
+    startCarousel();
+    
+    // Пауза каруселі при наведенні
+    const heroCarousel = document.getElementById('heroCarousel');
+    heroCarousel.addEventListener('mouseenter', () => clearInterval(slideInterval));
+    heroCarousel.addEventListener('mouseleave', startCarousel);
+};
 </script>
 
 </body>
