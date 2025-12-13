@@ -33,16 +33,19 @@
 
     body {
         font-family: 'Segoe UI', 'Roboto', Tahoma, Geneva, Verdana, sans-serif;
-        background: var(--lighter);
-        color: var(--text);
         line-height: 1.6;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
+        background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
+                    url('https://images.pexels.com/photos/5088163/pexels-photo-5088163.jpeg') center/cover fixed;
+        color: var(--text);
+        position: relative;
     }
 
     body.dark-theme {
-        background: var(--dark-bg);
+        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+                    url('https://images.pexels.com/photos/5088163/pexels-photo-5088163.jpeg') center/cover fixed;
         color: var(--dark-text);
         --card-bg: var(--dark-light);
         --modal-bg: var(--dark-light);
@@ -253,6 +256,7 @@
 
     .tool-card:hover {
         transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(46, 139, 87, 0.2);
     }
 
     .tool-icon {
@@ -491,11 +495,9 @@
     
     <div class="nav-buttons" id="navButtons">
         <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Головна</a>
-        <a href="navfour.html" class="nav-btn"><i class="fas fa-compass"></i> Навігатор</a>
-        <a href="#" class="nav-btn" onclick="showSection('about')"><i class="fas fa-info-circle"></i> Про нас</a>
-        <button class="nav-btn" onclick="showCalorieCalculator()" style="background: var(--secondary);">
-            <i class="fas fa-calculator"></i> Калькулятор калорій
-        </button>
+        <a href="strava.html" class="nav-btn"><i class="fas fa-utensils"></i> Смачні страви</a>
+        <a href="navfour.html" class="nav-btn"><i class="fas fa-lightbulb"></i> Кухонні поради</a>
+        <a href="pronas.html" class="nav-btn"><i class="fas fa-info-circle"></i> Про нас</a>
     </div>
     
     <div class="logo">
@@ -819,7 +821,8 @@
             <h3>Навігація</h3>
             <a href="index.html">Головна</a>
             <a href="strava.html">Смачні страви</a>
-            <a href="navfour.html">Навігатор рецептів</a>
+            <a href="navfour.html">Кухонні поради</a>
+            <a href="pronas.html">Про нас</a>
         </div>
         
         <div class="footer-section">
@@ -1096,4 +1099,4 @@ window.onclick = function(event) {
 </script>
 
 </body>
-  </html>
+</html>
