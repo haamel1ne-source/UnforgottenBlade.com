@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Панкейки з ягодами — CookBook</title>
+<title>Борщ український — CookBook</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" type="image/png" href="favicon/burger.png">
 <style>
-    /* СТИЛІ З INDEX.HTML (для хедера та футера) */
+    /* СТИЛІ З INDEX.HTML */
     :root {
-        --primary: #2E8B57; /* SeaGreen - темний приємний зелений */
-        --primary-light: #3CB371; /* MediumSeaGreen */
-        --primary-dark: #006400; /* DarkGreen */
-        --secondary: #DAA520; /* Goldenrod - теплий золотистий акцент */
-        --light: #F5FFFA; /* MintCream */
-        --lighter: #F0FFF0; /* Honeydew */
-        --text: #2F4F4F; /* DarkSlateGray */
-        --text-light: #556B2F; /* DarkOliveGreen */
+        --primary: #2E8B57;
+        --primary-light: #3CB371;
+        --primary-dark: #006400;
+        --secondary: #DAA520;
+        --light: #F5FFFA;
+        --lighter: #F0FFF0;
+        --text: #2F4F4F;
+        --text-light: #556B2F;
         --white: #ffffff;
         --shadow: rgba(46, 139, 87, 0.15);
         --dark-bg: #1a1a1a;
@@ -34,35 +34,86 @@
 
     body {
         font-family: 'Segoe UI', 'Roboto', Tahoma, Geneva, Verdana, sans-serif;
-        background: var(--lighter);
-        color: var(--text);
         line-height: 1.6;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        transition: all 0.3s ease;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                    url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg') center/cover fixed;
+        color: white;
+        position: relative;
     }
 
     body.dark-theme {
-        background: var(--dark-bg);
-        color: var(--dark-text);
-        --card-bg: var(--dark-light);
-        --modal-bg: var(--dark-light);
-        --light: #333;
-        --lighter: #2a2a2a;
+        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+                    url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg') center/cover fixed;
     }
 
-    /* Верхня панель */
+    /* Верхня панель як на index.html */
     .header-container {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        background: rgba(46, 139, 87, 0.9);
         padding: 0 40px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         display: flex;
         justify-content: space-between;
         align-items: center;
         position: sticky;
         top: 0;
         z-index: 1000;
+        backdrop-filter: blur(10px);
+    }
+
+    .burger-menu {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 28px;
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .nav-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .nav-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        padding: 14px 24px;
+        border-radius: 50px;
+        color: var(--white);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+    }
+
+    .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.35);
+        transform: translateY(-2px);
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--white);
+        letter-spacing: 1px;
+        padding: 15px 0;
+    }
+
+    .logo a {
+        text-decoration: none;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 15px;
     }
 
     .theme-switcher {
@@ -81,94 +132,23 @@
         margin-left: 15px;
     }
 
-    .theme-switcher:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: rotate(30deg);
-    }
-
-    .nav-buttons {
-        display: flex;
-        gap: 10px;
-    }
-
-    .nav-btn {
-        background: rgba(255, 255, 255, 0.25);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        padding: 14px 24px;
-        border-radius: 50px;
-        color: var(--white);
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(5px);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .nav-btn:hover {
-        background: rgba(255, 255, 255, 0.35);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .logo {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        font-size: 32px;
-        font-weight: 800;
-        color: var(--white);
-        letter-spacing: 1px;
-        padding: 15px 0;
-    }
-
-    .logo-icon {
-        font-size: 40px;
-        filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
-    }
-
-    .burger-menu {
-        display: none;
-        background: none;
-        border: none;
-        color: var(--white);
-        font-size: 28px;
-        cursor: pointer;
-        padding: 10px;
-    }
-
-    /* Конвертер одиниць */
-    .converter-popup {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: var(--primary);
-        color: white;
-        padding: 15px;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 100;
-        box-shadow: 0 4px 15px rgba(46, 139, 87, 0.3);
-        transition: 0.3s;
-    }
-
-    .converter-popup:hover {
-        transform: scale(1.1);
-        background: var(--primary-dark);
-    }
-
     /* Основний контент сторінки рецепту */
     .content-wrapper {
         max-width: 1200px;
         margin: 0 auto;
         padding: 30px 20px;
         flex: 1;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        color: #333;
+    }
+
+    body.dark-theme .content-wrapper {
+        background: rgba(0, 0, 0, 0.8);
+        color: #f0f0f0;
     }
 
     /* Хлібні крихти */
@@ -227,7 +207,7 @@
         line-height: 1.8;
     }
 
-    .dark-theme .recipe-header .description {
+    body.dark-theme .recipe-header .description {
         color: #aaa;
     }
 
@@ -244,6 +224,13 @@
         .recipe-detail-container {
             grid-template-columns: 1fr;
         }
+    }
+
+    /* Ліва колонка з фото та відео */
+    .recipe-left-column {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
     }
 
     /* Фото рецепту */
@@ -270,6 +257,58 @@
         transform: scale(1.05);
     }
 
+    /* Відео рецепт */
+    .video-recipe {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 25px var(--shadow);
+        border: 2px solid var(--primary-light);
+        transition: transform 0.3s;
+    }
+
+    body.dark-theme .video-recipe {
+        background: var(--dark-light);
+    }
+
+    .video-recipe:hover {
+        transform: translateY(-3px);
+    }
+
+    .video-recipe h3 {
+        color: var(--primary);
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--primary);
+    }
+
+    .video-recipe h3 i {
+        color: var(--secondary);
+    }
+
+    .video-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        height: 0;
+        overflow: hidden;
+        border-radius: 10px;
+        margin-top: 15px;
+    }
+
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
     /* Деталі рецепту */
     .recipe-details {
         display: flex;
@@ -285,6 +324,10 @@
         box-shadow: 0 10px 25px var(--shadow);
         border: 2px solid var(--primary-light);
         transition: transform 0.3s;
+    }
+
+    body.dark-theme .info-card {
+        background: var(--dark-light);
     }
 
     .info-card:hover {
@@ -331,7 +374,7 @@
         font-size: 1.1rem;
     }
 
-    .dark-theme .ingredient-name {
+    body.dark-theme .ingredient-name {
         color: var(--dark-text);
     }
 
@@ -350,7 +393,7 @@
         line-height: 1.4;
     }
 
-    .dark-theme .ingredient-purpose {
+    body.dark-theme .ingredient-purpose {
         color: #aaa;
     }
 
@@ -417,13 +460,13 @@
         box-shadow: 0 8px 20px rgba(46, 139, 87, 0.4);
     }
 
-    /* Футер з index.html */
+    /* Футер як на index.html */
     footer {
         background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
         color: var(--white);
         padding: 60px 0 30px;
         margin-top: auto;
-        border-top: 3px solid var(--primary-light);
+        border-top: 5px solid var(--secondary);
     }
 
     .footer-container {
@@ -530,7 +573,6 @@
             flex-direction: column;
             padding: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            border-top: 2px solid var(--primary);
         }
         
         .nav-buttons.active {
@@ -569,6 +611,11 @@
         .recipe-detail-container {
             gap: 30px;
         }
+        
+        .content-wrapper {
+            padding: 20px 15px;
+            margin: 20px 15px;
+        }
     }
 </style>
 </head>
@@ -581,13 +628,16 @@
     
     <div class="nav-buttons" id="navButtons">
         <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Головна</a>
-        <button class="nav-btn" onclick="showCalorieCalculator()"><i class="fas fa-calculator"></i> Калькулятор калорій</button>
-        <button class="nav-btn" onclick="showSection('about')"><i class="fas fa-info-circle"></i> Про нас</button>
+        <a href="strava.html" class="nav-btn"><i class="fas fa-utensils"></i> Смачні страви</a>
+        <a href="navfour.html" class="nav-btn"><i class="fas fa-lightbulb"></i> Кухонні поради</a>
+        <a href="pronas.html" class="nav-btn"><i class="fas fa-info-circle"></i> Про нас</a>
     </div>
     
     <div class="logo">
-        <span class="logo-icon">🍔</span>
-        <span class="logo-text">CookBook</span>
+        <a href="index.html">
+            <span class="logo-icon">🍔</span>
+            <span class="logo-text">CookBook</span>
+        </a>
     </div>
     
     <button class="theme-switcher" onclick="toggleTheme()" title="Змінити тему">
@@ -595,29 +645,41 @@
     </button>
 </div>
 
-<!-- Конвертер одиниць -->
-<div class="converter-popup" onclick="openConverter()" title="Конвертер одиниць">
-    <i class="fas fa-balance-scale"></i>
-</div>
-
 <div class="content-wrapper">
     <!-- Хлібні крихти -->
     <div class="breadcrumbs">
-        <a href="index.html">Головна</a> / <a href="index.html#recipes">Рецепти</a> / <span>Панкейки з ягодами</span>
+        <a href="index.html">Головна</a> / <a href="strava.html">Смачні страви</a> / <span>Борщ український</span>
     </div>
 
     <!-- Заголовок рецепту -->
     <div class="recipe-header">
-        <div class="category">Десерти</div>
-        <h1>Панкейки з ягодами</h1>
-        <p class="description">Повітряні, ніжні млинці з ароматними свіжими ягодами, які тануть у роті. Ідеальний сніданок або легкий десерт для всієї родини.</p>
+        <div class="category">Супи</div>
+        <h1>Борщ український</h1>
+        <p class="description">Класичний український борщ зі свіжими овочами, м'ясом та ароматними спеціями. Справжня візитівка української кухні, яка зігріє душу та тіло.</p>
     </div>
 
     <!-- Основний контент -->
     <div class="recipe-detail-container">
-        <!-- Фото зліва -->
-        <div class="recipe-image">
-            <img src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg" alt="Панкейки з ягодами">
+        <!-- Ліва колонка з фото та відео -->
+        <div class="recipe-left-column">
+            <!-- Фото борща -->
+            <div class="recipe-image">
+                <img src="https://recepty.24tv.ua/resources/photos/recipe/1200x675_DIR/201912/86d3f0ec08-b061-4a2d-afa7-f053527f4f06.jpg?1582905806000" alt="Борщ український">
+            </div>
+
+            <!-- Відео рецепт -->
+            <div class="video-recipe">
+                <h3><i class="fas fa-video"></i> Відео рецепт</h3>
+                <p>Перегляньте детальний відео-рецепт приготування справжнього українського борщу:</p>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/l93S5xLaWog" 
+                            title="Відео рецепт українського борщу" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
         </div>
 
         <!-- Рецепт посередині-праворуч -->
@@ -628,19 +690,19 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                     <div>
                         <h4 style="color: var(--text); margin-bottom: 5px;">Час приготування</h4>
-                        <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">25 хвилин</p>
+                        <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">1 год 20 хв</p>
                     </div>
                     <div>
                         <h4 style="color: var(--text); margin-bottom: 5px;">Складність</h4>
-                        <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">Легко</p>
+                        <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">Середня</p>
                     </div>
                     <div>
                         <h4 style="color: var(--text); margin-bottom: 5px;">Порції</h4>
-                        <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">4 особи</p>
+                        <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">6-8 осіб</p>
                     </div>
                     <div>
                         <h4 style="color: var(--text); margin-bottom: 5px;">Калорійність</h4>
-                        <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">~250 ккал/порція</p>
+                        <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">~180 ккал/порція</p>
                     </div>
                 </div>
             </div>
@@ -650,54 +712,64 @@
                 <h3><i class="fas fa-shopping-basket"></i> Інгредієнти</h3>
                 <ul class="ingredients-list">
                     <li>
-                        <span class="ingredient-name">Борошно пшеничне</span>
-                        <span class="ingredient-amount">200 г</span>
-                        <span class="ingredient-purpose">Основа для тіста</span>
+                        <span class="ingredient-name">Яловичина з кісточкою</span>
+                        <span class="ingredient-amount">500 г</span>
+                        <span class="ingredient-purpose">Для наваристого бульйону</span>
                     </li>
                     <li>
-                        <span class="ingredient-name">Молоко</span>
-                        <span class="ingredient-amount">250 мл</span>
-                        <span class="ingredient-purpose">Для рідкої консистенції</span>
+                        <span class="ingredient-name">Буряк</span>
+                        <span class="ingredient-amount">300 г (2 середніх)</span>
+                        <span class="ingredient-purpose">Основний овоч для борщу</span>
                     </li>
                     <li>
-                        <span class="ingredient-name">Яйця</span>
-                        <span class="ingredient-amount">2 шт.</span>
-                        <span class="ingredient-purpose">Для зв'язки та пишності</span>
+                        <span class="ingredient-name">Картопля</span>
+                        <span class="ingredient-amount">400 г (4 середні)</span>
+                        <span class="ingredient-purpose">Для ситності та консистенції</span>
                     </li>
                     <li>
-                        <span class="ingredient-name">Цукор</span>
-                        <span class="ingredient-amount">30 г (2 ст. ложки)</span>
-                        <span class="ingredient-purpose">Для солодкості</span>
+                        <span class="ingredient-name">Капуста білокачанна</span>
+                        <span class="ingredient-amount">300 г</span>
+                        <span class="ingredient-purpose">Для текстури та смаку</span>
                     </li>
                     <li>
-                        <span class="ingredient-name">Розпушувач</span>
-                        <span class="ingredient-amount">5 г (1 ч. ложка)</span>
-                        <span class="ingredient-purpose">Для повітряності</span>
+                        <span class="ingredient-name">Морква</span>
+                        <span class="ingredient-amount">150 г (1 велика)</span>
+                        <span class="ingredient-purpose">Для солодкуватості та кольору</span>
                     </li>
                     <li>
-                        <span class="ingredient-name">Ванілін</span>
-                        <span class="ingredient-amount">2 г (½ ч. ложки)</span>
-                        <span class="ingredient-purpose">Для аромату</span>
+                        <span class="ingredient-name">Цибуля ріпчаста</span>
+                        <span class="ingredient-amount">150 г (2 середні)</span>
+                        <span class="ingredient-purpose">Для ароматної заправки</span>
                     </li>
                     <li>
-                        <span class="ingredient-name">Сіль</span>
-                        <span class="ingredient-amount">1 г (¼ ч. ложки)</span>
+                        <span class="ingredient-name">Томатна паста</span>
+                        <span class="ingredient-amount">70 г (3 ст. ложки)</span>
+                        <span class="ingredient-purpose">Для насиченого кольору</span>
+                    </li>
+                    <li>
+                        <span class="ingredient-name">Часник</span>
+                        <span class="ingredient-amount">15 г (3-4 зубчики)</span>
+                        <span class="ingredient-purpose">Для аромату та пікантності</span>
+                    </li>
+                    <li>
+                        <span class="ingredient-name">Лавровий лист</span>
+                        <span class="ingredient-amount">2-3 шт.</span>
+                        <span class="ingredient-purpose">Для аромату бульйону</span>
+                    </li>
+                    <li>
+                        <span class="ingredient-name">Сіль, перець чорний</span>
+                        <span class="ingredient-amount">за смаком</span>
                         <span class="ingredient-purpose">Для балансу смаку</span>
                     </li>
                     <li>
-                        <span class="ingredient-name">Свіжі ягоди</span>
-                        <span class="ingredient-amount">150 г</span>
-                        <span class="ingredient-purpose">Для начинки та подачі</span>
-                    </li>
-                    <li>
-                        <span class="ingredient-name">Вершкове масло</span>
-                        <span class="ingredient-amount">20 г</span>
-                        <span class="ingredient-purpose">Для смаження</span>
-                    </li>
-                    <li>
-                        <span class="ingredient-name">Кленовий сироп</span>
-                        <span class="ingredient-amount">50 мл</span>
+                        <span class="ingredient-name">Сметана</span>
+                        <span class="ingredient-amount">200 г</span>
                         <span class="ingredient-purpose">Для подачі</span>
+                    </li>
+                    <li>
+                        <span class="ingredient-name">Свіжа зелень (петрушка, кріп)</span>
+                        <span class="ingredient-amount">1 пучок</span>
+                        <span class="ingredient-purpose">Для прикраси та аромату</span>
                     </li>
                 </ul>
             </div>
@@ -706,19 +778,20 @@
             <div class="info-card">
                 <h3><i class="fas fa-list-ol"></i> Приготування</h3>
                 <ol class="instructions-list">
-                    <li>У глибокій мисці збийте яйця з цукром до легкої пишної піни. Додайте ванілін та щіпку солі.</li>
-                    <li>Повільно влийте молоко кімнатної температури, продовжуючи збивати суміш.</li>
-                    <li>Просійте борошно разом з розпушувачем. Поступово додавайте борошно до рідкої суміші, акуратно перемішуючи лопаткою до однорідної консистенції.</li>
-                    <li>Обережно введіть в тісто свіжі ягоди, залишивши декілька для подачі. Не перемішуйте надто активно, щоб ягоди не розчавилися.</li>
-                    <li>Розігрійте сковороду на середньому вогні, додайте невеликий шматочок вершкового масла.</li>
-                    <li>Викладіть тісто порційно за допомогою поварської ложки або соусника. Смажте панкейки 2-3 хвилини з одного боку до появи бульбашок на поверхні.</li>
-                    <li>Переверніть панкейки та смажте ще 1-2 хвилини з іншого боку до золотисто-коричневого кольору.</li>
-                    <li>Повторюйте процес, доки не використаєте все тісто. Між партіями додавайте трохи масла на сковороду.</li>
+                    <li>Підготуйте бульйон: м'ясо промийте, покладіть в каструлю, залийте 3 літрами холодної води. Доведіть до кипіння, зніміть піну. Додайте цілу цибулину, моркву, лавровий лист. Варити на повільному вогні 1,5-2 години.</li>
+                    <li>Підготуйте овочі: буряк наріжте соломкою або натріть на крупній тертці, моркву натріть, цибулю дрібно наріжте, картоплю очистіть та наріжте кубиками, капусту тонко наріжте.</li>
+                    <li>Приготуйте заправку: на розігріту сковороду додайте олію, обсмажте цибулю до прозорості. Додайте моркву, смажте 5 хвилин. Потім додайте буряк і томатну пасту, смажте ще 10 хвилин на середньому вогні, периодично помішуючи.</li>
+                    <li>До готового бульйону додайте картоплю, варити 10 хвилин. Потім додайте капусту, варити ще 10 хвилин.</li>
+                    <li>Додайте готову заправку до борщу, додайте сіль, перець за смаком. Варити ще 10 хвилин на повільному вогні.</li>
+                    <li>За 5 хвилин до готовності додайте подрібнений часник. Вийміть лавровий лист та овочі з бульйону.</li>
+                    <li>Вийміть м'ясо з бульйону, відокремте від кісток, наріжте кубиками та поверніть в борщ.</li>
+                    <li>Вимкніть вогонь, накрийте каструлю кришкою та дайте борщу настоятися 20-30 хвилин.</li>
+                    <li>Подавайте гарячим зі сметаною та свіжою подрібненою зеленню.</li>
                 </ol>
             </div>
 
             <!-- Кнопка назад -->
-            <a href="index.html" class="back-button">
+            <a href="strava.html" class="back-button">
                 <i class="fas fa-arrow-left"></i> Повернутися до всіх рецептів
             </a>
         </div>
@@ -742,8 +815,9 @@
         <div class="footer-section">
             <h3>Навігація</h3>
             <a href="index.html">Головна</a>
-            <a href="#" onclick="showCalorieCalculator()">Калькулятор калорій</a>
-            <a href="#" onclick="showSection('about')">Про нас</a>
+            <a href="strava.html">Смачні страви</a>
+            <a href="navfour.html">Кухонні поради</a>
+            <a href="pronas.html">Про нас</a>
         </div>
         
         <div class="footer-section">
@@ -784,24 +858,7 @@ function toggleTheme() {
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
 }
 
-// Конвертер одиниць
-function openConverter() {
-    // Для простоти - показуємо повідомлення, можна реалізувати повний конвертер
-    alert('Конвертер одиниць з index.html. Для повної версії переходьте на головну сторінку.');
-}
-
-// Показ секцій
-function showSection(section) {
-    if (section === 'about') {
-        window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
-    }
-}
-
-function showCalorieCalculator() {
-    alert('Калькулятор калорій на головній сторінці. Перейдіть на index.html для використання.');
-}
-
-// Закриваємо меню при кліку поза ним
+// Закриття меню при кліку поза ним
 document.addEventListener('click', function(event) {
     const navButtons = document.getElementById('navButtons');
     const burgerMenu = document.querySelector('.burger-menu');
