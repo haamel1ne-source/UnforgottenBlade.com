@@ -117,6 +117,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
     }
 
     .carousel-slide.active {
@@ -133,6 +134,13 @@
         backdrop-filter: blur(15px);
         border: 3px solid rgba(218, 165, 32, 0.4);
         box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        transition: all 0.4s ease;
+    }
+
+    .carousel-slide:hover .hero-content {
+        border-color: rgba(218, 165, 32, 0.7);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+        transform: translateY(-5px);
     }
 
     .hero-content h1 {
@@ -383,7 +391,7 @@
         box-shadow: 0 12px 25px rgba(46, 139, 87, 0.4);
     }
 
-    /* Особливості */
+    /* Особливості - 3 картки замість 4 */
     .features-section {
         padding: 100px 20px;
         background: rgba(0, 0, 0, 0.4);
@@ -412,9 +420,9 @@
 
     .features-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 40px;
-        max-width: 1200px;
+        max-width: 1000px;
         margin: 0 auto;
     }
 
@@ -511,6 +519,7 @@
         text-decoration: underline;
     }
 
+    /* Соціальні мережі без кружечків */
     .social-icons {
         display: flex;
         gap: 25px;
@@ -522,20 +531,28 @@
         color: rgba(255, 255, 255, 0.9);
         transition: all 0.4s ease;
         text-decoration: none;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
+        display: inline-block;
     }
 
     .social-icon:hover {
         color: var(--white);
-        transform: translateY(-8px) rotate(10deg);
-        background: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        transform: translateY(-5px);
+    }
+
+    .social-icon.facebook:hover {
+        color: #1877F2;
+    }
+
+    .social-icon.instagram:hover {
+        color: #E4405F;
+    }
+
+    .social-icon.youtube:hover {
+        color: #FF0000;
+    }
+
+    .social-icon.pinterest:hover {
+        color: #BD081C;
     }
 
     .footer-bottom {
@@ -569,6 +586,10 @@
         .hero-btn {
             padding: 16px 30px;
             min-width: 200px;
+        }
+        
+        .features-grid {
+            grid-template-columns: repeat(3, 1fr);
         }
     }
 
@@ -751,7 +772,7 @@
     </div>
 </section>
 
-<!-- Особливості -->
+<!-- Особливості (тепер 3 картки) -->
 <section class="features-section">
     <div class="section-title">
         <h2>Чому обирають CookBook?</h2>
@@ -782,14 +803,6 @@
             <h3>Активна спільнота</h3>
             <p>Обговорення та обмін досвідом з іншими кулінарами. Діліться своїми рецептами та отримуйте поради.</p>
         </div>
-        
-        <div class="feature-card">
-            <div class="feature-icon">
-                <i class="fas fa-mobile-alt"></i>
-            </div>
-            <h3>Доступно завжди</h3>
-            <p>Зручний доступ з будь-якого пристрою. Готуйте з нашим сайтом вдома, на роботі або в подорожі.</p>
-        </div>
     </div>
 </section>
 
@@ -800,10 +813,10 @@
             <h3>CookBook</h3>
             <p>Ваш помічник у світі кулінарії. Ми збираємо найсмачніші рецепти з усього світу, адаптовані для української кухні. Готуйте з насолодою разом з нами!</p>
             <div class="social-icons">
-                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
+                <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon pinterest"><i class="fab fa-pinterest-p"></i></a>
             </div>
         </div>
         
@@ -835,36 +848,56 @@ function toggleMenu() {
     navButtons.classList.toggle('active');
 }
 
-// Дані для герой-каруселі (тільки вказані фото)
+// Дані для герой-каруселі з унікальними посиланнями
 const heroSlides = [
     {
         background: 'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg',
         title: 'Ласкаво просимо до CookBook',
-        description: 'Відкрийте для себе світ кулінарних шедеврів. Від класичних українських страв до екзотичних делікатесів. Готуйте з насолодою та надихайтеся новими ідеями разом з нами!'
+        description: 'Відкрийте для себе світ кулінарних шедеврів. Від класичних українських страв до екзотичних делікатесів. Готуйте з насолодою та надихайтеся новими ідеями разом з нами!',
+        primaryLink: 'strava.html',
+        primaryText: 'Переглянути рецепти',
+        secondaryLink: 'navfour.html',
+        secondaryText: 'Кухонні поради'
     },
     {
         background: 'https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg',
         title: 'Кулінарна творчість',
-        description: 'Кожна страва - це можливість проявити творчість. Експериментуйте зі смаками та створюйте унікальні комбінації.'
+        description: 'Кожна страва - це можливість проявити творчість. Експериментуйте зі смаками та створюйте унікальні комбінації.',
+        primaryLink: 'cheesecake.html',
+        primaryText: 'Рецепт чізкейка',
+        secondaryLink: 'curry.html',
+        secondaryText: 'Каррі з куркою'
     },
     {
         background: 'https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg',
         title: 'Здорове харчування',
-        description: 'Відкрийте секрети приготування корисних та смачних страв. Ваше здоров\'я починається з правильно приготованої їжі.'
+        description: 'Відкрийте секрети приготування корисних та смачних страв. Ваше здоров\'я починається з правильно приготованої їжі.',
+        primaryLink: 'strava.html#vegetarian',
+        primaryText: 'Вегетаріанські страви',
+        secondaryLink: 'navfour.html#health',
+        secondaryText: 'Поради для здоров\'я'
     },
     {
         background: 'https://images.pexels.com/photos/1482803/pexels-photo-1482803.jpeg',
         title: 'Сімейні обіди',
-        description: 'Створюйте незабутні моменти за сімейним столом. Прості рецепти для щасливих родинних вечорів.'
+        description: 'Створюйте незабутні моменти за сімейним столом. Прості рецепти для щасливих родинних вечорів.',
+        primaryLink: 'strava.html#family',
+        primaryText: 'Сімейні рецепти',
+        secondaryLink: 'pronas.html',
+        secondaryText: 'Про нашу спільноту'
     },
     {
         background: 'https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg',
         title: 'Випікання з любов\'ю',
-        description: 'Аромат свіжої випічки наповнює дім теплом та затишком. Навчіться готувати десерти, які зроблять кожен день особливим.'
+        description: 'Аромат свіжої випічки наповнює дім теплом та затишком. Навчіться готувати десерти, які зроблять кожен день особливим.',
+        primaryLink: 'cheesecake.html',
+        primaryText: 'Десерти',
+        secondaryLink: 'navfour.html#baking',
+        secondaryText: 'Поради для випікання'
     }
 ];
 
-// Дані для каруселі рецептів (тепер тут тільки рецепти з strava.html)
+// Дані для каруселі рецептів
 const carouselRecipes = [
     {
         title: "Борщ український",
@@ -911,7 +944,7 @@ const carouselRecipes = [
         image: "https://images.pexels.com/photos/674574/pexels-photo-674574.jpeg",
         time: "45 хв",
         description: "Ароматне каррі з кокосовим молоком та свіжими овочами. Екзотична страва з доступних інгредієнтів.",
-        link: "strava.html",
+        link: "curry.html",
         category: "М'ясні"
     }
 ];
@@ -926,16 +959,26 @@ function initHeroCarousel() {
         const slideElement = document.createElement('div');
         slideElement.className = 'carousel-slide';
         slideElement.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${slide.background}')`;
+        
+        // Додаємо обробник кліку на весь слайд
+        slideElement.addEventListener('click', function(e) {
+            // Перевіряємо, чи клік був на кнопці
+            if (!e.target.closest('.hero-btn')) {
+                // Якщо не на кнопці, переходимо за першим посиланням
+                window.location.href = slide.primaryLink;
+            }
+        });
+        
         slideElement.innerHTML = `
             <div class="hero-content">
                 <h1>${slide.title}</h1>
                 <p>${slide.description}</p>
                 <div class="hero-buttons">
-                    <a href="strava.html" class="hero-btn primary">
-                        <i class="fas fa-utensils"></i> Переглянути рецепти
+                    <a href="${slide.primaryLink}" class="hero-btn primary">
+                        <i class="fas fa-utensils"></i> ${slide.primaryText}
                     </a>
-                    <a href="navfour.html" class="hero-btn secondary">
-                        <i class="fas fa-lightbulb"></i> Кухонні поради
+                    <a href="${slide.secondaryLink}" class="hero-btn secondary">
+                        <i class="fas fa-lightbulb"></i> ${slide.secondaryText}
                     </a>
                 </div>
             </div>
@@ -1042,4 +1085,3 @@ document.querySelector('.burger-menu').addEventListener('click', function(e) {
 
 </body>
 </html>
-
