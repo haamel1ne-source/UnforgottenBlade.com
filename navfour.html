@@ -1,1 +1,750 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CookBook — Кухонні поради</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="icon" type="image/png" href="favicon/burger.png">
+<style>
+    :root {
+        --primary: #2E8B57;
+        --primary-light: #3CB371;
+        --primary-dark: #006400;
+        --secondary: #DAA520;
+        --light: #F5FFFA;
+        --lighter: #F0FFF0;
+        --text: #2F4F4F;
+        --text-light: #556B2F;
+        --white: #ffffff;
+        --shadow: rgba(46, 139, 87, 0.15);
+    }
 
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                    url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg') center/cover fixed;
+        color: white;
+        position: relative;
+    }
+
+    /* Верхня панель */
+    .header-container {
+        background: rgba(46, 139, 87, 0.9);
+        padding: 0 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+    }
+
+    .burger-menu {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 28px;
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .nav-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .nav-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        padding: 14px 24px;
+        border-radius: 50px;
+        color: var(--white);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.35);
+        transform: translateY(-2px);
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--white);
+        letter-spacing: 1px;
+        padding: 15px 0;
+    }
+
+    /* Основний контент */
+    .tips-container {
+        max-width: 1200px;
+        margin: 60px auto;
+        padding: 0 20px;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .page-header h1 {
+        font-size: 3.5rem;
+        color: var(--secondary);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        margin-bottom: 20px;
+    }
+
+    .page-header p {
+        font-size: 1.3rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    /* Сітка порад */
+    .tips-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 40px;
+        margin-bottom: 80px;
+    }
+
+    .tip-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        transition: all 0.4s ease;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .tip-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 25px 45px rgba(46, 139, 87, 0.4);
+    }
+
+    .tip-image {
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .tip-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s;
+    }
+
+    .tip-card:hover .tip-image img {
+        transform: scale(1.1);
+    }
+
+    .tip-content {
+        padding: 30px;
+        flex-grow: 1;
+    }
+
+    .tip-number {
+        display: inline-block;
+        background: var(--primary);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 40px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+    }
+
+    .tip-content h3 {
+        color: var(--primary);
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+        min-height: 60px;
+    }
+
+    .tip-content p {
+        color: #666;
+        line-height: 1.7;
+        margin-bottom: 20px;
+    }
+
+    .tip-category {
+        display: inline-block;
+        background: var(--lighter);
+        color: var(--primary);
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-top: auto;
+    }
+
+    /* Секція інструментів */
+    .tools-section {
+        margin: 80px 0;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+        font-size: 2.8rem;
+        margin-bottom: 15px;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .section-title p {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+
+    .tool-item {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        color: #333;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .tool-item:hover {
+        transform: translateY(-10px);
+        border-color: var(--secondary);
+        box-shadow: 0 20px 35px rgba(218, 165, 32, 0.3);
+    }
+
+    .tool-icon {
+        font-size: 40px;
+        color: var(--primary);
+        margin-bottom: 20px;
+    }
+
+    .tool-item h4 {
+        color: var(--primary);
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+    }
+
+    .tool-item p {
+        color: #666;
+        line-height: 1.6;
+    }
+
+    /* Секція заходів безпеки */
+    .safety-section {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 60px 40px;
+        border-radius: 25px;
+        margin: 80px 0;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(218, 165, 32, 0.3);
+    }
+
+    .safety-content {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .safety-list {
+        list-style-type: none;
+    }
+
+    .safety-list li {
+        margin-bottom: 25px;
+        padding-left: 40px;
+        position: relative;
+    }
+
+    .safety-list li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: var(--primary);
+        color: white;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    /* Підвал */
+    footer {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: var(--white);
+        padding: 70px 20px 30px;
+        margin-top: auto;
+        border-top: 5px solid var(--secondary);
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 50px;
+    }
+
+    .footer-section h3 {
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+        position: relative;
+        display: inline-block;
+        color: white;
+        padding-bottom: 10px;
+    }
+
+    .footer-section h3:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--secondary);
+        border-radius: 2px;
+    }
+
+    .footer-section p, .footer-section a {
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 15px;
+        display: block;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        line-height: 1.7;
+    }
+
+    .footer-section a:hover {
+        color: white;
+        transform: translateX(8px);
+        text-decoration: underline;
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 30px;
+        margin-top: 25px;
+        flex-wrap: wrap;
+    }
+
+    .social-icon {
+        font-size: 32px;
+        color: rgba(255, 255, 255, 0.9);
+        transition: all 0.4s ease;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        height: auto;
+        background: transparent;
+        border-radius: 0;
+        position: relative;
+        padding: 5px;
+    }
+
+    .social-icon:hover {
+        color: var(--white);
+        transform: translateY(-8px) scale(1.2);
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        margin-top: 70px;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 15px;
+    }
+
+    /* Адаптивність */
+    @media (max-width: 768px) {
+        .header-container {
+            padding: 0 20px;
+        }
+        
+        .burger-menu {
+            display: block;
+        }
+        
+        .nav-buttons {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--primary-dark);
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        
+        .nav-buttons.active {
+            display: flex;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+        }
+        
+        .tips-grid {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+        }
+        
+        .safety-section {
+            padding: 40px 20px;
+        }
+        
+        .footer-container {
+            grid-template-columns: 1fr;
+            text-align: center;
+            gap: 40px;
+        }
+        
+        .footer-section h3:after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .social-icons {
+            justify-content: center;
+            gap: 25px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-header h1 {
+            font-size: 2rem;
+        }
+        
+        .page-header p {
+            font-size: 1rem;
+        }
+        
+        .section-title h2 {
+            font-size: 1.8rem;
+        }
+        
+        .tip-content {
+            padding: 20px;
+        }
+        
+        .tip-content h3 {
+            font-size: 1.3rem;
+        }
+        
+        .logo {
+            font-size: 26px;
+        }
+        
+        .social-icons {
+            gap: 20px;
+        }
+        
+        .social-icon {
+            font-size: 28px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="header-container">
+    <button class="burger-menu" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="nav-buttons" id="navButtons">
+        <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Головна</a>
+        <a href="strava.html" class="nav-btn"><i class="fas fa-utensils"></i> Смачні страви</a>
+        <a href="navfour.html" class="nav-btn active"><i class="fas fa-lightbulb"></i> Кухонні поради</a>
+        <a href="pronas.html" class="nav-btn"><i class="fas fa-info-circle"></i> Про нас</a>
+    </div>
+    
+    <div class="logo">
+        <span class="logo-icon">🍔</span>
+        <span class="logo-text">CookBook</span>
+    </div>
+</div>
+
+<!-- Основний контент -->
+<main class="tips-container">
+    <div class="page-header">
+        <h1>Кухонні поради</h1>
+        <p>Експертні рекомендації та секрети для покращення ваших кулінарних навичок. Від базових технік до професійних трюків.</p>
+    </div>
+    
+    <!-- Сітка з порадами -->
+    <div class="tips-grid">
+        <div class="tip-card">
+            <div class="tip-image">
+                <img src="https://images.pexels.com/photos/3338491/pexels-photo-3338491.jpeg" alt="Ножі">
+            </div>
+            <div class="tip-content">
+                <div class="tip-number">1</div>
+                <h3>Як правильно заточити ножа</h3>
+                <p>Завжди тримайте ніж під постійним кутом 20 градусів до точильного каменю. Робіть плавні, рівномірні рухи вперед-назад з однаковим тиском з обох сторін леза.</p>
+                <span class="tip-category">Інструменти</span>
+            </div>
+        </div>
+        
+        <div class="tip-card">
+            <div class="tip-image">
+                <img src="https://images.pexels.com/photos/851555/pexels-photo-851555.jpeg" alt="Температура м'яса">
+            </div>
+            <div class="tip-content">
+                <div class="tip-number">2</div>
+                <h3>Правильна температура м'яса</h3>
+                <p>Використовуйте кухонний термометр для перевірки готовності м'яса. Стейк medium rare - 54-57°C, куряче філе - 74°C, свинина - 63°C. Ніколи не покладайтеся лише на час приготування.</p>
+                <span class="tip-category">М'ясо</span>
+            </div>
+        </div>
+        
+        <div class="tip-card">
+            <div class="tip-image">
+                <img src="https://images.pexels.com/photos/691144/pexels-photo-691144.jpeg" alt="Приправи">
+            </div>
+            <div class="tip-content">
+                <div class="tip-number">3</div>
+                <h3>Секрети використання приправ</h3>
+                <p>Завжди обсмажуйте сухі спеції на сухій сковороді 1-2 хвилини перед додаванням в страву. Це розкриває аромат. Сіль додавайте в кінці приготування супів та соусів.</p>
+                <span class="tip-category">Приправи</span>
+            </div>
+        </div>
+        
+        <div class="tip-card">
+            <div class="tip-image">
+                <img src="https://images.pexels.com/photos/2323398/pexels-photo-2323398.jpeg" alt="Овочі">
+            </div>
+            <div class="tip-content">
+                <div class="tip-number">4</div>
+                <h3>Як зберегти овочі свіжими</h3>
+                <p>Томати зберігайте при кімнатній температурі, картоплю - у темному прохолодному місці, зелень - у склянці з водою під пакетом. Моркву та селеру загорніть у вологе рушничок.</p>
+                <span class="tip-category">Овочі</span>
+            </div>
+        </div>
+        
+        <div class="tip-card">
+            <div class="tip-image">
+                <img src="https://images.pexels.com/photos/4057736/pexels-photo-4057736.jpeg" alt="Тісто">
+            </div>
+            <div class="tip-content">
+                <div class="tip-number">5</div>
+                <h3>Ідеальне тісто для випічки</h3>
+                <p>Для повітряного тіста завжди просіюйте борошно двічі. Інгредієнти мають бути кімнатної температури. Не перемішуйте тісто надто довго, щоб не розвинула клейковина.</p>
+                <span class="tip-category">Випічка</span>
+            </div>
+        </div>
+        
+        <div class="tip-card">
+            <div class="tip-image">
+                <img src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg" alt="Смаження">
+            </div>
+            <div class="tip-content">
+                <div class="tip-number">6</div>
+                <h3>Секрет ідеальної скоринки</h3>
+                <p>Щоб отримати золотисту скоринку на м'ясі чи рибі, добре обисушіть продукт паперовим рушником перед смаженням. Не перевантажуйте сковороду - залишайте простір між шматочками.</p>
+                <span class="tip-category">Техніки</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Секція інструментів -->
+    <div class="tools-section">
+        <div class="section-title">
+            <h2>Обов'язкові кухонні інструменти</h2>
+            <p>Якісні інструменти - запорука успіху на кухні</p>
+        </div>
+        
+        <div class="tools-grid">
+            <div class="tool-item">
+                <div class="tool-icon">
+                    <i class="fas fa-utensil-spoon"></i>
+                </div>
+                <h4>Набір ножів</h4>
+                <p>Якісні шеф-ніж, ніж для очищення овочів та хлібний ніж - основа будь-якої кухні.</p>
+            </div>
+            
+            <div class="tool-item">
+                <div class="tool-icon">
+                    <i class="fas fa-thermometer-half"></i>
+                </div>
+                <h4>Кухонний термометр</h4>
+                <p>Точний термометр гарантує ідеальну готовність м'яса та контролює температуру тіста.</p>
+            </div>
+            
+            <div class="tool-item">
+                <div class="tool-icon">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <h4>Кухонні ваги</h4>
+                <p>Електронні ваги з точністю до грама - обов'язковий інструмент для точної кулінарії.</p>
+            </div>
+            
+            <div class="tool-item">
+                <div class="tool-icon">
+                    <i class="fas fa-mortar-pestle"></i>
+                </div>
+                <h4>Ступка з пестиком</h4>
+                <p>Ідеальна для мелення спецій, приготування песто та подрібнення насіння.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Секція безпеки -->
+    <div class="safety-section">
+        <div class="section-title">
+            <h2>Правила безпеки на кухні</h2>
+            <p>Основні принципи безпечного приготування їжі</p>
+        </div>
+        
+        <div class="safety-content">
+            <ul class="safety-list">
+                <li>Завжди мійте руки перед початком приготування їжі та після роботи з сирим м'ясом.</li>
+                <li>Використовуйте окремі дошки для м'яса, риби та овочів, щоб уникнути перехресного забруднення.</li>
+                <li>Не залишайте ручки каструль та сковорідок, що стирчать за межі плити - це небезпечно.</li>
+                <li>Зберігайте сире м'ясо, птицю та рибу на нижніх полицях холодильника, щоб сік не капав на інші продукти.</li>
+                <li>Не використовуйте пошкоджений посуд з тріщинами або зіпсованим покриттям.</li>
+                <li>Майте під рукою вогнегасник або соду для гашення олії, яка може спалахнути.</li>
+                <li>Завжди тримайте ножі заточеними - тупий ніж більш небезпечний, оскільки вимагає більшого зусилля.</li>
+            </ul>
+        </div>
+    </div>
+</main>
+
+<!-- Підвал -->
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>CookBook</h3>
+            <p>Ваш помічник у світі кулінарії. Ми збираємо найсмачніші рецепти з усього світу, адаптовані для української кухні. Готуйте з насолодою разом з нами!</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Навігація</h3>
+            <a href="index.html">Головна</a>
+            <a href="strava.html">Смачні страви</a>
+            <a href="navfour.html" class="active">Кухонні поради</a>
+            <a href="pronas.html">Про нас</a>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Контакти</h3>
+            <p><i class="fas fa-envelope"></i> info@cookbook.ua</p>
+            <p><i class="fas fa-phone"></i> +380 44 123 4567</p>
+            <p><i class="fas fa-map-marker-alt"></i> м. Київ, вул. Кулінарна, 10</p>
+            <p><i class="fas fa-clock"></i> Пн-Пт: 9:00-18:00</p>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>© 2025 CookBook. Всі права захищені. | Створено з <i class="fas fa-heart" style="color: #FF6B6B;"></i> для кулінарів</p>
+    </div>
+</footer>
+
+<script>
+function toggleMenu() {
+    const navButtons = document.getElementById('navButtons');
+    navButtons.classList.toggle('active');
+}
+
+// Закриття меню при кліку поза ним
+document.addEventListener('click', (e) => {
+    const navButtons = document.getElementById('navButtons');
+    const burgerMenu = document.querySelector('.burger-menu');
+    
+    if (!navButtons.contains(e.target) && !burgerMenu.contains(e.target)) {
+        navButtons.classList.remove('active');
+    }
+});
+
+// Додавання класу active при кліку на бургер-меню
+document.querySelector('.burger-menu').addEventListener('click', function(e) {
+    e.stopPropagation();
+});
+
+// Плавна анімація карток при прокрутці
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.tip-card, .tool-item');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = 1;
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    cards.forEach(card => {
+        card.style.opacity = 0;
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(card);
+    });
+});
+</script>
+
+</body>
+  </html>
