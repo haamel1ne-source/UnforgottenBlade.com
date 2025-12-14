@@ -152,34 +152,13 @@
         color: white;
     }
 
-    /* ПОКРАЩЕНІ КНОПКИ НА СЛАЙДАХ - ФІКСОВАНА КЛІКАБЕЛЬНА ОБЛАСТЬ */
+    /* ПРОСТІ ТА ЕФЕКТИВНІ КНОПКИ */
     .hero-buttons {
         display: flex;
         gap: 25px;
         justify-content: center;
         margin-top: 40px;
         flex-wrap: wrap;
-    }
-
-    /* Обгортка для кнопки зі збільшеною клікабельною областю */
-    .hero-btn-wrapper {
-        position: relative;
-        display: inline-block;
-        margin: 10px;
-    }
-
-    /* Невидима область навколо кнопки для збільшення клікабельності */
-    .hero-btn-wrapper::before {
-        content: '';
-        position: absolute;
-        top: -15px;
-        left: -15px;
-        right: -15px;
-        bottom: -15px;
-        z-index: 1;
-        background: transparent;
-        border-radius: 65px;
-        pointer-events: all;
     }
 
     .hero-btn {
@@ -199,12 +178,19 @@
         text-align: center;
         position: relative;
         z-index: 2;
-        pointer-events: none; /* Дозволяємо клікати через обгортку */
     }
 
-    /* Відновлюємо pointer-events для контенту всередині кнопки */
-    .hero-btn * {
-        pointer-events: auto;
+    /* ЗБІЛЬШЕНА КЛІКАБЕЛЬНА ОБЛАСТЬ БЕЗ УСКЛАДНЕНЬ */
+    .hero-btn::after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        z-index: -1;
+        border-radius: 60px;
+        background: transparent;
     }
 
     .hero-btn.primary {
@@ -220,16 +206,16 @@
         backdrop-filter: blur(10px);
     }
 
-    .hero-btn-wrapper:hover .hero-btn {
+    .hero-btn:hover {
         transform: translateY(-8px) scale(1.05);
         box-shadow: 0 15px 30px rgba(0,0,0,0.4);
     }
 
-    .hero-btn-wrapper:hover .hero-btn.primary {
+    .hero-btn.primary:hover {
         background: #c69500;
     }
 
-    .hero-btn-wrapper:hover .hero-btn.secondary {
+    .hero-btn.secondary:hover {
         background: rgba(255, 255, 255, 0.4);
     }
 
@@ -245,25 +231,6 @@
         z-index: 10;
     }
 
-    /* Обгортка для крапки каруселі */
-    .carousel-dot-wrapper {
-        position: relative;
-        display: inline-block;
-    }
-
-    .carousel-dot-wrapper::before {
-        content: '';
-        position: absolute;
-        top: -10px;
-        left: -10px;
-        right: -10px;
-        bottom: -10px;
-        z-index: 1;
-        background: transparent;
-        border-radius: 50%;
-        pointer-events: all;
-    }
-
     .carousel-dot {
         width: 16px;
         height: 16px;
@@ -273,17 +240,26 @@
         transition: all 0.4s ease;
         border: 2px solid transparent;
         position: relative;
-        z-index: 2;
-        pointer-events: none;
     }
 
-    .carousel-dot-wrapper.active .carousel-dot {
+    .carousel-dot::after {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
+        border-radius: 50%;
+        background: transparent;
+    }
+
+    .carousel-dot.active {
         background: var(--secondary);
         transform: scale(1.3);
         border-color: white;
     }
 
-    .carousel-dot-wrapper:hover .carousel-dot {
+    .carousel-dot:hover {
         background: var(--primary-light);
         transform: scale(1.2);
     }
@@ -416,25 +392,6 @@
         margin-top: 40px;
     }
 
-    /* Обгортка для кнопок каруселі */
-    .carousel-btn-wrapper {
-        position: relative;
-        display: inline-block;
-    }
-
-    .carousel-btn-wrapper::before {
-        content: '';
-        position: absolute;
-        top: -15px;
-        left: -15px;
-        right: -15px;
-        bottom: -15px;
-        z-index: 1;
-        background: transparent;
-        border-radius: 50%;
-        pointer-events: all;
-    }
-
     .carousel-btn {
         background: var(--secondary);
         color: white;
@@ -450,11 +407,20 @@
         align-items: center;
         justify-content: center;
         position: relative;
-        z-index: 2;
-        pointer-events: none;
     }
 
-    .carousel-btn-wrapper:hover .carousel-btn {
+    .carousel-btn::after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        border-radius: 50%;
+        background: transparent;
+    }
+
+    .carousel-btn:hover {
         background: var(--primary);
         transform: scale(1.15) rotate(5deg);
         box-shadow: 0 12px 25px rgba(46, 139, 87, 0.4);
@@ -660,11 +626,11 @@
             font-size: 1.1rem;
         }
         
-        .hero-btn-wrapper::before {
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
+        .hero-btn::after {
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
         }
     }
 
@@ -716,15 +682,11 @@
             gap: 15px;
         }
         
-        .hero-btn-wrapper {
+        .hero-btn {
+            min-width: 280px;
             width: 100%;
             max-width: 320px;
-            margin: 5px auto;
-        }
-        
-        .hero-btn {
-            min-width: 100%;
-            width: 100%;
+            margin: 0 auto;
             padding: 18px 30px;
         }
         
@@ -766,11 +728,11 @@
             height: 60px;
         }
         
-        .carousel-btn-wrapper::before {
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
+        .carousel-btn::after {
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
         }
     }
 
@@ -790,6 +752,8 @@
         .hero-btn {
             padding: 16px 25px;
             font-size: 1rem;
+            min-width: 220px;
+            max-width: 100%;
         }
         
         .carousel-item {
@@ -875,16 +839,12 @@
         </div>
         
         <div class="carousel-nav-buttons">
-            <div class="carousel-btn-wrapper" onclick="scrollRecipesCarousel(-350)">
-                <button class="carousel-btn">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-            </div>
-            <div class="carousel-btn-wrapper" onclick="scrollRecipesCarousel(350)">
-                <button class="carousel-btn">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
+            <button class="carousel-btn" onclick="scrollRecipesCarousel(-350)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="carousel-btn" onclick="scrollRecipesCarousel(350)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
         </div>
     </div>
 </section>
@@ -1061,33 +1021,24 @@ function initHeroCarousel() {
                 <h1>${slide.title}</h1>
                 <p>${slide.description}</p>
                 <div class="hero-buttons">
-                    <div class="hero-btn-wrapper">
-                        <a href="strava.html" class="hero-btn primary">
-                            <i class="fas fa-utensils"></i> Переглянути рецепти
-                        </a>
-                    </div>
-                    <div class="hero-btn-wrapper">
-                        <a href="navfour.html" class="hero-btn secondary">
-                            <i class="fas fa-lightbulb"></i> Кухонні поради
-                        </a>
-                    </div>
+                    <a href="strava.html" class="hero-btn primary">
+                        <i class="fas fa-utensils"></i> Переглянути рецепти
+                    </a>
+                    <a href="navfour.html" class="hero-btn secondary">
+                        <i class="fas fa-lightbulb"></i> Кухонні поради
+                    </a>
                 </div>
             </div>
         `;
         carousel.appendChild(slideElement);
         
-        // Створення обгортки для крапки
-        const dotWrapper = document.createElement('div');
-        dotWrapper.className = 'carousel-dot-wrapper';
-        if (index === 0) dotWrapper.classList.add('active');
-        dotWrapper.dataset.index = index;
-        
+        // Створення крапки
         const dot = document.createElement('div');
         dot.className = 'carousel-dot';
-        
-        dotWrapper.appendChild(dot);
-        dotWrapper.addEventListener('click', () => goToSlide(index));
-        dotsContainer.appendChild(dotWrapper);
+        if (index === 0) dot.classList.add('active');
+        dot.dataset.index = index;
+        dot.addEventListener('click', () => goToSlide(index));
+        dotsContainer.appendChild(dot);
     });
     
     // Активація першого слайда
@@ -1129,15 +1080,15 @@ function startCarousel() {
 
 function goToSlide(index) {
     const slides = document.querySelectorAll('.carousel-slide');
-    const dotWrappers = document.querySelectorAll('.carousel-dot-wrapper');
+    const dots = document.querySelectorAll('.carousel-dot');
     
     slides[currentSlide].classList.remove('active');
-    dotWrappers[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
     
     currentSlide = index;
     
     slides[currentSlide].classList.add('active');
-    dotWrappers[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
 }
 
 // Прокрутка каруселі рецептів
@@ -1178,22 +1129,36 @@ document.querySelector('.burger-menu').addEventListener('click', function(e) {
     e.stopPropagation();
 });
 
-// Додаємо обробник кліків для всіх кнопок, щоб переконатися, що вони працюють
+// Простий фікс для кнопок - додаємо обробник подій
 document.addEventListener('DOMContentLoaded', function() {
-    // Додаємо обробники для всіх кнопок на сторінці
-    document.querySelectorAll('.hero-btn-wrapper, .nav-btn, .carousel-btn-wrapper').forEach(buttonWrapper => {
-        buttonWrapper.addEventListener('click', function(e) {
-            console.log('Кнопка натиснута:', this.textContent || this.innerHTML);
-            // Додаємо візуальний feedback
-            const btn = this.querySelector('.hero-btn, .carousel-btn');
-            if (btn) {
-                btn.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    btn.style.transform = '';
-                }, 150);
+    // Додаємо обробник для кнопок на слайдах
+    setTimeout(function() {
+        document.querySelectorAll('.hero-btn').forEach(btn => {
+            // Перевіряємо, чи кнопка вже має обробник
+            if (!btn.hasAttribute('data-click-fixed')) {
+                btn.setAttribute('data-click-fixed', 'true');
+                
+                // Додаємо обробник кліку
+                btn.addEventListener('click', function(e) {
+                    // Дозволяємо стандартну поведінку посилання
+                    console.log('Кнопка клікнута:', this.href);
+                    // Ніяких додаткових дій не потрібно - посилання працює самостійно
+                });
+                
+                // Також додаємо обробник для батьківського елемента
+                const parent = btn.parentElement;
+                if (parent && !parent.hasAttribute('data-click-fixed')) {
+                    parent.setAttribute('data-click-fixed', 'true');
+                    parent.addEventListener('click', function(e) {
+                        if (e.target === this) {
+                            // Якщо клікнули на батьківський елемент, переходимо за посиланням
+                            window.location.href = btn.href;
+                        }
+                    });
+                }
             }
         });
-    });
+    }, 500); // Невелика затримка для ініціалізації
 });
 </script>
 
