@@ -464,15 +464,6 @@
         line-height: 1.7;
     }
 
-    /* ВИПРАВЛЕНО: Прибрано квадрат з іконки мобільного пристрою */
-    .feature-card .fa-mobile-alt {
-        position: relative;
-    }
-
-    .feature-card .fa-mobile-alt:before {
-        content: "\f3cd";
-    }
-
     /* Підвал */
     footer {
         background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
@@ -664,7 +655,7 @@
         }
         
         .features-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
         }
         
@@ -824,13 +815,7 @@
             <p>Обговорення та обмін досвідом з іншими кулінарами. Діліться своїми рецептами та отримуйте поради.</p>
         </div>
         
-        <div class="feature-card">
-            <div class="feature-icon">
-                <i class="fas fa-mobile-alt"></i>
-            </div>
-            <h3>Доступно завжди</h3>
-            <p>Зручний доступ з будь-якого пристрою. Готуйте з нашим сайтом вдома, на роботі або в подорожі.</p>
-        </div>
+        <!-- ВИДАЛЕНО КАРТКУ "ДОСТУПНО ЗАВЖДИ" -->
     </div>
 </section>
 
