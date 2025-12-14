@@ -464,6 +464,15 @@
         line-height: 1.7;
     }
 
+    /* ВИПРАВЛЕНО: Прибрано квадрат з іконки мобільного пристрою */
+    .feature-card .fa-mobile-alt {
+        position: relative;
+    }
+
+    .feature-card .fa-mobile-alt:before {
+        content: "\f3cd";
+    }
+
     /* Підвал */
     footer {
         background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
