@@ -152,7 +152,7 @@
         color: white;
     }
 
-    /* АДАПТИВНІ КНОПКИ НА СЛАЙДАХ */
+    /* ПОКРАЩЕНІ КНОПКИ НА СЛАЙДАХ - БІЛЬША КЛІКАБЕЛЬНА ОБЛАСТЬ */
     .hero-buttons {
         display: flex;
         gap: 25px;
@@ -162,7 +162,7 @@
     }
 
     .hero-btn {
-        padding: 18px 36px;
+        padding: 20px 40px;
         border-radius: 50px;
         font-weight: 700;
         font-size: 1.2rem;
@@ -173,10 +173,27 @@
         align-items: center;
         gap: 12px;
         text-decoration: none;
-        min-width: 220px;
+        min-width: 260px;
         justify-content: center;
         text-align: center;
         flex-shrink: 1;
+        position: relative;
+        z-index: 2;
+        margin: 5px;
+    }
+
+    /* Додаємо псевдоелемент для збільшення клікабельної області */
+    .hero-btn::after {
+        content: '';
+        position: absolute;
+        top: -15px;
+        left: -15px;
+        right: -15px;
+        bottom: -15px;
+        z-index: 1;
+        border-radius: 65px;
+        background: transparent;
+        pointer-events: all;
     }
 
     .hero-btn.primary {
@@ -205,6 +222,11 @@
         background: rgba(255, 255, 255, 0.4);
     }
 
+    /* Робимо весь контент слайда клікабельним для переходу? Ні, тільки кнопки */
+    .hero-content {
+        pointer-events: auto;
+    }
+
     /* Навігація каруселі */
     .carousel-nav {
         position: absolute;
@@ -225,6 +247,21 @@
         cursor: pointer;
         transition: all 0.4s ease;
         border: 2px solid transparent;
+        position: relative;
+        z-index: 100;
+    }
+
+    .carousel-dot::after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        z-index: 99;
+        border-radius: 50%;
+        background: transparent;
+        pointer-events: all;
     }
 
     .carousel-dot.active {
@@ -370,8 +407,8 @@
         background: var(--secondary);
         color: white;
         border: none;
-        width: 60px;
-        height: 60px;
+        width: 70px;
+        height: 70px;
         border-radius: 50%;
         cursor: pointer;
         font-size: 24px;
@@ -380,6 +417,22 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Збільшуємо клікабельну область для кнопок каруселі */
+    .carousel-btn::after {
+        content: '';
+        position: absolute;
+        top: -15px;
+        left: -15px;
+        right: -15px;
+        bottom: -15px;
+        z-index: 1;
+        border-radius: 50%;
+        background: transparent;
+        pointer-events: all;
     }
 
     .carousel-btn:hover {
@@ -536,6 +589,21 @@
         height: auto;
         background: transparent;
         border-radius: 0;
+        position: relative;
+        padding: 5px;
+    }
+
+    /* Збільшуємо клікабельну область для іконок соцмереж */
+    .social-icon::after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        z-index: 1;
+        background: transparent;
+        pointer-events: all;
     }
 
     .social-icon:hover {
@@ -557,8 +625,8 @@
     /* АДАПТИВНІСТЬ ДЛЯ КНОПОК */
     @media (max-width: 1100px) {
         .hero-btn {
-            min-width: 200px;
-            padding: 16px 30px;
+            min-width: 240px;
+            padding: 18px 35px;
         }
     }
 
@@ -582,8 +650,15 @@
         
         .hero-btn {
             padding: 16px 30px;
-            min-width: 200px;
+            min-width: 220px;
             font-size: 1.1rem;
+        }
+        
+        .hero-btn::after {
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
         }
     }
 
@@ -636,10 +711,11 @@
         }
         
         .hero-btn {
-            min-width: 250px;
+            min-width: 280px;
             width: 100%;
-            max-width: 300px;
+            max-width: 320px;
             margin: 0 auto;
+            padding: 18px 30px;
         }
         
         .carousel-item {
@@ -674,6 +750,18 @@
             justify-content: center;
             gap: 25px;
         }
+        
+        .carousel-btn {
+            width: 60px;
+            height: 60px;
+        }
+        
+        .carousel-btn::after {
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+        }
     }
 
     @media (max-width: 480px) {
@@ -690,9 +778,9 @@
         }
         
         .hero-btn {
-            padding: 14px 25px;
+            padding: 16px 25px;
             font-size: 1rem;
-            min-width: 200px;
+            min-width: 220px;
             max-width: 100%;
         }
         
@@ -726,6 +814,12 @@
         
         .social-icon {
             font-size: 28px;
+        }
+        
+        .carousel-btn {
+            width: 55px;
+            height: 55px;
+            font-size: 20px;
         }
     }
 </style>
@@ -814,8 +908,6 @@
             <h3>Активна спільнота</h3>
             <p>Обговорення та обмін досвідом з іншими кулінарами. Діліться своїми рецептами та отримуйте поради.</p>
         </div>
-        
-        <!-- ВИДАЛЕНО КАРТКУ "ДОСТУПНО ЗАВЖДИ" -->
     </div>
 </section>
 
@@ -1063,6 +1155,21 @@ window.onload = function() {
 // Додавання класу active при кліку на бургер-меню
 document.querySelector('.burger-menu').addEventListener('click', function(e) {
     e.stopPropagation();
+});
+
+// Додаємо обробник кліків для всіх кнопок, щоб переконатися, що вони працюють
+document.addEventListener('DOMContentLoaded', function() {
+    // Додаємо обробники для всіх кнопок на сторінці
+    document.querySelectorAll('.hero-btn, .nav-btn, .carousel-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            console.log('Кнопка натиснута:', this.textContent || this.innerHTML);
+            // Додаємо візуальний feedback
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+        });
+    });
 });
 </script>
 
