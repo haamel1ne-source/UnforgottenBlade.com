@@ -1,1 +1,760 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CookBook — Про нас</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="icon" type="image/png" href="favicon/burger.png">
+<style>
+    :root {
+        --primary: #2E8B57;
+        --primary-light: #3CB371;
+        --primary-dark: #006400;
+        --secondary: #DAA520;
+        --light: #F5FFFA;
+        --lighter: #F0FFF0;
+        --text: #2F4F4F;
+        --text-light: #556B2F;
+        --white: #ffffff;
+        --shadow: rgba(46, 139, 87, 0.15);
+    }
 
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                    url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg') center/cover fixed;
+        color: white;
+        position: relative;
+    }
+
+    /* Верхня панель */
+    .header-container {
+        background: rgba(46, 139, 87, 0.9);
+        padding: 0 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+    }
+
+    .burger-menu {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 28px;
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .nav-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .nav-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        padding: 14px 24px;
+        border-radius: 50px;
+        color: var(--white);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.35);
+        transform: translateY(-2px);
+    }
+
+    .nav-btn.active {
+        background: var(--secondary);
+        color: var(--white);
+        font-weight: 700;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--white);
+        letter-spacing: 1px;
+        padding: 15px 0;
+    }
+
+    /* Основний контент сторінки */
+    .about-container {
+        max-width: 1200px;
+        margin: 60px auto;
+        padding: 0 40px;
+    }
+
+    .about-header {
+        text-align: center;
+        margin-bottom: 70px;
+    }
+
+    .about-header h1 {
+        font-size: 3.5rem;
+        color: var(--secondary);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        margin-bottom: 20px;
+    }
+
+    .about-header p {
+        font-size: 1.3rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    /* Блок з автором */
+    .author-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 60px;
+        margin-bottom: 100px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .author-photo {
+        flex: 0 0 350px;
+    }
+
+    .author-photo img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 25px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        border: 5px solid var(--secondary);
+        transition: all 0.4s ease;
+    }
+
+    .author-photo img:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 30px 50px rgba(218, 165, 32, 0.4);
+    }
+
+    .author-info {
+        flex: 1;
+        min-width: 300px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 50px;
+        border-radius: 25px;
+        color: var(--text);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        position: relative;
+    }
+
+    .author-info:before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        border-radius: 30px;
+        z-index: -1;
+        opacity: 0.7;
+    }
+
+    .author-info h2 {
+        color: var(--primary);
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        position: relative;
+        padding-bottom: 15px;
+    }
+
+    .author-info h2:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 80px;
+        height: 4px;
+        background: var(--secondary);
+        border-radius: 2px;
+    }
+
+    .author-info h3 {
+        color: var(--secondary);
+        font-size: 1.4rem;
+        margin-bottom: 25px;
+        font-weight: 600;
+    }
+
+    .author-info p {
+        color: #555;
+        line-height: 1.8;
+        margin-bottom: 25px;
+        font-size: 1.1rem;
+    }
+
+    .author-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    .detail-item {
+        flex: 1;
+        min-width: 200px;
+        background: var(--lighter);
+        padding: 25px;
+        border-radius: 15px;
+        border-left: 5px solid var(--primary);
+    }
+
+    .detail-item h4 {
+        color: var(--primary);
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+    }
+
+    .detail-item p {
+        color: var(--text);
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    /* Секція місії */
+    .mission-section {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 70px 60px;
+        border-radius: 25px;
+        margin-bottom: 100px;
+        color: var(--text);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .mission-section:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 10px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .mission-section h2 {
+        color: var(--primary);
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .mission-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+    }
+
+    .mission-item {
+        padding: 30px;
+        background: var(--lighter);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .mission-item:hover {
+        transform: translateY(-10px);
+        border-color: var(--secondary);
+        box-shadow: 0 15px 30px rgba(46, 139, 87, 0.2);
+    }
+
+    .mission-icon {
+        font-size: 50px;
+        color: var(--primary);
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .mission-item h3 {
+        color: var(--primary);
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .mission-item p {
+        color: #555;
+        line-height: 1.7;
+        text-align: center;
+    }
+
+    /* Підвал */
+    footer {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: var(--white);
+        padding: 70px 20px 30px;
+        margin-top: auto;
+        border-top: 5px solid var(--secondary);
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 50px;
+    }
+
+    .footer-section h3 {
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+        position: relative;
+        display: inline-block;
+        color: white;
+        padding-bottom: 10px;
+    }
+
+    .footer-section h3:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--secondary);
+        border-radius: 2px;
+    }
+
+    .footer-section p, .footer-section a {
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 15px;
+        display: block;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        line-height: 1.7;
+    }
+
+    .footer-section a:hover {
+        color: white;
+        transform: translateX(8px);
+        text-decoration: underline;
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 30px;
+        margin-top: 25px;
+        flex-wrap: wrap;
+    }
+
+    .social-icon {
+        font-size: 32px;
+        color: rgba(255, 255, 255, 0.9);
+        transition: all 0.4s ease;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        height: auto;
+        background: transparent;
+        border-radius: 0;
+        position: relative;
+        padding: 5px;
+    }
+
+    .social-icon:hover {
+        color: var(--white);
+        transform: translateY(-8px) scale(1.2);
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        margin-top: 70px;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 15px;
+    }
+
+    /* Адаптивність */
+    @media (max-width: 992px) {
+        .author-section {
+            flex-direction: column;
+        }
+        
+        .author-photo {
+            flex: 0 0 300px;
+            width: 300px;
+        }
+        
+        .author-info {
+            padding: 40px;
+        }
+        
+        .about-header h1 {
+            font-size: 2.8rem;
+        }
+        
+        .mission-section {
+            padding: 50px 40px;
+        }
+        
+        .author-info h2 {
+            font-size: 2.2rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .header-container {
+            padding: 0 20px;
+        }
+        
+        .burger-menu {
+            display: block;
+        }
+        
+        .nav-buttons {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--primary-dark);
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        
+        .nav-buttons.active {
+            display: flex;
+        }
+        
+        .about-container {
+            padding: 0 20px;
+        }
+        
+        .about-header h1 {
+            font-size: 2.2rem;
+        }
+        
+        .about-header p {
+            font-size: 1.1rem;
+        }
+        
+        .author-photo {
+            flex: 0 0 250px;
+            width: 250px;
+        }
+        
+        .author-photo img {
+            height: 300px;
+        }
+        
+        .author-info {
+            padding: 30px;
+        }
+        
+        .author-info h2 {
+            font-size: 1.8rem;
+        }
+        
+        .mission-section {
+            padding: 40px 30px;
+        }
+        
+        .mission-section h2 {
+            font-size: 2rem;
+        }
+        
+        .footer-container {
+            grid-template-columns: 1fr;
+            text-align: center;
+            gap: 40px;
+        }
+        
+        .footer-section h3:after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .social-icons {
+            justify-content: center;
+            gap: 25px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .about-header h1 {
+            font-size: 1.8rem;
+        }
+        
+        .about-header p {
+            font-size: 1rem;
+        }
+        
+        .author-photo {
+            flex: 0 0 200px;
+            width: 200px;
+        }
+        
+        .author-photo img {
+            height: 250px;
+        }
+        
+        .author-info h2 {
+            font-size: 1.6rem;
+        }
+        
+        .detail-item {
+            min-width: 100%;
+        }
+        
+        .mission-section {
+            padding: 30px 20px;
+        }
+        
+        .mission-section h2 {
+            font-size: 1.6rem;
+        }
+        
+        .logo {
+            font-size: 26px;
+        }
+        
+        .social-icons {
+            gap: 20px;
+        }
+        
+        .social-icon {
+            font-size: 28px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="header-container">
+    <button class="burger-menu" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="nav-buttons" id="navButtons">
+        <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Головна</a>
+        <a href="strava.html" class="nav-btn"><i class="fas fa-utensils"></i> Смачні страви</a>
+        <a href="navfour.html" class="nav-btn"><i class="fas fa-lightbulb"></i> Кухонні поради</a>
+        <a href="pronas.html" class="nav-btn active"><i class="fas fa-info-circle"></i> Про нас</a>
+    </div>
+    
+    <div class="logo">
+        <span class="logo-icon">🍔</span>
+        <span class="logo-text">CookBook</span>
+    </div>
+</div>
+
+<!-- Основний контент -->
+<main class="about-container">
+    <div class="about-header">
+        <h1>Про нас та автора</h1>
+        <p>Дізнайтеся більше про творця CookBook та історію створення цього кулінарного проекту</p>
+    </div>
+    
+    <!-- Блок з автором -->
+    <section class="author-section">
+        <div class="author-photo">
+            <img src="ya123.jpg" alt="Марців Давид - автор CookBook">
+        </div>
+        
+        <div class="author-info">
+            <h2>Марців Давид</h2>
+            <h3>Студент та автор проекту CookBook</h3>
+            
+            <p>Привіт! Я студент Національного університету "Львівська політехніка" і я захоплююся веб-розробкою та кулінарним мистецтвом. Моя пристрасть до технологій та кухні різних народів світу надихнула мене на створення CookBook - унікального кулінарного порталу з атмосферою домашнього затишку.</p>
+            
+            <p>У своєму проекті я поєднав сучасні веб-технології з класичними рецептами та корисними порадами, щоб створювати незабутній користувацький досвід для всіх любителів готування. CookBook - це не просто сайт, а цілий світ кулінарних відкриттів, де кожен може знайти щось для себе.</p>
+            
+            <p>Я вірю, що готування - це не лише процес приготування їжі, а справжнє мистецтво, яке об'єднує людей, розвиває творчість та приносить задоволення. Саме ці ідеї я намагався втілити у своєму проекті.</p>
+            
+            <div class="author-details">
+                <div class="detail-item">
+                    <h4>Освіта</h4>
+                    <p>Національний університет "Львівська політехніка", спеціальність "Комп'ютерні науки"</p>
+                </div>
+                
+                <div class="detail-item">
+                    <h4>Захоплення</h4>
+                    <p>Веб-розробка, кулінарія, фотографія їжі, подорожі та вивчення кухонь світу</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Секція місії -->
+    <section class="mission-section">
+        <h2>Моя місія та цінності</h2>
+        
+        <div class="mission-content">
+            <div class="mission-item">
+                <div class="mission-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3>Доступність рецептів</h3>
+                <p>Я переконаний, що смачно готувати може кожен, незалежно від досвіду. Тому всі рецепти на сайті подаються з детальними покроковими інструкціями.</p>
+            </div>
+            
+            <div class="mission-item">
+                <div class="mission-icon">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <h3>Якість та свіжість</h3>
+                <p>Наголошую на використанні свіжих, якісних продуктів. Вважаю, що основа смачної страви - це свіжі та натуральні інгредієнти.</p>
+            </div>
+            
+            <div class="mission-item">
+                <div class="mission-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Спільнота</h3>
+                <p>CookBook створений для об'єднання людей, які люблять готувати. Це місце для обміну досвідом, рецептами та кулінарними ідеями.</p>
+            </div>
+            
+            <div class="mission-item">
+                <div class="mission-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3>Навчання</h3>
+                <p>Один з ключових принципів - постійне навчання та розвиток. Я сам навчаюся новим технікам і ділюся цими знаннями з іншими.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Підвал -->
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>CookBook</h3>
+            <p>Ваш помічник у світі кулінарії. Ми збираємо найсмачніші рецепти з усього світу, адаптовані для української кухні. Готуйте з насолодою разом з нами!</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Навігація</h3>
+            <a href="index.html">Головна</a>
+            <a href="strava.html">Смачні страви</a>
+            <a href="navfour.html">Кухонні поради</a>
+            <a href="pronas.html" class="active">Про нас</a>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Контакти</h3>
+            <p><i class="fas fa-envelope"></i> info@cookbook.ua</p>
+            <p><i class="fas fa-phone"></i> +380 44 123 4567</p>
+            <p><i class="fas fa-map-marker-alt"></i> м. Київ, вул. Кулінарна, 10</p>
+            <p><i class="fas fa-clock"></i> Пн-Пт: 9:00-18:00</p>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>© 2025 CookBook. Всі права захищені. | Створено з <i class="fas fa-heart" style="color: #FF6B6B;"></i> Марцівом Давидом</p>
+    </div>
+</footer>
+
+<script>
+function toggleMenu() {
+    const navButtons = document.getElementById('navButtons');
+    navButtons.classList.toggle('active');
+}
+
+// Закриття меню при кліку поза ним
+document.addEventListener('click', (e) => {
+    const navButtons = document.getElementById('navButtons');
+    const burgerMenu = document.querySelector('.burger-menu');
+    
+    if (!navButtons.contains(e.target) && !burgerMenu.contains(e.target)) {
+        navButtons.classList.remove('active');
+    }
+});
+
+// Додавання класу active при кліку на бургер-меню
+document.querySelector('.burger-menu').addEventListener('click', function(e) {
+    e.stopPropagation();
+});
+
+// Обробка помилки завантаження фото
+document.addEventListener('DOMContentLoaded', function() {
+    const authorPhoto = document.querySelector('.author-photo img');
+    
+    // Якщо фото не завантажиться, покажемо заглушку
+    authorPhoto.onerror = function() {
+        this.src = 'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg';
+        this.alt = 'Зображення за замовчуванням - кулінарна тематика';
+    };
+    
+    // Плавна анімація елементів при прокрутці
+    const animateOnScroll = function() {
+        const elements = document.querySelectorAll('.author-section, .mission-section');
+        
+        elements.forEach(element => {
+            const elementPosition = element.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.2;
+            
+            if (elementPosition < screenPosition) {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }
+        });
+    };
+    
+    // Початковий стан для анімації
+    document.querySelector('.author-section').style.opacity = '0';
+    document.querySelector('.author-section').style.transform = 'translateY(30px)';
+    document.querySelector('.author-section').style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    
+    document.querySelector('.mission-section').style.opacity = '0';
+    document.querySelector('.mission-section').style.transform = 'translateY(30px)';
+    document.querySelector('.mission-section').style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    
+    // Запускаємо анімацію при завантаженні
+    setTimeout(() => {
+        animateOnScroll();
+    }, 300);
+    
+    // Запускаємо анімацію при прокрутці
+    window.addEventListener('scroll', animateOnScroll);
+});
+</script>
+
+</body>
+  </html>
