@@ -41,6 +41,7 @@
                     url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg') center/cover fixed;
         color: white;
         position: relative;
+        will-change: transform; /* Оптимізація анімацій */
     }
 
     body.dark-theme {
@@ -59,6 +60,7 @@
         position: sticky;
         top: 0;
         z-index: 1000;
+        height: 70px;
     }
 
     .burger-menu {
@@ -89,6 +91,7 @@
         align-items: center;
         gap: 8px;
         text-decoration: none;
+        white-space: nowrap;
     }
 
     .nav-btn:hover {
@@ -104,7 +107,6 @@
         font-weight: 800;
         color: var(--white);
         letter-spacing: 1px;
-        padding: 15px 0;
     }
 
     .logo a {
@@ -129,6 +131,7 @@
         font-size: 20px;
         transition: 0.3s;
         margin-left: 15px;
+        flex-shrink: 0;
     }
 
     /* Конвертер одиниць */
@@ -167,6 +170,7 @@
         z-index: 1000;
         justify-content: center;
         align-items: center;
+        backdrop-filter: blur(2px);
     }
 
     .converter-content, .calorie-content {
@@ -205,6 +209,7 @@
         margin: 0 auto;
         padding: 30px 20px;
         flex: 1;
+        width: 100%;
     }
 
     .page-title {
@@ -214,7 +219,7 @@
     }
 
     .page-title h1 {
-        font-size: 3rem;
+        font-size: 2.5rem;
         color: var(--secondary);
         margin-bottom: 10px;
         display: inline-block;
@@ -232,11 +237,12 @@
     }
 
     .page-title p {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         color: rgba(255, 255, 255, 0.9);
         max-width: 600px;
         margin: 0 auto;
         line-height: 1.8;
+        padding: 0 15px;
     }
 
     .tools-section {
@@ -257,7 +263,7 @@
 
     .tools-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 20px;
         margin-top: 20px;
     }
@@ -271,6 +277,7 @@
         transition: transform 0.3s ease;
         cursor: pointer;
         color: #333;
+        will-change: transform; /* Оптимізація анімації */
     }
 
     .dark-theme .tool-card {
@@ -335,6 +342,7 @@
         font-size: 16px;
         background: rgba(255, 255, 255, 0.9);
         color: #333;
+        cursor: pointer;
     }
 
     .dark-theme .question-group select {
@@ -351,13 +359,27 @@
         border: 2px solid var(--primary-light);
         backdrop-filter: blur(10px);
         color: white;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .finder-recipe-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+    }
+
+    .finder-recipe-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
     }
 
     /* Рецепти */
     .categories {
         text-align: center;
-        margin: 50px 0;
-        padding: 30px;
+        margin: 40px 0 30px;
+        padding: 30px 20px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 20px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -372,7 +394,7 @@
     }
 
     .categories button {
-        margin: 10px;
+        margin: 8px 6px;
         padding: 14px 28px;
         background: rgba(255, 255, 255, 0.9);
         border: 2px solid var(--primary-light);
@@ -382,6 +404,7 @@
         font-weight: 600;
         transition: all 0.3s;
         font-size: 16px;
+        white-space: nowrap;
     }
 
     .dark-theme .categories button {
@@ -389,7 +412,8 @@
         color: var(--dark-text);
     }
 
-    .categories button:hover {
+    .categories button:hover,
+    .categories button.active {
         background: var(--primary);
         color: white;
         border-color: var(--primary);
@@ -398,8 +422,8 @@
 
     .recipes-container {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 35px;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
         padding: 20px 0 50px;
     }
 
@@ -418,6 +442,8 @@
         text-decoration: none;
         color: #333;
         position: relative;
+        will-change: transform; /* Оптимізація анімації */
+        contain: content; /* Оптимізація рендерингу */
     }
 
     .dark-theme .recipe {
@@ -434,13 +460,14 @@
         width: 100%;
         height: 220px;
         overflow: hidden;
+        position: relative;
     }
 
     .recipe-img-container img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.5s;
+        transition: transform 0.5s ease;
     }
 
     .recipe:hover .recipe-img-container img {
@@ -458,6 +485,7 @@
         font-size: 12px;
         font-weight: 600;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        z-index: 1;
     }
 
     .recipe-content {
@@ -482,6 +510,7 @@
         color: #666;
         margin: 8px 0;
         flex-grow: 1;
+        font-size: 15px;
     }
 
     .dark-theme .recipe p {
@@ -508,6 +537,18 @@
         top: 15px;
         left: 15px;
         z-index: 2;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 50%;
+        backdrop-filter: blur(5px);
+    }
+
+    .like-btn:hover {
+        background: rgba(0, 0, 0, 0.5);
     }
 
     .like-btn.active {
@@ -549,10 +590,23 @@
         transform: translateY(-5px);
     }
 
+    /* Анімації */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
     /* Адаптивність */
+    @media (max-width: 992px) {
+        .recipes-container {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        }
+    }
+
     @media (max-width: 768px) {
         .header-container {
             padding: 0 20px;
+            height: 60px;
         }
         
         .burger-menu {
@@ -568,14 +622,21 @@
             background: var(--primary-dark);
             flex-direction: column;
             padding: 20px;
+            z-index: 1000;
         }
         
         .nav-buttons.active {
             display: flex;
         }
         
+        .nav-btn {
+            width: 100%;
+            justify-content: center;
+        }
+        
         .recipes-container {
             grid-template-columns: 1fr;
+            gap: 25px;
         }
         
         .converter-popup {
@@ -589,10 +650,61 @@
         
         .finder-questions {
             grid-template-columns: 1fr;
+            gap: 15px;
         }
         
         .page-title h1 {
-            font-size: 2.2rem;
+            font-size: 2rem;
+        }
+        
+        .page-title p {
+            font-size: 1rem;
+        }
+        
+        .tools-section,
+        .recipe-finder,
+        .categories {
+            padding: 20px;
+        }
+        
+        .categories button {
+            padding: 12px 20px;
+            font-size: 15px;
+        }
+        
+        .content-wrapper {
+            padding: 20px 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header-container {
+            padding: 0 15px;
+        }
+        
+        .logo {
+            font-size: 26px;
+        }
+        
+        .logo a {
+            gap: 10px;
+        }
+        
+        .page-title h1 {
+            font-size: 1.8rem;
+        }
+        
+        .recipes-container {
+            gap: 20px;
+        }
+        
+        .recipe-img-container {
+            height: 200px;
+        }
+        
+        .converter-content,
+        .calorie-content {
+            padding: 20px;
         }
     }
 </style>
@@ -653,7 +765,7 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
             <div>
                 <label for="fromUnit">З одиниці:</label>
-                <select id="fromUnit" onchange="convertUnits()" style="width: 100%; padding: 10px; border: 2px solid var(--primary-light); border-radius: 8px; background: var(--light); color: var(--text);">
+                <select id="fromUnit" style="width: 100%; padding: 10px; border: 2px solid var(--primary-light); border-radius: 8px; background: var(--light); color: var(--text);">
                     <option value="grams">Грами (г)</option>
                     <option value="ml">Мілілітри (мл)</option>
                     <option value="cups">Чашки</option>
@@ -664,7 +776,7 @@
             
             <div>
                 <label for="toUnit">В одиницю:</label>
-                <select id="toUnit" onchange="convertUnits()" style="width: 100%; padding: 10px; border: 2px solid var(--primary-light); border-radius: 8px; background: var(--light); color: var(--text);">
+                <select id="toUnit" style="width: 100%; padding: 10px; border: 2px solid var(--primary-light); border-radius: 8px; background: var(--light); color: var(--text);">
                     <option value="grams">Грами (г)</option>
                     <option value="ml">Мілілітри (мл)</option>
                     <option value="cups" selected>Чашки</option>
@@ -674,7 +786,11 @@
             </div>
         </div>
         
-        <button onclick="closeConverter()" class="nav-btn" style="width: 100%; margin-top: 20px; background: var(--primary); color: white;">
+        <button onclick="convertUnits()" class="nav-btn" style="width: 100%; margin-top: 10px; background: var(--secondary); color: white;">
+            <i class="fas fa-calculator"></i> Виконати
+        </button>
+        
+        <button onclick="closeConverter()" class="nav-btn" style="width: 100%; margin-top: 10px; background: var(--primary); color: white;">
             <i class="fas fa-times"></i> Закрити
         </button>
     </div>
@@ -754,7 +870,6 @@
                 <label for="time"><i class="far fa-clock"></i> Час приготування:</label>
                 <select id="time">
                     <option value="">Оберіть час</option>
-                    <option value="15">До 15 хв</option>
                     <option value="30">До 30 хв</option>
                     <option value="60">До 1 години</option>
                     <option value="120">Більше 1 години</option>
@@ -782,17 +897,6 @@
                     <option value="breakfast">Сніданки</option>
                 </select>
             </div>
-            
-            <div class="question-group">
-                <label for="type"><i class="fas fa-utensil-spoon"></i> Тип страви:</label>
-                <select id="type">
-                    <option value="">Оберіть тип</option>
-                    <option value="main">Основна страва</option>
-                    <option value="appetizer">Закуска</option>
-                    <option value="dessert">Десерт</option>
-                    <option value="drink">Напій</option>
-                </select>
-            </div>
         </div>
         
         <button onclick="findRecipe()" class="nav-btn" style="width: 100%; background: var(--primary); color: white;">
@@ -806,7 +910,7 @@
 
     <div class="categories">
         <h2>Категорії страв</h2>
-        <button onclick="filterRecipes('all')"><i class="fas fa-utensils"></i> Усі</button>
+        <button onclick="filterRecipes('all')" class="active"><i class="fas fa-utensils"></i> Усі</button>
         <button onclick="filterRecipes('soup')"><i class="fas fa-utensil-spoon"></i> Супи</button>
         <button onclick="filterRecipes('dessert')"><i class="fas fa-ice-cream"></i> Десерти</button>
         <button onclick="filterRecipes('meat')"><i class="fas fa-drumstick-bite"></i> М'ясні страви</button>
@@ -815,102 +919,7 @@
     </div>
 
     <div class="recipes-container" id="recipes">
-        <!-- Рецепти -->
-        <a href="borshch.html" class="recipe" data-cat="soup" data-time="80">
-            <button class="like-btn" onclick="toggleLike(event)" title="Додати в улюблене"><i class="far fa-heart"></i></button>
-            <div class="recipe-img-container">
-                <img src="https://recepty.24tv.ua/resources/photos/recipe/1200x675_DIR/201912/86d3f0ec08-b061-4a2d-afa7-f053527f4f06.jpg?1582905806000" alt="Борщ">
-                <span class="recipe-category">Супи</span>
-            </div>
-            <div class="recipe-content">
-                <h3>Борщ український</h3>
-                <p>Класичний червоний борщ зі сметаною та свіжою зеленню</p>
-                <div class="recipe-time">
-                    <i class="far fa-clock"></i>
-                    <span>1 год 20 хв</span>
-                </div>
-            </div>
-        </a>
-
-        <a href="pancake.html" class="recipe" data-cat="dessert" data-time="25">
-            <button class="like-btn" onclick="toggleLike(event)" title="Додати в улюблене"><i class="far fa-heart"></i></button>
-            <div class="recipe-img-container">
-                <img src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg" alt="Панкейки">
-                <span class="recipe-category">Десерти</span>
-            </div>
-            <div class="recipe-content">
-                <h3>Панкейки з ягодами</h3>
-                <p>Повітряні млинці зі свіжими ягодами та солодким сиропом</p>
-                <div class="recipe-time">
-                    <i class="far fa-clock"></i>
-                    <span>25 хв</span>
-                </div>
-            </div>
-        </a>
-
-        <a href="lasanga.html" class="recipe" data-cat="meat" data-time="75">
-            <button class="like-btn" onclick="toggleLike(event)" title="Додати в улюблене"><i class="far fa-heart"></i></button>
-            <div class="recipe-img-container">
-                <img src="https://images.pexels.com/photos/5949896/pexels-photo-5949896.jpeg" alt="Лазанья">
-                <span class="recipe-category">М'ясні</span>
-            </div>
-            <div class="recipe-content">
-                <h3>М'ясна лазанья</h3>
-                <p>Класична італійська лазанья з м'ясним соусом та сиром</p>
-                <div class="recipe-time">
-                    <i class="far fa-clock"></i>
-                    <span>1 год 15 хв</span>
-                </div>
-            </div>
-        </a>
-
-        <a href="cheesecake.html" class="recipe" data-cat="dessert" data-time="30">
-            <button class="like-btn" onclick="toggleLike(event)" title="Додати в улюблене"><i class="far fa-heart"></i></button>
-            <div class="recipe-img-container">
-                <img src="https://images.pexels.com/photos/6168339/pexels-photo-6168339.jpeg" alt="Сирники">
-                <span class="recipe-category">Десерти</span>
-            </div>
-            <div class="recipe-content">
-                <h3>Сирники</h3>
-                <p>Ніжні сирники з родзинками, подаються зі сметаною</p>
-                <div class="recipe-time">
-                    <i class="far fa-clock"></i>
-                    <span>30 хв</span>
-                </div>
-            </div>
-        </a>
-
-        <a href="omlet.html" class="recipe" data-cat="breakfast" data-time="20">
-            <button class="like-btn" onclick="toggleLike(event)" title="Додати в улюблене"><i class="far fa-heart"></i></button>
-            <div class="recipe-img-container">
-                <img src="https://images.pexels.com/photos/17198757/pexels-photo-17198757.jpeg" alt="Омлет з овочами">
-                <span class="recipe-category">Сніданки</span>
-            </div>
-            <div class="recipe-content">
-                <h3>Омлет з овочами</h3>
-                <p>Поживний сніданок зі свіжими овочами та сиром</p>
-                <div class="recipe-time">
-                    <i class="far fa-clock"></i>
-                    <span>20 хв</span>
-                </div>
-            </div>
-        </a>
-
-        <a href="curry.html" class="recipe" data-cat="meat" data-time="45">
-            <button class="like-btn" onclick="toggleLike(event)" title="Додати в улюблене"><i class="far fa-heart"></i></button>
-            <div class="recipe-img-container">
-                <img src="https://images.pexels.com/photos/674574/pexels-photo-674574.jpeg" alt="Каррі з куркою та рисом">
-                <span class="recipe-category">М'ясні</span>
-            </div>
-            <div class="recipe-content">
-                <h3>Каррі з куркою та рисом</h3>
-                <p>Ароматне каррі з кокосовим молоком та свіжими овочами</p>
-                <div class="recipe-time">
-                    <i class="far fa-clock"></i>
-                    <span>45 хв</span>
-                </div>
-            </div>
-        </a>
+        <!-- Рецепти будуть додані через JavaScript -->
     </div>
 </div>
 
@@ -950,9 +959,92 @@
 </footer>
 
 <script>
+// Оптимізація продуктивності
+let isScrolling = false;
+let scrollTimer = null;
+
+// Клас для рецептів
+class Recipe {
+    constructor(id, title, category, time, difficulty, image, link, description) {
+        this.id = id;
+        this.title = title;
+        this.category = category;
+        this.time = time;
+        this.difficulty = difficulty;
+        this.image = image;
+        this.link = link;
+        this.description = description;
+    }
+}
+
+// База рецептів
+const recipesData = [
+    new Recipe(
+        1,
+        'Борщ український',
+        'soup',
+        80,
+        'hard',
+        'https://recepty.24tv.ua/resources/photos/recipe/1200x675_DIR/201912/86d3f0ec08-b061-4a2d-afa7-f053527f4f06.jpg?1582905806000',
+        'borshch.html',
+        'Класичний червоний борщ зі сметаною та свіжою зеленню'
+    ),
+    new Recipe(
+        2,
+        'Панкейки з ягодами',
+        'dessert',
+        25,
+        'easy',
+        'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg',
+        'pancake.html',
+        'Повітряні млинці зі свіжими ягодами та солодким сиропом'
+    ),
+    new Recipe(
+        3,
+        "М'ясна лазанья",
+        'meat',
+        75,
+        'hard',
+        'https://images.pexels.com/photos/5949896/pexels-photo-5949896.jpeg',
+        'lasanga.html',
+        "Класична італійська лазанья з м'ясним соусом та сиром"
+    ),
+    new Recipe(
+        4,
+        'Сирники',
+        'dessert',
+        30,
+        'medium',
+        'https://images.pexels.com/photos/6168339/pexels-photo-6168339.jpeg',
+        'cheesecake.html',
+        'Ніжні сирники з родзинками, подаються зі сметаною'
+    ),
+    new Recipe(
+        5,
+        'Омлет з овочами',
+        'breakfast',
+        20,
+        'easy',
+        'https://images.pexels.com/photos/17198757/pexels-photo-17198757.jpeg',
+        'omlet.html',
+        'Поживний сніданок зі свіжими овочами та сиром'
+    ),
+    new Recipe(
+        6,
+        'Каррі з куркою та рисом',
+        'meat',
+        45,
+        'medium',
+        'https://images.pexels.com/photos/674574/pexels-photo-674574.jpeg',
+        'curry.html',
+        'Ароматне каррі з кокосовим молоком та свіжими овочами'
+    )
+];
+
 // Глобальні змінні
 let likedRecipes = JSON.parse(localStorage.getItem('likedRecipes')) || [];
 let caloriesData = [];
+let currentFilter = 'all';
 
 // Основний функціонал
 function toggleMenu() {
@@ -969,26 +1061,96 @@ function toggleTheme() {
 }
 
 function filterRecipes(cat) {
-    document.querySelectorAll('.recipe').forEach(r => {
-        r.style.display = (cat === 'all' || r.dataset.cat === cat) ? 'flex' : 'none';
+    currentFilter = cat;
+    
+    // Оновлення активної кнопки
+    document.querySelectorAll('.categories button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    renderRecipes();
+}
+
+function renderRecipes() {
+    const container = document.getElementById('recipes');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    const filteredRecipes = currentFilter === 'all' 
+        ? recipesData 
+        : recipesData.filter(recipe => recipe.category === currentFilter);
+    
+    filteredRecipes.forEach(recipe => {
+        const recipeElement = createRecipeElement(recipe);
+        container.appendChild(recipeElement);
     });
 }
 
-function toggleLike(event) {
+function createRecipeElement(recipe) {
+    const isLiked = likedRecipes.includes(recipe.title);
+    
+    const div = document.createElement('a');
+    div.className = 'recipe';
+    div.href = recipe.link;
+    div.dataset.cat = recipe.category;
+    div.dataset.time = recipe.time;
+    div.dataset.difficulty = recipe.difficulty;
+    
+    const timeText = recipe.time >= 60 ? '60+ хв' : `${recipe.time} хв`;
+    
+    div.innerHTML = `
+        <button class="like-btn ${isLiked ? 'active' : ''}" onclick="toggleLike(event, ${recipe.id})" title="Додати в улюблене">
+            <i class="${isLiked ? 'fas' : 'far'} fa-heart"></i>
+        </button>
+        <div class="recipe-img-container">
+            <img src="${recipe.image}" alt="${recipe.title}" loading="lazy">
+            <span class="recipe-category">${getCategoryName(recipe.category)}</span>
+        </div>
+        <div class="recipe-content">
+            <h3>${recipe.title}</h3>
+            <p>${recipe.description}</p>
+            <div class="recipe-time">
+                <i class="far fa-clock"></i>
+                <span>${timeText}</span>
+            </div>
+        </div>
+    `;
+    
+    return div;
+}
+
+function getCategoryName(category) {
+    const categories = {
+        'soup': 'Супи',
+        'dessert': 'Десерти',
+        'meat': 'М\'ясні',
+        'vegetarian': 'Вегетаріанські',
+        'breakfast': 'Сніданки'
+    };
+    return categories[category] || category;
+}
+
+function toggleLike(event, recipeId) {
     event.preventDefault();
     event.stopPropagation();
     
     const btn = event.target.closest('.like-btn');
     const heartIcon = btn.querySelector('i');
-    const recipeTitle = btn.closest('.recipe').querySelector('h3').textContent;
+    const recipe = recipesData.find(r => r.id === recipeId);
+    
+    if (!recipe) return;
     
     btn.classList.toggle('active');
     if (btn.classList.contains('active')) {
         heartIcon.className = 'fas fa-heart';
-        likedRecipes.push(recipeTitle);
+        if (!likedRecipes.includes(recipe.title)) {
+            likedRecipes.push(recipe.title);
+        }
     } else {
         heartIcon.className = 'far fa-heart';
-        likedRecipes = likedRecipes.filter(title => title !== recipeTitle);
+        likedRecipes = likedRecipes.filter(title => title !== recipe.title);
     }
     
     localStorage.setItem('likedRecipes', JSON.stringify(likedRecipes));
@@ -997,7 +1159,6 @@ function toggleLike(event) {
 // Конвертер одиниць
 function openConverter() {
     document.getElementById('converterModal').style.display = 'flex';
-    convertUnits();
 }
 
 function closeConverter() {
@@ -1072,7 +1233,10 @@ function addIngredient() {
     const name = document.getElementById('newIngredient').value.trim();
     const weight = parseFloat(document.getElementById('newWeight').value);
     
-    if (!name || !weight) return;
+    if (!name || !weight) {
+        alert('Будь ласка, введіть назву інгредієнту та вагу');
+        return;
+    }
     
     const caloriesPer100g = getCaloriesForIngredient(name);
     const calories = (weight * caloriesPer100g) / 100;
@@ -1096,7 +1260,10 @@ function getCaloriesForIngredient(name) {
         'курк': 165, 'свин': 250, 'ялович': 250,
         'риб': 100, 'сир': 350, 'молок': 42,
         'яйц': 155, 'рис': 130, 'картоп': 77,
-        'овоч': 30, 'фрукт': 50, 'горіх': 654
+        'овоч': 30, 'фрукт': 50, 'горіх': 654,
+        'борошно': 364, 'цукор': 387, 'масло': 717,
+        'олія': 884, 'сметана': 206, 'кефір': 41,
+        'томат': 18, 'цибуля': 40, 'часник': 149
     };
     
     for (const [key, value] of Object.entries(calorieDatabase)) {
@@ -1105,7 +1272,7 @@ function getCaloriesForIngredient(name) {
         }
     }
     
-    return 150;
+    return 150; // Середнє значення для невідомих інгредієнтів
 }
 
 function removeIngredient(index) {
@@ -1120,80 +1287,146 @@ function updateTotalCalories() {
 
 // Підбір рецептів
 function showRecipeFinder() {
-    document.getElementById('recipeFinder').scrollIntoView({ behavior: 'smooth' });
+    const finder = document.getElementById('recipeFinder');
+    if (finder) {
+        finder.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
 function findRecipe() {
-    const time = document.getElementById('time').value;
-    const category = document.getElementById('category').value;
+    const timeSelect = document.getElementById('time');
+    const difficultySelect = document.getElementById('difficulty');
+    const categorySelect = document.getElementById('category');
+    
+    const timeValue = timeSelect ? timeSelect.value : '';
+    const difficultyValue = difficultySelect ? difficultySelect.value : '';
+    const categoryValue = categorySelect ? categorySelect.value : '';
     
     let recommendations = [];
-    const recipes = document.querySelectorAll('.recipe');
     
-    recipes.forEach(recipe => {
-        const recipeTime = parseInt(recipe.dataset.time);
-        const recipeCat = recipe.dataset.cat;
-        
+    recipesData.forEach(recipe => {
         let match = true;
         
-        if (time && recipeTime > parseInt(time)) match = false;
-        if (category && recipeCat !== category) match = false;
+        // Перевірка часу
+        if (timeValue) {
+            const timeNum = parseInt(timeValue);
+            if (timeNum === 30 && recipe.time > 30) match = false;
+            if (timeNum === 60 && recipe.time > 60) match = false;
+            if (timeNum === 120 && recipe.time <= 60) match = false;
+        }
+        
+        // Перевірка складності
+        if (difficultyValue && recipe.difficulty !== difficultyValue) {
+            match = false;
+        }
+        
+        // Перевірка категорії
+        if (categoryValue && recipe.category !== categoryValue) {
+            match = false;
+        }
         
         if (match) {
-            recommendations.push({
-                element: recipe,
-                title: recipe.querySelector('h3').textContent,
-                time: recipeTime,
-                category: recipeCat
-            });
+            recommendations.push(recipe);
         }
     });
     
     const resultDiv = document.getElementById('finderResult');
+    if (!resultDiv) return;
+    
     resultDiv.style.display = 'block';
     
     if (recommendations.length > 0) {
         let html = '<h4>Знайдені рецепти:</h4>';
         
-        recommendations.forEach(rec => {
+        recommendations.forEach(recipe => {
+            const timeText = recipe.time >= 60 ? '60+ хв' : `${recipe.time} хв`;
+            const difficultyText = getDifficultyText(recipe.difficulty);
+            
             html += `
-                <div style="padding: 10px; margin-top: 10px; background: rgba(255, 255, 255, 0.2); border-radius: 8px; border: 1px solid var(--primary-light);">
-                    <strong>${rec.title}</strong>
-                    <div style="color: rgba(255, 255, 255, 0.8); font-size: 14px; margin-top: 5px;">
-                        <span><i class="far fa-clock"></i> ${rec.time} хв</span> | 
-                        <span><i class="fas fa-utensils"></i> ${rec.category}</span>
+                <a href="${recipe.link}" class="finder-recipe-link">
+                    <div style="padding: 15px; margin-top: 10px; background: rgba(255, 255, 255, 0.2); border-radius: 8px; border: 1px solid var(--primary-light);">
+                        <strong>${recipe.title}</strong>
+                        <div style="color: rgba(255, 255, 255, 0.8); font-size: 14px; margin-top: 5px; display: flex; gap: 10px;">
+                            <span><i class="far fa-clock"></i> ${timeText}</span>
+                            <span><i class="fas fa-signal"></i> ${difficultyText}</span>
+                            <span><i class="fas fa-utensils"></i> ${getCategoryName(recipe.category)}</span>
+                        </div>
                     </div>
-                </div>
+                </a>
             `;
         });
         
         resultDiv.innerHTML = html;
     } else {
-        resultDiv.innerHTML = '<p>Не знайдено рецептів, які відповідають вашим критеріям.</p>';
+        resultDiv.innerHTML = '<p>Не знайдено рецептів, які відповідають вашим критеріям. Спробуйте змінити параметри пошуку.</p>';
     }
 }
 
-// Ініціалізація
-window.onload = function() {
-    filterRecipes('all');
+function getDifficultyText(difficulty) {
+    const difficulties = {
+        'easy': 'Легко',
+        'medium': 'Середня',
+        'hard': 'Складно'
+    };
+    return difficulties[difficulty] || difficulty;
+}
+
+// Оптимізація скролу
+window.addEventListener('scroll', () => {
+    if (!isScrolling) {
+        isScrolling = true;
+        document.body.classList.add('scrolling');
+    }
     
+    if (scrollTimer) clearTimeout(scrollTimer);
+    
+    scrollTimer = setTimeout(() => {
+        isScrolling = false;
+        document.body.classList.remove('scrolling');
+    }, 150);
+}, { passive: true });
+
+// Ініціалізація
+document.addEventListener('DOMContentLoaded', function() {
     // Відновлення теми
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
         document.body.classList.add('dark-theme');
-        document.querySelector('.theme-switcher i').className = 'fas fa-sun';
+        const icon = document.querySelector('.theme-switcher i');
+        if (icon) icon.className = 'fas fa-sun';
     }
     
-    // Відновлення лайків
-    document.querySelectorAll('.recipe').forEach(recipe => {
-        const title = recipe.querySelector('h3').textContent;
-        if (likedRecipes.includes(title)) {
-            const btn = recipe.querySelector('.like-btn');
-            btn.classList.add('active');
-            btn.querySelector('i').className = 'fas fa-heart';
-        }
-    });
-};
+    // Рендеринг рецептів
+    renderRecipes();
+    
+    // Додаємо обробники для інпутів конвертера
+    const converterValue = document.getElementById('converterValue');
+    const fromUnit = document.getElementById('fromUnit');
+    const toUnit = document.getElementById('toUnit');
+    
+    if (converterValue) {
+        converterValue.addEventListener('input', convertUnits);
+    }
+    if (fromUnit) {
+        fromUnit.addEventListener('change', convertUnits);
+    }
+    if (toUnit) {
+        toUnit.addEventListener('change', convertUnits);
+    }
+    
+    // Обробка Enter в калькуляторі калорій
+    const newIngredient = document.getElementById('newIngredient');
+    const newWeight = document.getElementById('newWeight');
+    
+    if (newIngredient && newWeight) {
+        newIngredient.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addIngredient();
+        });
+        newWeight.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addIngredient();
+        });
+    }
+});
 
 // Закриття модальних вікон при кліку поза ними
 window.onclick = function(event) {
