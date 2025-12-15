@@ -38,6 +38,7 @@
                     url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg') center/cover fixed;
         color: white;
         position: relative;
+        overflow-x: hidden;
     }
 
     /* Верхня панель */
@@ -51,6 +52,7 @@
         top: 0;
         z-index: 1000;
         backdrop-filter: blur(10px);
+        height: 80px;
     }
 
     .burger-menu {
@@ -61,6 +63,7 @@
         font-size: 28px;
         cursor: pointer;
         padding: 10px;
+        z-index: 1001;
     }
 
     .nav-buttons {
@@ -71,7 +74,7 @@
     .nav-btn {
         background: rgba(255, 255, 255, 0.2);
         border: 1px solid rgba(255, 255, 255, 0.4);
-        padding: 14px 24px;
+        padding: 12px 24px;
         border-radius: 50px;
         color: var(--white);
         font-weight: 600;
@@ -82,6 +85,7 @@
         gap: 8px;
         text-decoration: none;
         white-space: nowrap;
+        font-size: 16px;
     }
 
     .nav-btn:hover {
@@ -97,10 +101,9 @@
         font-weight: 800;
         color: var(--white);
         letter-spacing: 1px;
-        padding: 15px 0;
     }
 
-    /* Герой карусель з великими фото */
+    /* Герой карусель */
     .hero-carousel {
         position: relative;
         width: 100%;
@@ -116,12 +119,13 @@
         width: 100%;
         height: 100%;
         opacity: 0;
-        transition: opacity 1s ease-in-out;
+        transition: opacity 0.8s ease-in-out;
         background-size: cover;
         background-position: center;
         display: flex;
         align-items: center;
         justify-content: center;
+        will-change: opacity;
     }
 
     .carousel-slide.active {
@@ -156,7 +160,6 @@
         color: white;
     }
 
-    /* КНОПКИ З ВЕЛИКОЮ КЛІКАБЕЛЬНОЮ ОБЛАСТЮ */
     .hero-buttons {
         display: flex;
         gap: 25px;
@@ -171,7 +174,7 @@
         font-weight: 700;
         font-size: 1.2rem;
         cursor: pointer;
-        transition: all 0.4s ease;
+        transition: all 0.3s ease;
         border: none;
         display: flex;
         align-items: center;
@@ -197,7 +200,7 @@
     }
 
     .hero-btn:hover {
-        transform: translateY(-8px) scale(1.05);
+        transform: translateY(-5px);
         box-shadow: 0 15px 30px rgba(0,0,0,0.4);
     }
 
@@ -209,7 +212,6 @@
         background: rgba(255, 255, 255, 0.4);
     }
 
-    /* Навігація каруселі */
     .carousel-nav {
         position: absolute;
         bottom: 40px;
@@ -227,9 +229,8 @@
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.5);
         cursor: pointer;
-        transition: all 0.4s ease;
+        transition: all 0.3s ease;
         border: 2px solid transparent;
-        position: relative;
     }
 
     .carousel-dot.active {
@@ -243,7 +244,7 @@
         transform: scale(1.2);
     }
 
-    /* Карусель рецептів */
+    /* Карусель рецептів - ВАЖЛИВО: оптимізовано для плавності */
     .recipes-carousel-section {
         padding: 80px 20px;
         background: rgba(0, 0, 0, 0.5);
@@ -278,14 +279,19 @@
         margin: 0 auto;
     }
 
+    /* ОСНОВНА ОПТИМІЗАЦІЯ: Використовуємо CSS Grid замість flex для каруселі */
     .carousel {
-        display: flex;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: calc((100% - (3 - 1) * 35px) / 3); /* 3 елементи в ряд */
         gap: 35px;
         overflow-x: auto;
         padding: 25px;
         scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch; /* Для плавності на iOS */
         scrollbar-width: none;
         margin: 0 -25px;
+        will-change: transform;
     }
 
     .carousel::-webkit-scrollbar {
@@ -293,20 +299,22 @@
     }
 
     .carousel-item {
-        min-width: 320px;
         background: rgba(255, 255, 255, 0.95);
         border-radius: 25px;
         overflow: hidden;
         box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-        transition: all 0.4s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         cursor: pointer;
         text-decoration: none;
         color: #333;
         position: relative;
+        transform: translateZ(0); /* Апаратне прискорення */
+        backface-visibility: hidden; /* Запобігає мерцянню */
+        -webkit-font-smoothing: subpixel-antialiased;
     }
 
     .carousel-item:hover {
-        transform: translateY(-15px) scale(1.03);
+        transform: translateY(-10px) scale(1.02);
         box-shadow: 0 25px 45px rgba(46, 139, 87, 0.4);
     }
 
@@ -314,11 +322,12 @@
         width: 100%;
         height: 220px;
         object-fit: cover;
-        transition: transform 0.6s;
+        transition: transform 0.5s ease;
+        display: block;
     }
 
     .carousel-item:hover img {
-        transform: scale(1.1);
+        transform: scale(1.05);
     }
 
     .carousel-content {
@@ -389,7 +398,7 @@
 
     .carousel-btn:hover {
         background: var(--primary);
-        transform: scale(1.15) rotate(5deg);
+        transform: scale(1.1);
         box-shadow: 0 12px 25px rgba(46, 139, 87, 0.4);
     }
 
@@ -435,12 +444,12 @@
         text-align: center;
         color: #333;
         box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        transition: all 0.4s ease;
+        transition: all 0.3s ease;
         border: 2px solid transparent;
     }
 
     .feature-card:hover {
-        transform: translateY(-15px);
+        transform: translateY(-10px);
         background: white;
         border-color: var(--primary);
         box-shadow: 0 25px 45px rgba(46, 139, 87, 0.3);
@@ -450,11 +459,11 @@
         font-size: 50px;
         color: var(--primary);
         margin-bottom: 25px;
-        transition: transform 0.4s;
+        transition: transform 0.3s;
     }
 
     .feature-card:hover .feature-icon {
-        transform: scale(1.2) rotate(10deg);
+        transform: scale(1.1) rotate(5deg);
     }
 
     .feature-card h3 {
@@ -521,7 +530,6 @@
         text-decoration: underline;
     }
 
-    /* ОНОВЛЕНІ СТИЛІ ДЛЯ СОЦМЕРЕЖ БЕЗ КРУЖКІВ */
     .social-icons {
         display: flex;
         gap: 30px;
@@ -532,24 +540,16 @@
     .social-icon {
         font-size: 32px;
         color: rgba(255, 255, 255, 0.9);
-        transition: all 0.4s ease;
+        transition: all 0.3s ease;
         text-decoration: none;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: auto;
-        height: auto;
-        background: transparent;
-        border-radius: 0;
-        position: relative;
-        padding: 5px;
     }
 
     .social-icon:hover {
         color: var(--white);
-        transform: translateY(-8px) scale(1.2);
-        background: transparent;
-        box-shadow: none;
+        transform: translateY(-5px) scale(1.1);
     }
 
     .footer-bottom {
@@ -561,11 +561,14 @@
         font-size: 15px;
     }
 
-    /* АДАПТИВНІСТЬ ДЛЯ КНОПОК */
+    /* АДАПТИВНІСТЬ */
     @media (max-width: 1100px) {
         .hero-btn {
             min-width: 240px;
             padding: 18px 35px;
+        }
+        .carousel {
+            grid-auto-columns: calc((100% - (2 - 1) * 35px) / 2); /* 2 елементи в ряд */
         }
     }
 
@@ -597,6 +600,7 @@
     @media (max-width: 768px) {
         .header-container {
             padding: 0 20px;
+            height: 70px;
         }
         
         .burger-menu {
@@ -605,14 +609,15 @@
         
         .nav-buttons {
             display: none;
-            position: absolute;
-            top: 100%;
+            position: fixed;
+            top: 70px;
             left: 0;
             right: 0;
             background: var(--primary-dark);
             flex-direction: column;
             padding: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            z-index: 1000;
         }
         
         .nav-buttons.active {
@@ -650,8 +655,8 @@
             padding: 18px 30px;
         }
         
-        .carousel-item {
-            min-width: 280px;
+        .carousel {
+            grid-auto-columns: calc((100% - (1 - 1) * 35px) / 1); /* 1 елемент в ряд */
         }
         
         .carousel-title h2 {
@@ -663,7 +668,7 @@
         }
         
         .features-grid {
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: 1fr;
             gap: 30px;
         }
         
@@ -686,6 +691,7 @@
         .carousel-btn {
             width: 60px;
             height: 60px;
+            font-size: 20px;
         }
     }
 
@@ -707,10 +713,6 @@
             font-size: 1rem;
             min-width: 220px;
             max-width: 100%;
-        }
-        
-        .carousel-item {
-            min-width: 250px;
         }
         
         .carousel-title h2 {
@@ -740,8 +742,18 @@
         .carousel-btn {
             width: 55px;
             height: 55px;
-            font-size: 20px;
+            font-size: 18px;
         }
+    }
+
+    /* Клас для ленивого завантаження */
+    .lazy-load {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .lazy-load.loaded {
+        opacity: 1;
     }
 </style>
 </head>
@@ -765,7 +777,7 @@
     </div>
 </div>
 
-<!-- Герой карусель з великими фото -->
+<!-- Герой карусель -->
 <div class="hero-carousel" id="heroCarousel">
     <!-- Слайди додаються динамічно -->
 </div>
@@ -788,10 +800,10 @@
         </div>
         
         <div class="carousel-nav-buttons">
-            <button class="carousel-btn" onclick="scrollRecipesCarousel(-350)">
+            <button class="carousel-btn" onclick="scrollRecipesCarousel('left')">
                 <i class="fas fa-chevron-left"></i>
             </button>
-            <button class="carousel-btn" onclick="scrollRecipesCarousel(350)">
+            <button class="carousel-btn" onclick="scrollRecipesCarousel('right')">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
@@ -875,7 +887,7 @@ function toggleMenu() {
     navButtons.classList.toggle('active');
 }
 
-// Дані для герой-каруселі - змінено посилання на зображення борща
+// Дані для герой-каруселі
 const heroSlides = [
     {
         background: 'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg',
@@ -885,12 +897,6 @@ const heroSlides = [
     },
     {
         background: 'https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg',
-    },
-    {
-        background: 'https://images.pexels.com/photos/1482803/pexels-photo-1482803.jpeg',
-    },
-    {
-        background: 'https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg',
     }
 ];
 
@@ -898,7 +904,7 @@ const heroSlides = [
 const fixedTitle = 'Ласкаво просимо до CookBook';
 const fixedDescription = 'Відкрийте для себе світ кулінарних шедеврів. Від класичних українських страв до екзотичних делікатесів. Готуйте з насолодою та надихайтеся новими ідеями разом з нами!';
 
-// Дані для каруселі рецептів - виправлено посилання на зображення борща
+// Дані для каруселі рецептів - оновлено фото борща
 const carouselRecipes = [
     {
         title: "Борщ український",
@@ -950,16 +956,29 @@ const carouselRecipes = [
     }
 ];
 
-// Ініціалізація герой-каруселі
+// Глобальні змінні
+let currentSlide = 0;
+let slideInterval = null;
+let isCarouselPaused = false;
+let recipeCarouselObserver = null;
+
+// Оптимізована ініціалізація герой-каруселі
 function initHeroCarousel() {
     const carousel = document.getElementById('heroCarousel');
     const dotsContainer = document.getElementById('carouselDots');
     
     heroSlides.forEach((slide, index) => {
-        // Створення слайда
         const slideElement = document.createElement('div');
         slideElement.className = 'carousel-slide';
-        slideElement.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${slide.background}')`;
+        
+        // Додаємо зображення тільки для першого слайда
+        if (index === 0) {
+            slideElement.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${slide.background}')`;
+        } else {
+            // Для інших слайдів додаємо пізніше
+            slideElement.setAttribute('data-bg', slide.background);
+        }
+        
         slideElement.innerHTML = `
             <div class="hero-content">
                 <h1>${fixedTitle}</h1>
@@ -976,7 +995,6 @@ function initHeroCarousel() {
         `;
         carousel.appendChild(slideElement);
         
-        // Створення крапки
         const dot = document.createElement('div');
         dot.className = 'carousel-dot';
         if (index === 0) dot.classList.add('active');
@@ -985,21 +1003,60 @@ function initHeroCarousel() {
         dotsContainer.appendChild(dot);
     });
     
-    // Активація першого слайда
     document.querySelectorAll('.carousel-slide')[0].classList.add('active');
+    preloadHeroImages();
 }
 
-// Ініціалізація каруселі рецептів
+// Попереднє завантаження зображень для герой-каруселі
+function preloadHeroImages() {
+    heroSlides.forEach((slide, index) => {
+        if (index > 0) {
+            setTimeout(() => {
+                const img = new Image();
+                img.onload = () => {
+                    const slideElement = document.querySelectorAll('.carousel-slide')[index];
+                    if (slideElement) {
+                        slideElement.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${slide.background}')`;
+                    }
+                };
+                img.src = slide.background;
+            }, index * 1000);
+        }
+    });
+}
+
+// Оптимізована ініціалізація каруселі рецептів
 function initRecipesCarousel() {
     const carousel = document.getElementById('recipeCarousel');
     
-    carouselRecipes.forEach(recipe => {
-        const item = document.createElement('a');
-        item.className = 'carousel-item';
-        item.href = recipe.link;
+    // Додаємо тільки перші 3 елементи спочатку
+    const initialRecipes = carouselRecipes.slice(0, 3);
+    
+    initialRecipes.forEach(recipe => {
+        createRecipeCard(recipe, carousel, true);
+    });
+    
+    // Решта рецептів додаються пізніше
+    setTimeout(() => {
+        const remainingRecipes = carouselRecipes.slice(3);
+        remainingRecipes.forEach(recipe => {
+            createRecipeCard(recipe, carousel, false);
+        });
+        setupLazyLoading();
+    }, 500);
+}
+
+// Функція для створення картки рецепту
+function createRecipeCard(recipe, container, loadImmediately = true) {
+    const item = document.createElement('a');
+    item.className = 'carousel-item';
+    item.href = recipe.link;
+    
+    if (loadImmediately) {
+        // Безпосереднє завантаження для перших трьох карток
         item.innerHTML = `
             <div class="recipe-category-badge">${recipe.category}</div>
-            <img src="${recipe.image}" alt="${recipe.title}" loading="lazy">
+            <img src="${recipe.image}" alt="${recipe.title}" loading="eager">
             <div class="carousel-content">
                 <h3>${recipe.title}</h3>
                 <p>${recipe.description}</p>
@@ -1008,24 +1065,100 @@ function initRecipesCarousel() {
                 </div>
             </div>
         `;
-        carousel.appendChild(item);
-    });
+    } else {
+        // Ліниве завантаження для решти карток
+        item.innerHTML = `
+            <div class="recipe-category-badge">${recipe.category}</div>
+            <img class="lazy-load" data-src="${recipe.image}" alt="${recipe.title}" loading="lazy">
+            <div class="carousel-content">
+                <h3>${recipe.title}</h3>
+                <p>${recipe.description}</p>
+                <div class="recipe-time">
+                    <i class="far fa-clock"></i> ${recipe.time}
+                </div>
+            </div>
+        `;
+    }
+    
+    container.appendChild(item);
 }
 
-// Управління герой-каруселлю
-let currentSlide = 0;
-let slideInterval;
-
-function startCarousel() {
-    slideInterval = setInterval(() => {
-        goToSlide((currentSlide + 1) % heroSlides.length);
-    }, 3000);
+// Налаштування лінивого завантаження
+function setupLazyLoading() {
+    const lazyImages = document.querySelectorAll('img.lazy-load');
+    
+    if ('IntersectionObserver' in window) {
+        recipeCarouselObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.add('loaded');
+                    recipeCarouselObserver.unobserve(img);
+                }
+            });
+        }, {
+            rootMargin: '50px', // Починає завантажувати трохи раніше
+            threshold: 0.1
+        });
+        
+        lazyImages.forEach(img => recipeCarouselObserver.observe(img));
+    } else {
+        // Фолбек для старих браузерів
+        lazyImages.forEach(img => {
+            img.src = img.dataset.src;
+            img.classList.add('loaded');
+        });
+    }
 }
 
+// Оптимізована прокрутка каруселі рецептів
+function scrollRecipesCarousel(direction) {
+    const carousel = document.getElementById('recipeCarousel');
+    if (!carousel) return;
+    
+    const scrollAmount = carousel.offsetWidth * 0.8; // 80% ширини каруселі
+    const targetScroll = direction === 'right' ? 
+        carousel.scrollLeft + scrollAmount : 
+        carousel.scrollLeft - scrollAmount;
+    
+    // Використовуємо requestAnimationFrame для плавності
+    const startTime = performance.now();
+    const startScroll = carousel.scrollLeft;
+    const duration = 300; // мс
+    
+    function animateScroll(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Використовуємо easeOutCubic для плавності
+        const easeProgress = 1 - Math.pow(1 - progress, 3);
+        carousel.scrollLeft = startScroll + (targetScroll - startScroll) * easeProgress;
+        
+        if (progress < 1) {
+            requestAnimationFrame(animateScroll);
+        }
+    }
+    
+    requestAnimationFrame(animateScroll);
+}
+
+// Оптимізована зміна слайдів герой-каруселі
 function goToSlide(index) {
     const slides = document.querySelectorAll('.carousel-slide');
     const dots = document.querySelectorAll('.carousel-dot');
     
+    if (slides.length === 0 || index < 0 || index >= slides.length) return;
+    
+    // Завантажуємо зображення для цього слайда, якщо ще не завантажено
+    const slide = slides[index];
+    if (slide.hasAttribute('data-bg')) {
+        const bg = slide.getAttribute('data-bg');
+        slide.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${bg}')`;
+        slide.removeAttribute('data-bg');
+    }
+    
+    // Анімація переходу
     slides[currentSlide].classList.remove('active');
     dots[currentSlide].classList.remove('active');
     
@@ -1033,76 +1166,27 @@ function goToSlide(index) {
     
     slides[currentSlide].classList.add('active');
     dots[currentSlide].classList.add('active');
-}
-
-// Прокрутка каруселі рецептів
-function scrollRecipesCarousel(distance) {
-    const carousel = document.getElementById('recipeCarousel');
-    carousel.scrollBy({ left: distance, behavior: 'smooth' });
-}
-
-// Оптимізація продуктивності
-
-// 1. Додаємо атрибут loading="lazy" для ленивого завантаження
-function addLazyLoading() {
-    const images = document.querySelectorAll('img');
-    images.forEach(img => {
-        if (!img.hasAttribute('loading')) {
-            img.setAttribute('loading', 'lazy');
-        }
-    });
-}
-
-// 2. Оптимізація каруселі - завантаження зображень по мірі необхідності
-function optimizeCarouselLoading() {
-    // Додаємо слухач для відстеження видимості елементів каруселі
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target.querySelector('img');
-                if (img && !img.hasAttribute('data-loaded')) {
-                    img.setAttribute('data-loaded', 'true');
-                    // Додаємо невелику затримку для плавного завантаження
-                    setTimeout(() => {
-                        const src = img.getAttribute('src');
-                        if (src) {
-                            // Створюємо нове зображення для попереднього завантаження
-                            const preloadImg = new Image();
-                            preloadImg.src = src;
-                        }
-                    }, 100);
-                }
-            }
-        });
-    }, {
-        threshold: 0.1 // Елемент вважається видимим, коли 10% його в зоні видимості
-    });
     
-    // Спостерігаємо за елементами каруселі
-    document.querySelectorAll('.carousel-item').forEach(item => {
-        observer.observe(item);
-    });
+    resetCarouselInterval();
 }
 
-// 3. Дебаунс для скролу та ресайзу
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
+function startCarousel() {
+    if (slideInterval) clearInterval(slideInterval);
+    slideInterval = setInterval(() => {
+        if (!isCarouselPaused) {
+            goToSlide((currentSlide + 1) % heroSlides.length);
+        }
+    }, 4000);
 }
 
-// 4. Оптимізований обробник ресайзу
-const optimizedResize = debounce(() => {
-    // Тут можна додати код для оптимізації при зміні розміру вікна
-}, 250);
+function resetCarouselInterval() {
+    if (slideInterval) {
+        clearInterval(slideInterval);
+        startCarousel();
+    }
+}
 
-// Закриття меню при кліку поза ним
+// Оптимізація подій
 document.addEventListener('click', (e) => {
     const navButtons = document.getElementById('navButtons');
     const burgerMenu = document.querySelector('.burger-menu');
@@ -1110,85 +1194,115 @@ document.addEventListener('click', (e) => {
     if (!navButtons.contains(e.target) && !burgerMenu.contains(e.target)) {
         navButtons.classList.remove('active');
     }
+    
+    // Закриття меню при кліку на посилання
+    if (e.target.closest('.nav-btn')) {
+        navButtons.classList.remove('active');
+    }
 });
 
+// Пауза каруселі при наведенні
+const heroCarousel = document.getElementById('heroCarousel');
+if (heroCarousel) {
+    heroCarousel.addEventListener('mouseenter', () => {
+        isCarouselPaused = true;
+    });
+    
+    heroCarousel.addEventListener('mouseleave', () => {
+        isCarouselPaused = false;
+    });
+}
+
+// Оптимізація для тач-пристроїв
+let touchStartX = 0;
+let touchEndX = 0;
+
+const recipeCarousel = document.getElementById('recipeCarousel');
+if (recipeCarousel) {
+    recipeCarousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    recipeCarousel.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+}
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+            // Свайп вліво - прокрутка вправо
+            scrollRecipesCarousel('right');
+        } else {
+            // Свайп вправо - прокрутка вліво
+            scrollRecipesCarousel('left');
+        }
+    }
+}
+
+// Дебаунс для ресайзу
+let resizeTimeout;
+function debouncedResize() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        // Перезавантажуємо ліниві зображення при ресайзі
+        if (recipeCarouselObserver) {
+            recipeCarouselObserver.disconnect();
+            setupLazyLoading();
+        }
+    }, 250);
+}
+
 // Ініціалізація при завантаженні
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', () => {
+    // Швидка ініціалізація основних елементів
     initHeroCarousel();
     initRecipesCarousel();
-    startCarousel();
     
-    // Додаємо лениве завантаження
-    addLazyLoading();
-    
-    // Оптимізуємо завантаження каруселі
+    // Запускаємо карусель через невелику затримку
     setTimeout(() => {
-        optimizeCarouselLoading();
+        startCarousel();
     }, 1000);
     
-    // Пауза каруселі при наведенні
-    const heroCarousel = document.getElementById('heroCarousel');
-    heroCarousel.addEventListener('mouseenter', () => clearInterval(slideInterval));
-    heroCarousel.addEventListener('mouseleave', startCarousel);
+    // Додаємо обробники подій
+    window.addEventListener('resize', debouncedResize);
     
-    // Автоматична прокрутка каруселі рецептів з оптимізацією
-    let carouselAutoScroll;
-    function startRecipeCarouselAutoScroll() {
-        carouselAutoScroll = setInterval(() => {
-            scrollRecipesCarousel(350);
-        }, 8000);
+    // Оптимізація анімацій
+    if ('requestAnimationFrame' in window) {
+        // Використовуємо rAF для плавних анімацій
+        console.log('Using requestAnimationFrame for smooth animations');
     }
     
-    startRecipeCarouselAutoScroll();
-    
-    // Пауза при наведенні на карусель рецептів
-    const recipeCarousel = document.getElementById('recipeCarousel');
-    recipeCarousel.addEventListener('mouseenter', () => clearInterval(carouselAutoScroll));
-    recipeCarousel.addEventListener('mouseleave', startRecipeCarouselAutoScroll);
-    
-    // Додаємо обробник ресайзу
-    window.addEventListener('resize', optimizedResize);
-    
-    // Оптимізація для мобільних пристроїв
-    if ('ontouchstart' in window) {
-        // Зменшуємо інтервали для мобільних пристроїв
-        clearInterval(slideInterval);
-        startCarousel();
-        
-        // Додаємо плавну поведінку для скролу
-        document.documentElement.style.scrollBehavior = 'smooth';
+    // Перевірка WebGL для апаратного прискорення
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (gl && gl instanceof WebGLRenderingContext) {
+        console.log('WebGL is available for hardware acceleration');
     }
-};
+});
 
-// Запобігаємо багаторазовим клікам
+// Запобігання багаторазовим клікам
 let lastClickTime = 0;
-document.addEventListener('click', function(e) {
-    const currentTime = new Date().getTime();
+document.addEventListener('click', (e) => {
+    const currentTime = Date.now();
     if (currentTime - lastClickTime < 300) {
         e.preventDefault();
-        return;
+        e.stopPropagation();
+        return false;
     }
     lastClickTime = currentTime;
 }, true);
 
-// Оптимізація анімацій
-if ('requestIdleCallback' in window) {
-    window.requestIdleCallback(() => {
-        // Виконуємо не критичні задачі, коли браузер простаює
-        const preloadImages = [
-            'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg',
-            'https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg',
-            'https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg'
-        ];
-        
-        preloadImages.forEach(src => {
-            const img = new Image();
-            img.src = src;
-        });
-    });
-}
+// Cleanup при виході
+window.addEventListener('beforeunload', () => {
+    if (slideInterval) clearInterval(slideInterval);
+    if (recipeCarouselObserver) recipeCarouselObserver.disconnect();
+});
 </script>
 
 </body>
 </html>
-
