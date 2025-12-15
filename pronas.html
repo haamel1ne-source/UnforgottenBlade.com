@@ -312,6 +312,158 @@
         text-align: center;
     }
 
+    /* Нова секція: Карта та таймер */
+    .map-timer-section {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 70px 60px;
+        border-radius: 25px;
+        margin-bottom: 100px;
+        color: var(--text);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .map-timer-section:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 10px;
+        background: linear-gradient(90deg, var(--secondary), var(--primary));
+    }
+
+    .map-timer-section h2 {
+        color: var(--primary);
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        text-align: center;
+        position: relative;
+        padding-bottom: 15px;
+    }
+
+    .map-timer-section h2:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 4px;
+        background: var(--secondary);
+        border-radius: 2px;
+    }
+
+    .map-timer-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        align-items: stretch;
+    }
+
+    .map-container {
+        flex: 1;
+        min-width: 300px;
+        height: 400px;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        border: 3px solid var(--primary);
+    }
+
+    .map-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .timer-container {
+        flex: 1;
+        min-width: 300px;
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        padding: 40px;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        border: 3px solid var(--secondary);
+    }
+
+    .timer-container h3 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        text-align: center;
+        color: var(--secondary);
+    }
+
+    .timer-title {
+        font-size: 1.4rem;
+        margin-bottom: 30px;
+        text-align: center;
+        opacity: 0.9;
+        line-height: 1.5;
+    }
+
+    .timer {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+
+    .timer-unit {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        padding: 25px 15px;
+        border-radius: 12px;
+        min-width: 100px;
+        text-align: center;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .timer-unit:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.25);
+        border-color: var(--secondary);
+    }
+
+    .timer-value {
+        font-size: 3rem;
+        font-weight: 800;
+        color: var(--secondary);
+        line-height: 1;
+        margin-bottom: 5px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .timer-label {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.9;
+    }
+
+    .deadline-info {
+        text-align: center;
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        width: 100%;
+    }
+
+    .deadline-date {
+        color: var(--secondary);
+        font-weight: 700;
+    }
+
     /* Підвал */
     footer {
         background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
@@ -426,8 +578,21 @@
             padding: 50px 40px;
         }
         
+        .map-timer-section {
+            padding: 50px 40px;
+        }
+        
         .author-info h2 {
             font-size: 2.2rem;
+        }
+        
+        .timer-unit {
+            min-width: 80px;
+            padding: 20px 10px;
+        }
+        
+        .timer-value {
+            font-size: 2.5rem;
         }
     }
 
@@ -489,7 +654,44 @@
             padding: 40px 30px;
         }
         
+        .map-timer-section {
+            padding: 40px 30px;
+        }
+        
+        .map-timer-section h2 {
+            font-size: 2rem;
+        }
+        
         .mission-section h2 {
+            font-size: 2rem;
+        }
+        
+        .map-container {
+            height: 300px;
+        }
+        
+        .timer-container {
+            padding: 30px 25px;
+        }
+        
+        .timer-container h3 {
+            font-size: 1.5rem;
+        }
+        
+        .timer-title {
+            font-size: 1.2rem;
+        }
+        
+        .timer {
+            gap: 15px;
+        }
+        
+        .timer-unit {
+            min-width: 70px;
+            padding: 15px 8px;
+        }
+        
+        .timer-value {
             font-size: 2rem;
         }
         
@@ -540,8 +742,37 @@
             padding: 30px 20px;
         }
         
+        .map-timer-section {
+            padding: 30px 20px;
+        }
+        
         .mission-section h2 {
             font-size: 1.6rem;
+        }
+        
+        .map-timer-section h2 {
+            font-size: 1.6rem;
+        }
+        
+        .timer-container h3 {
+            font-size: 1.3rem;
+        }
+        
+        .timer-title {
+            font-size: 1.1rem;
+        }
+        
+        .timer {
+            gap: 10px;
+        }
+        
+        .timer-unit {
+            min-width: 65px;
+            padding: 12px 6px;
+        }
+        
+        .timer-value {
+            font-size: 1.8rem;
         }
         
         .logo {
@@ -653,6 +884,53 @@
             </div>
         </div>
     </section>
+    
+    <!-- Нова секція: Карта та таймер -->
+    <section class="map-timer-section">
+        <h2>Місце на карті та таймер</h2>
+        
+        <div class="map-timer-container">
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2573.036668516616!2d24.028788976611204!3d49.83971887148397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473add6df0eef8f1%3A0x98065fd0d26d20a!2z0J3QsNGG0LjQvtC90LDQu9GM0L3Ri9C5INGD0L3QuNCy0LXRgNGB0LjRgtC10YIgItC70YzQvdC40LrQsCDQv9C-0LvRjNGI0LAi!5e0!3m2!1suk!2sua!4v1702912345678!5m2!1suk!2sua" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+            
+            <div class="timer-container">
+                <h3><i class="fas fa-clock"></i> Таймер до особливої дати</h3>
+                <p class="timer-title">До завершення особливого періоду для CookBook залишилось:</p>
+                
+                <div class="timer" id="countdown-timer">
+                    <div class="timer-unit">
+                        <div class="timer-value" id="days">00</div>
+                        <div class="timer-label">Днів</div>
+                    </div>
+                    
+                    <div class="timer-unit">
+                        <div class="timer-value" id="hours">00</div>
+                        <div class="timer-label">Годин</div>
+                    </div>
+                    
+                    <div class="timer-unit">
+                        <div class="timer-value" id="minutes">00</div>
+                        <div class="timer-label">Хвилин</div>
+                    </div>
+                    
+                    <div class="timer-unit">
+                        <div class="timer-value" id="seconds">00</div>
+                        <div class="timer-label">Секунд</div>
+                    </div>
+                </div>
+                
+                <div class="deadline-info">
+                    Дедлайн: <span class="deadline-date">19 грудня 2025 року, 23:59</span>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 
 <!-- Підвал -->
@@ -697,6 +975,31 @@ function toggleMenu() {
     navButtons.classList.toggle('active');
 }
 
+// Таймер до 19 грудня 2025 року 23:59
+function updateCountdown() {
+    const deadline = new Date('December 19, 2025 23:59:59').getTime();
+    const now = new Date().getTime();
+    const timeLeft = deadline - now;
+    
+    if (timeLeft < 0) {
+        document.getElementById('days').innerText = '00';
+        document.getElementById('hours').innerText = '00';
+        document.getElementById('minutes').innerText = '00';
+        document.getElementById('seconds').innerText = '00';
+        return;
+    }
+    
+    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+    
+    document.getElementById('days').innerText = days.toString().padStart(2, '0');
+    document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+    document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+    document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+}
+
 // Закриття меню при кліку поза ним
 document.addEventListener('click', (e) => {
     const navButtons = document.getElementById('navButtons');
@@ -722,9 +1025,13 @@ document.addEventListener('DOMContentLoaded', function() {
         this.alt = 'Зображення за замовчуванням - кулінарна тематика';
     };
     
+    // Запуск таймера
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    
     // Плавна анімація елементів при прокрутці
     const animateOnScroll = function() {
-        const elements = document.querySelectorAll('.author-section, .mission-section');
+        const elements = document.querySelectorAll('.author-section, .mission-section, .map-timer-section');
         
         elements.forEach(element => {
             const elementPosition = element.getBoundingClientRect().top;
@@ -738,13 +1045,12 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     // Початковий стан для анімації
-    document.querySelector('.author-section').style.opacity = '0';
-    document.querySelector('.author-section').style.transform = 'translateY(30px)';
-    document.querySelector('.author-section').style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-    
-    document.querySelector('.mission-section').style.opacity = '0';
-    document.querySelector('.mission-section').style.transform = 'translateY(30px)';
-    document.querySelector('.mission-section').style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    const sections = document.querySelectorAll('.author-section, .mission-section, .map-timer-section');
+    sections.forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(30px)';
+        section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    });
     
     // Запускаємо анімацію при завантаженні
     setTimeout(() => {
@@ -753,8 +1059,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Запускаємо анімацію при прокрутці
     window.addEventListener('scroll', animateOnScroll);
+    
+    // Анімація для карт і таймера при завантаженні
+    const timerUnits = document.querySelectorAll('.timer-unit');
+    timerUnits.forEach((unit, index) => {
+        unit.style.opacity = '0';
+        unit.style.transform = 'translateY(20px)';
+        unit.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
+        
+        setTimeout(() => {
+            unit.style.opacity = '1';
+            unit.style.transform = 'translateY(0)';
+        }, 500 + (index * 100));
+    });
 });
 </script>
 
 </body>
-  </html>
+</html>
