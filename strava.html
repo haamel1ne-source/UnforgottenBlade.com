@@ -89,12 +89,13 @@
         font-size: 28px;
         cursor: pointer;
         padding: 10px;
-        margin-right: 15px; /* Додано відступ праворуч */
+        margin-left: 15px; /* Додано відступ ліворуч */
     }
 
     .nav-buttons {
         display: flex;
         gap: 10px;
+        margin-right: auto; /* Додано для зсуву вліво */
     }
 
     .nav-btn {
@@ -126,7 +127,7 @@
         font-weight: 800;
         color: var(--white);
         letter-spacing: 1px;
-        margin-right: auto; /* Додано для зсуву вліво */
+        margin-left: 20px; /* Додано відступ ліворуч */
     }
 
     .logo a {
@@ -679,7 +680,7 @@
         
         .burger-menu {
             display: block;
-            margin-right: 10px; /* Зменшений відступ для мобільних */
+            margin-left: 10px; /* Зменшений відступ для мобільних */
         }
         
         .nav-buttons {
@@ -692,6 +693,7 @@
             flex-direction: column;
             padding: 15px;
             z-index: 1000;
+            margin-right: 0; /* Скидаємо margin-right для мобільних */
         }
         
         .nav-buttons.active {
@@ -707,7 +709,7 @@
         .logo {
             font-size: 28px; /* Зменшений розмір лого для мобільних */
             gap: 10px; /* Зменшений проміжок між іконкою та текстом */
-            margin-right: auto; /* Збережено для зсуву вліво */
+            margin-left: 10px; /* Зменшений відступ для мобільних */
         }
         
         .recipes-container {
@@ -782,12 +784,13 @@
         }
         
         .burger-menu {
-            margin-right: 8px; /* Ще менший відступ для маленьких екранів */
+            margin-left: 8px; /* Ще менший відступ для маленьких екранів */
         }
         
         .logo {
             font-size: 24px; /* Ще менший розмір лого */
             gap: 8px; /* Ще менший проміжок */
+            margin-left: 8px; /* Ще менший відступ */
         }
         
         .logo a {
