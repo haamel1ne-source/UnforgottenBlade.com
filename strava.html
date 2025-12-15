@@ -89,13 +89,12 @@
         font-size: 28px;
         cursor: pointer;
         padding: 10px;
-        margin-left: 15px; /* Додано відступ ліворуч */
     }
 
     .nav-buttons {
         display: flex;
         gap: 10px;
-        margin-right: auto; /* Додано для зсуву вліво */
+        margin-right: auto; /* Навігаційні кнопки ліворуч */
     }
 
     .nav-btn {
@@ -127,7 +126,8 @@
         font-weight: 800;
         color: var(--white);
         letter-spacing: 1px;
-        margin-left: 20px; /* Додано відступ ліворуч */
+        margin-left: auto; /* Логотип праворуч */
+        margin-right: 20px; /* Відступ праворуч */
     }
 
     .logo a {
@@ -136,23 +136,6 @@
         display: flex;
         align-items: center;
         gap: 15px;
-    }
-
-    .theme-switcher {
-        background: rgba(255, 255, 255, 0.2);
-        border: none;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        color: white;
-        font-size: 20px;
-        transition: 0.3s;
-        margin-left: 15px;
-        flex-shrink: 0;
     }
 
     /* Конвертер одиниць */
@@ -680,7 +663,8 @@
         
         .burger-menu {
             display: block;
-            margin-left: 10px; /* Зменшений відступ для мобільних */
+            margin-left: auto; /* Бургер-меню праворуч */
+            order: 2; /* Змінюємо порядок для мобільних */
         }
         
         .nav-buttons {
@@ -693,7 +677,7 @@
             flex-direction: column;
             padding: 15px;
             z-index: 1000;
-            margin-right: 0; /* Скидаємо margin-right для мобільних */
+            margin-right: 0; /* Скидаємо для мобільних */
         }
         
         .nav-buttons.active {
@@ -707,9 +691,10 @@
         }
         
         .logo {
-            font-size: 28px; /* Зменшений розмір лого для мобільних */
-            gap: 10px; /* Зменшений проміжок між іконкою та текстом */
-            margin-left: 10px; /* Зменшений відступ для мобільних */
+            font-size: 28px;
+            gap: 10px;
+            margin-right: 10px; /* Зменшений відступ для мобільних */
+            order: 1; /* Логотип перед бургером */
         }
         
         .recipes-container {
@@ -784,13 +769,13 @@
         }
         
         .burger-menu {
-            margin-left: 8px; /* Ще менший відступ для маленьких екранів */
+            margin-left: auto;
         }
         
         .logo {
-            font-size: 24px; /* Ще менший розмір лого */
-            gap: 8px; /* Ще менший проміжок */
-            margin-left: 8px; /* Ще менший відступ */
+            font-size: 24px;
+            gap: 8px;
+            margin-right: 8px;
         }
         
         .logo a {
@@ -848,10 +833,6 @@
 <body>
 
 <div class="header-container">
-    <button class="burger-menu" onclick="toggleMenu()">
-        <i class="fas fa-bars"></i>
-    </button>
-    
     <div class="nav-buttons" id="navButtons">
         <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Головна</a>
         <a href="strava.html" class="nav-btn"><i class="fas fa-utensils"></i> Смачні страви</a>
@@ -859,16 +840,16 @@
         <a href="pronas.html" class="nav-btn"><i class="fas fa-info-circle"></i> Про нас</a>
     </div>
     
+    <button class="burger-menu" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+    
     <div class="logo">
         <a href="index.html">
             <span class="logo-icon">🍔</span>
             <span class="logo-text">CookBook</span>
         </a>
     </div>
-    
-    <button class="theme-switcher" onclick="toggleTheme()" title="Змінити тему">
-        <i class="fas fa-moon"></i>
-    </button>
 </div>
 
 <!-- Конвертер одиниць -->
@@ -1200,14 +1181,6 @@ let imageObserver = null;
 function toggleMenu() {
     const navButtons = document.getElementById('navButtons');
     navButtons.classList.toggle('active');
-}
-
-function toggleTheme() {
-    document.body.classList.toggle('dark-theme');
-    const icon = document.querySelector('.theme-switcher i');
-    const isDark = document.body.classList.contains('dark-theme');
-    icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
 }
 
 function filterRecipes(cat, event) {
@@ -1597,14 +1570,6 @@ function throttledScroll() {
 
 // Ініціалізація
 document.addEventListener('DOMContentLoaded', function() {
-    // Відновлення теми
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-theme');
-        const icon = document.querySelector('.theme-switcher i');
-        if (icon) icon.className = 'fas fa-sun';
-    }
-    
     // Рендеринг рецептів
     renderRecipes();
     
