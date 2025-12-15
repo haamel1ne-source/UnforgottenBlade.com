@@ -6,6 +6,10 @@
 <title>CookBook — Смачні страви</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" type="image/png" href="favicon/burger.png">
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="preconnect" href="https://images.pexels.com">
+<link rel="dns-prefetch" href="https://images.unsplash.com">
+<link rel="dns-prefetch" href="https://images.pexels.com">
 <style>
     :root {
         --primary: #2E8B57;
@@ -52,13 +56,15 @@
         width: 100%;
         height: 100%;
         background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                    url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg') center/cover no-repeat;
+                    url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=1200&q=80&auto=format&fit=crop') center/cover no-repeat;
         z-index: -2;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
     }
 
     body.dark-theme::before {
         background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
-                    url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg') center/cover no-repeat;
+                    url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=1200&q=80&auto=format&fit=crop') center/cover no-repeat;
     }
 
     /* Верхня панель */
@@ -478,7 +484,28 @@
         overflow: hidden;
         position: relative;
         flex-shrink: 0;
-        background: linear-gradient(45deg, #f5f5f5, #e0e0e0);
+        background: linear-gradient(45deg, var(--primary-light), var(--primary-dark));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .recipe-img-container::before {
+        content: '';
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(255,255,255,0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 1;
+    }
+
+    .recipe-img-container.loading::before {
+        opacity: 1;
     }
 
     .recipe-img-container img {
@@ -487,10 +514,23 @@
         object-fit: cover;
         transition: transform 0.4s ease;
         transform: translateZ(0);
+        background: linear-gradient(45deg, var(--primary-light), var(--primary-dark));
+    }
+
+    .recipe-img-container img.loaded {
+        filter: blur(0);
+    }
+
+    .recipe-img-container img:not(.loaded) {
+        filter: blur(10px);
     }
 
     .recipe:hover .recipe-img-container img {
         transform: scale(1.08) translateZ(0);
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
     }
 
     .recipe-category {
@@ -1052,7 +1092,23 @@ class Recipe {
     }
 }
 
-// База рецептів - ОПТИМІЗОВАНІ зображення (розміром до 150KB кожне)
+// Функція для оптимізації URL зображень
+function getOptimizedImageUrl(originalUrl, width = 400, quality = 85) {
+    // Для Unsplash
+    if (originalUrl.includes('unsplash.com')) {
+        return `${originalUrl.split('?')[0]}?w=${width}&q=${quality}&fit=crop&auto=format`;
+    }
+    
+    // Для Pexels
+    if (originalUrl.includes('pexels.com')) {
+        return `${originalUrl}?auto=compress&cs=tinysrgb&w=${width}&q=${quality}`;
+    }
+    
+    // Для інших джерел - повертаємо оригінал
+    return originalUrl;
+}
+
+// База рецептів з оптимізованими зображеннями
 const recipesData = [
     new Recipe(
         1,
@@ -1060,7 +1116,7 @@ const recipesData = [
         'soup',
         80,
         'hard',
-        'https://i.imgur.com/9Q3ZJhD.jpeg', // Оптимізоване зображення
+        getOptimizedImageUrl('https://images.unsplash.com/photo-1547592180-85f173990554'),
         'borshch.html',
         'Класичний червоний борщ зі сметаною та свіжою зеленню'
     ),
@@ -1070,7 +1126,7 @@ const recipesData = [
         'dessert',
         25,
         'easy',
-        'https://i.imgur.com/L4j3KqP.jpeg', // Оптимізоване зображення
+        getOptimizedImageUrl('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445'),
         'pancake.html',
         'Повітряні млинці зі свіжими ягодами та солодким сиропом'
     ),
@@ -1080,7 +1136,7 @@ const recipesData = [
         'meat',
         75,
         'hard',
-        'https://i.imgur.com/V7mX9nR.jpeg', // Оптимізоване зображення
+        getOptimizedImageUrl('https://images.unsplash.com/photo-1574894709920-11b28e7367e3'),
         'lasanga.html',
         "Класична італійська лазанья з м'ясним соусом та сиром"
     ),
@@ -1090,7 +1146,7 @@ const recipesData = [
         'dessert',
         30,
         'medium',
-        'https://i.imgur.com/W8dF6jH.jpeg', // Оптимізоване зображення
+        getOptimizedImageUrl('https://images.unsplash.com/photo-1614149163253-5047e5d91309'),
         'cheesecake.html',
         'Ніжні сирники з родзинками, подаються зі сметаною'
     ),
@@ -1100,7 +1156,7 @@ const recipesData = [
         'breakfast',
         20,
         'easy',
-        'https://i.imgur.com/Jk7r3vB.jpeg', // Оптимізоване зображення
+        getOptimizedImageUrl('https://images.unsplash.com/photo-1551782450-17144efb9c50'),
         'omlet.html',
         'Поживний сніданок зі свіжими овочами та сиром'
     ),
@@ -1110,7 +1166,7 @@ const recipesData = [
         'meat',
         45,
         'medium',
-        'https://i.imgur.com/K9sLb2T.jpeg', // Оптимізоване зображення
+        getOptimizedImageUrl('https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd'),
         'curry.html',
         'Ароматне каррі з кокосовим молоком та свіжими овочами'
     )
@@ -1120,7 +1176,7 @@ const recipesData = [
 let likedRecipes = JSON.parse(localStorage.getItem('likedRecipes')) || [];
 let caloriesData = [];
 let currentFilter = 'all';
-let imageCache = new Map(); // Кеш для зображень
+let imageObserver = null;
 
 // Основні функції
 function toggleMenu() {
@@ -1139,19 +1195,52 @@ function toggleTheme() {
 function filterRecipes(cat, event) {
     currentFilter = cat;
     
+    // Оновлення активної кнопки
     const buttons = document.querySelectorAll('.categories button');
     buttons.forEach(btn => btn.classList.remove('active'));
     
     if (event && event.target) {
         event.target.classList.add('active');
     } else {
-        buttons[0].classList.add('active');
+        buttons[0].classList.add('active'); // Перша кнопка "Усі"
     }
     
     renderRecipes();
 }
 
-async function renderRecipes() {
+// Функція для lazy loading зображень
+function initImageObserver() {
+    if (imageObserver) {
+        imageObserver.disconnect();
+    }
+    
+    imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                const src = img.getAttribute('data-src');
+                
+                if (src) {
+                    img.src = src;
+                    img.onload = () => {
+                        img.classList.add('loaded');
+                        const container = img.closest('.recipe-img-container');
+                        if (container) {
+                            container.classList.remove('loading');
+                        }
+                    };
+                    img.removeAttribute('data-src');
+                }
+                observer.unobserve(img);
+            }
+        });
+    }, {
+        rootMargin: '100px 0px',
+        threshold: 0.1
+    });
+}
+
+function renderRecipes() {
     const container = document.getElementById('recipes');
     if (!container) return;
     
@@ -1161,13 +1250,17 @@ async function renderRecipes() {
         ? recipesData 
         : recipesData.filter(recipe => recipe.category === currentFilter);
     
-    for (const recipe of filteredRecipes) {
-        const recipeElement = await createRecipeElement(recipe);
+    filteredRecipes.forEach(recipe => {
+        const recipeElement = createRecipeElement(recipe);
         container.appendChild(recipeElement);
-    }
+    });
+    
+    // Ініціалізуємо спостерігач для lazy loading
+    initImageObserver();
+    observeRecipeImages();
 }
 
-async function createRecipeElement(recipe) {
+function createRecipeElement(recipe) {
     const isLiked = likedRecipes.includes(recipe.title);
     
     const div = document.createElement('a');
@@ -1177,65 +1270,40 @@ async function createRecipeElement(recipe) {
     const timeText = recipe.time >= 60 ? '60+ хв' : `${recipe.time} хв`;
     const categoryName = getCategoryName(recipe.category);
     
-    // Використовуємо кешоване зображення або завантажуємо
-    let imageUrl = recipe.image;
-    if (imageCache.has(recipe.image)) {
-        imageUrl = imageCache.get(recipe.image);
-    }
+    // SVG placeholder для швидкого відображення
+    const placeholderSVG = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%232E8B57'/%3E%3C/svg%3E`;
     
     div.innerHTML = `
         <button class="like-btn ${isLiked ? 'active' : ''}" onclick="toggleLike(event, ${recipe.id})" title="Додати в улюблене">
             <i class="${isLiked ? 'fas' : 'far'} fa-heart"></i>
         </button>
-        <div class="recipe-img-container">
-            <img src="${imageUrl}" 
-                 alt="${recipe.title}" 
-                 loading="lazy" 
-                 width="400" 
-                 height="267"
-                 onload="this.style.opacity='1'"
-                 style="opacity:0; transition: opacity 0.3s ease;">
+        <div class="recipe-img-container loading">
+            <img src="${placeholderSVG}"
+                 data-src="${recipe.image}"
+                 alt="${recipe.title}"
+                 loading="lazy"
+                 decoding="async"
+                 class="recipe-image">
             <span class="recipe-category">${categoryName}</span>
         </div>
         <div class="recipe-content">
             <h3>${recipe.title}</h3>
             <p>${recipe.description}</p>
             <div class="recipe-time">
-                <i class="far fa-clock"></i> ${timeText}
+                <i class="far fa-clock"></i>
+                <span>${timeText}</span>
             </div>
         </div>
     `;
     
-    // Підвантаження зображення в кеш
-    if (!imageCache.has(recipe.image)) {
-        preloadImage(recipe.image);
-    }
-    
     return div;
 }
 
-// Функція для попереднього завантаження та кешування зображень
-async function preloadImage(url) {
-    return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => {
-            imageCache.set(url, url);
-            resolve(url);
-        };
-        img.onerror = () => {
-            // Якщо зображення не завантажилося, використовуємо fallback
-            imageCache.set(url, 'https://i.imgur.com/placeholder.jpg');
-            resolve('https://i.imgur.com/placeholder.jpg');
-        };
-        img.src = url;
-    });
-}
-
-// Попереднє завантаження всіх зображень при завантаженні сторінки
-async function preloadAllImages() {
-    const preloadPromises = recipesData.map(recipe => preloadImage(recipe.image));
-    await Promise.all(preloadPromises);
-    console.log('All images preloaded and cached');
+function observeRecipeImages() {
+    if (!imageObserver) return;
+    
+    const images = document.querySelectorAll('.recipe-image[data-src]');
+    images.forEach(img => imageObserver.observe(img));
 }
 
 function getCategoryName(category) {
@@ -1424,6 +1492,7 @@ function findRecipe() {
     recipesData.forEach(recipe => {
         let match = true;
         
+        // Перевірка часу
         if (timeValue) {
             const timeNum = parseInt(timeValue);
             if (timeNum === 30 && recipe.time > 30) match = false;
@@ -1431,10 +1500,12 @@ function findRecipe() {
             if (timeNum === 120 && recipe.time <= 60) match = false;
         }
         
+        // Перевірка складності
         if (difficultyValue && recipe.difficulty !== difficultyValue) {
             match = false;
         }
         
+        // Перевірка категорії
         if (categoryValue && recipe.category !== categoryValue) {
             match = false;
         }
@@ -1485,8 +1556,29 @@ function getDifficultyText(difficulty) {
     return difficulties[difficulty] || difficulty;
 }
 
+// Оптимізація продуктивності
+let isThrottled = false;
+
+function throttledScroll() {
+    if (!isThrottled) {
+        isThrottled = true;
+        
+        // Оптимізація для мобільних
+        if (window.innerWidth <= 768) {
+            document.body.style.overflow = 'hidden';
+        }
+        
+        setTimeout(() => {
+            isThrottled = false;
+            if (window.innerWidth <= 768) {
+                document.body.style.overflow = '';
+            }
+        }, 50);
+    }
+}
+
 // Ініціалізація
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', function() {
     // Відновлення теми
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
@@ -1495,14 +1587,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (icon) icon.className = 'fas fa-sun';
     }
     
-    // Попереднє завантаження зображень
-    console.log('Preloading images...');
-    await preloadAllImages();
-    
     // Рендеринг рецептів
     renderRecipes();
     
-    // Обробники подій
+    // Оптимізовані обробники подій
     const converterValue = document.getElementById('converterValue');
     const fromUnit = document.getElementById('fromUnit');
     const toUnit = document.getElementById('toUnit');
@@ -1517,6 +1605,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         toUnit.addEventListener('change', convertUnits);
     }
     
+    // Обробка Enter в калькуляторі калорій
     const newIngredient = document.getElementById('newIngredient');
     const newWeight = document.getElementById('newWeight');
     
@@ -1529,7 +1618,17 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
     
-    console.log('Page loaded successfully');
+    // Оптимізований скрол
+    window.addEventListener('scroll', throttledScroll, { passive: true });
+    
+    // Предзавантаження зображень для покращення продуктивності
+    setTimeout(() => {
+        const firstImages = recipesData.slice(0, 3).map(recipe => recipe.image);
+        firstImages.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+    }, 100);
 });
 
 // Закриття модальних вікон
@@ -1544,6 +1643,18 @@ window.addEventListener('click', function(event) {
         closeCalorieCalculator();
     }
 });
+
+// Обробка помилок завантаження зображень
+document.addEventListener('error', function(e) {
+    if (e.target.tagName === 'IMG' && e.target.classList.contains('recipe-image')) {
+        const container = e.target.closest('.recipe-img-container');
+        if (container) {
+            container.classList.remove('loading');
+            // Замінюємо на placeholder при помилці завантаження
+            e.target.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%233CB371'/%3E%3Ctext x='50%' y='50%' font-family='Arial' font-size='18' fill='white' text-anchor='middle' dominant-baseline='middle'%3EЗображення не завантажилось%3C/text%3E%3C/svg%3E`;
+        }
+    }
+}, true);
 </script>
 
 </body>
