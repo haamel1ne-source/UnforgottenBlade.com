@@ -85,6 +85,12 @@
         transform: translateY(-2px);
     }
 
+    .nav-btn.active {
+        background: var(--secondary);
+        color: var(--white);
+        font-weight: 700;
+    }
+
     .logo {
         display: flex;
         align-items: center;
@@ -100,12 +106,12 @@
     .tips-container {
         max-width: 1200px;
         margin: 60px auto;
-        padding: 0 20px;
+        padding: 0 40px;
     }
 
     .page-header {
         text-align: center;
-        margin-bottom: 50px;
+        margin-bottom: 70px;
     }
 
     .page-header h1 {
@@ -724,10 +730,11 @@ document.querySelector('.burger-menu').addEventListener('click', function(e) {
     e.stopPropagation();
 });
 
-// Плавна анімація карток при прокрутці
+// Проста оптимізація для плавної прокрутки
 document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.tip-card, .tool-item');
     
+    // Проста анімація при прокрутці
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -747,4 +754,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 </body>
-  </html>
+</html>
