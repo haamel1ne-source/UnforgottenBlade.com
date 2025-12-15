@@ -1094,21 +1094,22 @@ class Recipe {
 
 // Функція для оптимізації URL зображень
 function getOptimizedImageUrl(originalUrl, width = 400, quality = 85) {
-    // Для Unsplash
-    if (originalUrl.includes('unsplash.com')) {
-        return `${originalUrl.split('?')[0]}?w=${width}&q=${quality}&fit=crop&auto=format`;
+    // Для 24tv.ua
+    if (originalUrl.includes('24tv.ua')) {
+        // Для 24tv.ua просто повертаємо оригінал
+        return originalUrl;
     }
     
     // Для Pexels
     if (originalUrl.includes('pexels.com')) {
-        return `${originalUrl}?auto=compress&cs=tinysrgb&w=${width}&q=${quality}`;
+        return `${originalUrl.split('?')[0]}?auto=compress&cs=tinysrgb&w=${width}&q=${quality}`;
     }
     
     // Для інших джерел - повертаємо оригінал
     return originalUrl;
 }
 
-// База рецептів з оптимізованими зображеннями
+// База рецептів з вашими зображеннями
 const recipesData = [
     new Recipe(
         1,
@@ -1116,7 +1117,7 @@ const recipesData = [
         'soup',
         80,
         'hard',
-        getOptimizedImageUrl('https://images.unsplash.com/photo-1547592180-85f173990554'),
+        getOptimizedImageUrl('https://recepty.24tv.ua/resources/photos/recipe/1200x675_DIR/201912/86d3f0ec08-b061-4a2d-afa7-f053527f4f06.jpg?1582905806000'),
         'borshch.html',
         'Класичний червоний борщ зі сметаною та свіжою зеленню'
     ),
@@ -1126,7 +1127,7 @@ const recipesData = [
         'dessert',
         25,
         'easy',
-        getOptimizedImageUrl('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445'),
+        getOptimizedImageUrl('https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=800&h=533&fit=crop'),
         'pancake.html',
         'Повітряні млинці зі свіжими ягодами та солодким сиропом'
     ),
@@ -1136,7 +1137,7 @@ const recipesData = [
         'meat',
         75,
         'hard',
-        getOptimizedImageUrl('https://images.unsplash.com/photo-1574894709920-11b28e7367e3'),
+        getOptimizedImageUrl('https://images.pexels.com/photos/5949896/pexels-photo-5949896.jpeg?auto=compress&cs=tinysrgb&w=800&h=533&fit=crop'),
         'lasanga.html',
         "Класична італійська лазанья з м'ясним соусом та сиром"
     ),
@@ -1146,7 +1147,7 @@ const recipesData = [
         'dessert',
         30,
         'medium',
-        getOptimizedImageUrl('https://images.unsplash.com/photo-1614149163253-5047e5d91309'),
+        getOptimizedImageUrl('https://images.pexels.com/photos/6168339/pexels-photo-6168339.jpeg?auto=compress&cs=tinysrgb&w=800&h=533&fit=crop'),
         'cheesecake.html',
         'Ніжні сирники з родзинками, подаються зі сметаною'
     ),
@@ -1156,7 +1157,7 @@ const recipesData = [
         'breakfast',
         20,
         'easy',
-        getOptimizedImageUrl('https://images.unsplash.com/photo-1551782450-17144efb9c50'),
+        getOptimizedImageUrl('https://images.pexels.com/photos/17198757/pexels-photo-17198757.jpeg'),
         'omlet.html',
         'Поживний сніданок зі свіжими овочами та сиром'
     ),
@@ -1166,7 +1167,7 @@ const recipesData = [
         'meat',
         45,
         'medium',
-        getOptimizedImageUrl('https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd'),
+        getOptimizedImageUrl('https://images.pexels.com/photos/674574/pexels-photo-674574.jpeg?auto=compress&cs=tinysrgb&w=800&h=533&fit=crop'),
         'curry.html',
         'Ароматне каррі з кокосовим молоком та свіжими овочами'
     )
