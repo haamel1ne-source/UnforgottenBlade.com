@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CookBook — Кулінарна школа</title>
+<title>CookBook — Кухонні поради</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" type="image/png" href="favicon/burger.png">
 <style>
@@ -34,25 +34,44 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         line-height: 1.6;
         min-height: 100vh;
-        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                    url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg') center/cover fixed;
+        background: #111; /* Спрощений фон для продуктивності */
         color: white;
         position: relative;
         overflow-x: hidden;
     }
 
+    /* Фон тільки для body - оптимізація */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                    url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg') center/cover;
+        z-index: -1;
+        will-change: transform;
+    }
+
+    /* Оптимізація зображень */
+    img {
+        content-visibility: auto;
+        contain-intrinsic-size: 200px 200px;
+    }
+
     /* Верхня панель */
     .header-container {
-        background: rgba(46, 139, 87, 0.9);
-        padding: 0 40px;
+        background: rgba(46, 139, 87, 0.95);
+        padding: 0 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         position: sticky;
         top: 0;
         z-index: 1000;
-        backdrop-filter: blur(10px);
-        height: 80px;
+        backdrop-filter: blur(5px);
+        height: 70px;
     }
 
     .burger-menu {
@@ -60,7 +79,7 @@
         background: none;
         border: none;
         color: var(--white);
-        font-size: 28px;
+        font-size: 24px;
         cursor: pointer;
         padding: 10px;
         z-index: 1001;
@@ -73,435 +92,294 @@
 
     .nav-btn {
         background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        padding: 12px 24px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 10px 18px;
         border-radius: 50px;
         color: var(--white);
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
         text-decoration: none;
         white-space: nowrap;
-        font-size: 16px;
+        font-size: 14px;
+        will-change: transform;
     }
 
     .nav-btn:hover {
-        background: rgba(255, 255, 255, 0.35);
-        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-1px);
+    }
+
+    .nav-btn.active {
+        background: rgba(255, 255, 255, 0.4);
+        border-color: var(--secondary);
     }
 
     .logo {
         display: flex;
         align-items: center;
-        gap: 15px;
-        font-size: 32px;
+        gap: 12px;
+        font-size: 24px;
         font-weight: 800;
         color: var(--white);
         letter-spacing: 1px;
     }
 
-    /* Герой карусель */
-    .hero-carousel {
-        position: relative;
-        width: 100%;
-        height: 85vh;
-        overflow: hidden;
-        margin-top: 10px;
-    }
-
-    .carousel-slide {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        transition: opacity 0.8s ease-in-out;
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        will-change: opacity;
-    }
-
-    .carousel-slide.active {
-        opacity: 1;
-    }
-
-    .hero-content {
-        text-align: center;
-        background: rgba(0, 0, 0, 0.7);
-        padding: 50px 70px;
-        border-radius: 25px;
-        max-width: 850px;
-        margin: 0 30px;
-        backdrop-filter: blur(15px);
-        border: 3px solid rgba(218, 165, 32, 0.4);
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-    }
-
-    .hero-content h1 {
-        font-size: 3.8rem;
-        margin-bottom: 25px;
-        text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
-        color: var(--secondary);
-        line-height: 1.2;
-    }
-
-    .hero-content p {
-        font-size: 1.4rem;
-        margin-bottom: 35px;
-        opacity: 0.95;
-        line-height: 1.8;
-        color: white;
-    }
-
-    .hero-buttons {
-        display: flex;
-        gap: 25px;
-        justify-content: center;
-        margin-top: 40px;
-        flex-wrap: wrap;
-    }
-
-    .hero-btn {
-        padding: 20px 40px;
-        border-radius: 50px;
-        font-weight: 700;
-        font-size: 1.2rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: none;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-        min-width: 260px;
-        justify-content: center;
-        text-align: center;
-        position: relative;
-    }
-
-    .hero-btn.primary {
-        background: var(--secondary);
-        color: white;
-        box-shadow: 0 8px 20px rgba(218, 165, 32, 0.4);
-    }
-
-    .hero-btn.secondary {
-        background: rgba(255, 255, 255, 0.25);
-        color: white;
-        border: 2px solid white;
-        backdrop-filter: blur(10px);
-    }
-
-    .hero-btn:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-    }
-
-    .hero-btn.primary:hover {
-        background: #c69500;
-    }
-
-    .hero-btn.secondary:hover {
-        background: rgba(255, 255, 255, 0.4);
-    }
-
-    .carousel-nav {
-        position: absolute;
-        bottom: 40px;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        z-index: 10;
-    }
-
-    .carousel-dot {
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.5);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
-    }
-
-    .carousel-dot.active {
-        background: var(--secondary);
-        transform: scale(1.3);
-        border-color: white;
-    }
-
-    .carousel-dot:hover {
-        background: var(--primary-light);
-        transform: scale(1.2);
-    }
-
-    /* Карусель рецептів - ВАЖЛИВО: оптимізовано для плавності */
-    .recipes-carousel-section {
-        padding: 80px 20px;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(10px);
-        margin-top: 30px;
-        border-top: 3px solid var(--primary);
-        border-bottom: 3px solid var(--primary);
-    }
-
-    .carousel-container {
+    /* Основний контент - оптимізовано */
+    .tips-container {
         max-width: 1200px;
-        margin: 0 auto;
-        position: relative;
+        margin: 40px auto;
+        padding: 0 15px;
     }
 
-    .carousel-title {
+    .page-header {
         text-align: center;
-        margin-bottom: 50px;
+        margin-bottom: 40px;
     }
 
-    .carousel-title h2 {
-        font-size: 2.8rem;
-        margin-bottom: 15px;
-        color: white;
+    .page-header h1 {
+        font-size: 2.5rem;
+        color: var(--secondary);
         text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    }
-
-    .carousel-title p {
-        color: rgba(255, 255, 255, 0.85);
-        font-size: 1.2rem;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    /* ОСНОВНА ОПТИМІЗАЦІЯ: Використовуємо CSS Grid замість flex для каруселі */
-    .carousel {
-        display: grid;
-        grid-auto-flow: column;
-        grid-auto-columns: calc((100% - (3 - 1) * 35px) / 3); /* 3 елементи в ряд */
-        gap: 35px;
-        overflow-x: auto;
-        padding: 25px;
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch; /* Для плавності на iOS */
-        scrollbar-width: none;
-        margin: 0 -25px;
+        margin-bottom: 15px;
         will-change: transform;
     }
 
-    .carousel::-webkit-scrollbar {
-        display: none;
+    .page-header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.5;
     }
 
-    .carousel-item {
+    /* Сітка порад - оптимізована */
+    .tips-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-bottom: 60px;
+        will-change: transform;
+    }
+
+    .tip-card {
         background: rgba(255, 255, 255, 0.95);
-        border-radius: 25px;
+        border-radius: 15px;
         overflow: hidden;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-        text-decoration: none;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
         color: #333;
-        position: relative;
-        transform: translateZ(0); /* Апаратне прискорення */
-        backface-visibility: hidden; /* Запобігає мерцянню */
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        transform: translateZ(0);
+        backface-visibility: hidden;
         -webkit-font-smoothing: subpixel-antialiased;
     }
 
-    .carousel-item:hover {
-        transform: translateY(-10px) scale(1.02);
-        box-shadow: 0 25px 45px rgba(46, 139, 87, 0.4);
+    .tip-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(46, 139, 87, 0.3);
     }
 
-    .carousel-item img {
+    .tip-image {
+        height: 180px;
+        overflow: hidden;
+        background: #f5f5f5;
+    }
+
+    .tip-image img {
         width: 100%;
-        height: 220px;
+        height: 100%;
         object-fit: cover;
-        transition: transform 0.5s ease;
+        transition: transform 0.4s ease;
         display: block;
     }
 
-    .carousel-item:hover img {
+    .tip-card:hover .tip-image img {
         transform: scale(1.05);
     }
 
-    .carousel-content {
-        padding: 25px;
+    .tip-content {
+        padding: 20px;
+        flex-grow: 1;
     }
 
-    .carousel-content h3 {
+    .tip-number {
+        display: inline-block;
+        background: var(--primary);
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 32px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        font-size: 1rem;
+    }
+
+    .tip-content h3 {
         color: var(--primary);
         margin-bottom: 12px;
-        font-size: 1.5rem;
-        min-height: 60px;
+        font-size: 1.3rem;
+        min-height: 50px;
     }
 
-    .carousel-content p {
+    .tip-content p {
         color: #666;
-        line-height: 1.6;
+        line-height: 1.5;
         margin-bottom: 15px;
-        min-height: 80px;
+        font-size: 0.95rem;
     }
 
-    .recipe-time {
-        color: var(--secondary);
+    .tip-category {
+        display: inline-block;
+        background: var(--lighter);
+        color: var(--primary);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
         font-weight: 600;
-        font-size: 1.1rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding-top: 15px;
-        border-top: 2px solid #eee;
+        margin-top: auto;
     }
 
-    .recipe-category-badge {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: var(--primary);
-        color: white;
-        padding: 8px 20px;
-        border-radius: 25px;
-        font-size: 13px;
-        font-weight: 700;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        z-index: 2;
-    }
-
-    .carousel-nav-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 25px;
-        margin-top: 40px;
-    }
-
-    .carousel-btn {
-        background: var(--secondary);
-        color: white;
-        border: none;
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 24px;
-        transition: all 0.3s ease;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .carousel-btn:hover {
-        background: var(--primary);
-        transform: scale(1.1);
-        box-shadow: 0 12px 25px rgba(46, 139, 87, 0.4);
-    }
-
-    /* Особливості */
-    .features-section {
-        padding: 100px 20px;
-        background: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(15px);
-        margin-top: 30px;
+    /* Секція інструментів */
+    .tools-section {
+        margin: 60px 0;
     }
 
     .section-title {
         text-align: center;
-        margin-bottom: 70px;
+        margin-bottom: 40px;
     }
 
     .section-title h2 {
-        font-size: 2.8rem;
-        margin-bottom: 15px;
+        font-size: 2.2rem;
+        margin-bottom: 12px;
         color: white;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
 
     .section-title p {
         color: rgba(255, 255, 255, 0.85);
-        font-size: 1.2rem;
+        font-size: 1rem;
         max-width: 600px;
         margin: 0 auto;
     }
 
-    .features-grid {
+    .tools-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 40px;
-        max-width: 1200px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 25px;
+    }
+
+    .tool-item {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 25px;
+        border-radius: 12px;
+        text-align: center;
+        color: #333;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border: 2px solid transparent;
+        will-change: transform;
+    }
+
+    .tool-item:hover {
+        transform: translateY(-5px);
+        border-color: var(--secondary);
+        box-shadow: 0 10px 20px rgba(218, 165, 32, 0.2);
+    }
+
+    .tool-icon {
+        font-size: 32px;
+        color: var(--primary);
+        margin-bottom: 15px;
+    }
+
+    .tool-item h4 {
+        color: var(--primary);
+        margin-bottom: 12px;
+        font-size: 1.2rem;
+    }
+
+    .tool-item p {
+        color: #666;
+        line-height: 1.5;
+        font-size: 0.9rem;
+    }
+
+    /* Секція заходів безпеки */
+    .safety-section {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 40px 25px;
+        border-radius: 20px;
+        margin: 60px 0;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(218, 165, 32, 0.2);
+    }
+
+    .safety-content {
+        max-width: 900px;
         margin: 0 auto;
     }
 
-    .feature-card {
-        background: rgba(255, 255, 255, 0.95);
-        padding: 40px 30px;
-        border-radius: 20px;
-        text-align: center;
-        color: #333;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
+    .safety-list {
+        list-style-type: none;
     }
 
-    .feature-card:hover {
-        transform: translateY(-10px);
-        background: white;
-        border-color: var(--primary);
-        box-shadow: 0 25px 45px rgba(46, 139, 87, 0.3);
+    .safety-list li {
+        margin-bottom: 20px;
+        padding-left: 35px;
+        position: relative;
+        line-height: 1.5;
     }
 
-    .feature-icon {
-        font-size: 50px;
-        color: var(--primary);
-        margin-bottom: 25px;
-        transition: transform 0.3s;
-    }
-
-    .feature-card:hover .feature-icon {
-        transform: scale(1.1) rotate(5deg);
-    }
-
-    .feature-card h3 {
-        color: var(--primary);
-        margin-bottom: 15px;
-        font-size: 1.5rem;
-        min-height: 50px;
-    }
-
-    .feature-card p {
-        color: #666;
-        line-height: 1.7;
+    .safety-list li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: var(--primary);
+        color: white;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 14px;
     }
 
     /* Підвал */
     footer {
         background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
         color: var(--white);
-        padding: 70px 20px 30px;
+        padding: 50px 20px 20px;
         margin-top: auto;
-        border-top: 5px solid var(--secondary);
+        border-top: 3px solid var(--secondary);
     }
 
     .footer-container {
-        max-width: 1200px;
+        max-width: 1000px;
         margin: 0 auto;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 50px;
+        gap: 30px;
     }
 
     .footer-section h3 {
-        font-size: 1.8rem;
-        margin-bottom: 25px;
+        font-size: 1.4rem;
+        margin-bottom: 20px;
         position: relative;
         display: inline-block;
         color: white;
-        padding-bottom: 10px;
+        padding-bottom: 8px;
     }
 
     .footer-section h3:after {
@@ -509,98 +387,70 @@
         position: absolute;
         left: 0;
         bottom: 0;
-        width: 50px;
-        height: 3px;
+        width: 40px;
+        height: 2px;
         background: var(--secondary);
-        border-radius: 2px;
+        border-radius: 1px;
     }
 
     .footer-section p, .footer-section a {
         color: rgba(255, 255, 255, 0.9);
-        margin-bottom: 15px;
+        margin-bottom: 12px;
         display: block;
         text-decoration: none;
-        transition: all 0.3s ease;
-        line-height: 1.7;
+        transition: all 0.2s ease;
+        line-height: 1.5;
+        font-size: 0.95rem;
     }
 
     .footer-section a:hover {
         color: white;
-        transform: translateX(8px);
-        text-decoration: underline;
+        transform: translateX(5px);
     }
 
     .social-icons {
         display: flex;
-        gap: 30px;
-        margin-top: 25px;
-        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 20px;
     }
 
     .social-icon {
-        font-size: 32px;
+        font-size: 24px;
         color: rgba(255, 255, 255, 0.9);
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
         text-decoration: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 
     .social-icon:hover {
         color: var(--white);
-        transform: translateY(-5px) scale(1.1);
+        transform: translateY(-3px);
     }
 
     .footer-bottom {
         text-align: center;
-        margin-top: 70px;
-        padding-top: 30px;
+        margin-top: 40px;
+        padding-top: 20px;
         border-top: 1px solid rgba(255, 255, 255, 0.2);
         color: rgba(255, 255, 255, 0.8);
-        font-size: 15px;
+        font-size: 0.85rem;
     }
 
-    /* АДАПТИВНІСТЬ */
-    @media (max-width: 1100px) {
-        .hero-btn {
-            min-width: 240px;
-            padding: 18px 35px;
-        }
-        .carousel {
-            grid-auto-columns: calc((100% - (2 - 1) * 35px) / 2); /* 2 елементи в ряд */
-        }
+    /* Клас для ленивого завантаження */
+    .lazy-load {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        background: #f5f5f5;
+    }
+    
+    .lazy-load.loaded {
+        opacity: 1;
     }
 
-    @media (max-width: 992px) {
-        .hero-carousel {
-            height: 75vh;
-        }
-        
-        .hero-content {
-            padding: 40px 50px;
-            margin: 0 20px;
-        }
-        
-        .hero-content h1 {
-            font-size: 3rem;
-        }
-        
-        .hero-content p {
-            font-size: 1.2rem;
-        }
-        
-        .hero-btn {
-            padding: 16px 30px;
-            min-width: 220px;
-            font-size: 1.1rem;
-        }
-    }
-
+    /* Адаптивність */
     @media (max-width: 768px) {
         .header-container {
-            padding: 0 20px;
-            height: 70px;
+            padding: 0 15px;
+            height: 60px;
         }
         
         .burger-menu {
@@ -610,13 +460,13 @@
         .nav-buttons {
             display: none;
             position: fixed;
-            top: 70px;
+            top: 60px;
             left: 0;
             right: 0;
             background: var(--primary-dark);
             flex-direction: column;
-            padding: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             z-index: 1000;
         }
         
@@ -624,58 +474,38 @@
             display: flex;
         }
         
-        .hero-carousel {
-            height: 65vh;
-        }
-        
-        .hero-content {
-            padding: 30px;
-            margin: 0 15px;
-        }
-        
-        .hero-content h1 {
-            font-size: 2.2rem;
-        }
-        
-        .hero-content p {
-            font-size: 1rem;
-        }
-        
-        .hero-buttons {
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .hero-btn {
-            min-width: 280px;
+        .nav-btn {
             width: 100%;
-            max-width: 320px;
-            margin: 0 auto;
-            padding: 18px 30px;
+            justify-content: center;
+            padding: 12px;
         }
         
-        .carousel {
-            grid-auto-columns: calc((100% - (1 - 1) * 35px) / 1); /* 1 елемент в ряд */
+        .page-header h1 {
+            font-size: 2rem;
         }
         
-        .carousel-title h2 {
-            font-size: 2.2rem;
+        .page-header p {
+            font-size: 1rem;
+            padding: 0 10px;
+        }
+        
+        .tips-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
         }
         
         .section-title h2 {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
         }
         
-        .features-grid {
-            grid-template-columns: 1fr;
-            gap: 30px;
+        .safety-section {
+            padding: 30px 20px;
         }
         
         .footer-container {
             grid-template-columns: 1fr;
             text-align: center;
-            gap: 40px;
+            gap: 25px;
         }
         
         .footer-section h3:after {
@@ -685,89 +515,69 @@
         
         .social-icons {
             justify-content: center;
-            gap: 25px;
-        }
-        
-        .carousel-btn {
-            width: 60px;
-            height: 60px;
-            font-size: 20px;
+            gap: 15px;
         }
     }
 
     @media (max-width: 480px) {
-        .hero-carousel {
-            height: 55vh;
-        }
-        
-        .hero-content h1 {
-            font-size: 1.8rem;
-        }
-        
-        .hero-content p {
-            font-size: 0.9rem;
-        }
-        
-        .hero-btn {
-            padding: 16px 25px;
-            font-size: 1rem;
-            min-width: 220px;
-            max-width: 100%;
-        }
-        
-        .carousel-title h2 {
-            font-size: 1.8rem;
+        .page-header h1 {
+            font-size: 1.6rem;
         }
         
         .section-title h2 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
         }
         
-        .feature-card {
-            padding: 30px 20px;
+        .tip-content {
+            padding: 15px;
+        }
+        
+        .tip-content h3 {
+            font-size: 1.1rem;
+            min-height: auto;
         }
         
         .logo {
-            font-size: 26px;
+            font-size: 20px;
         }
         
         .social-icons {
-            gap: 20px;
+            gap: 12px;
         }
         
         .social-icon {
-            font-size: 28px;
+            font-size: 20px;
         }
         
-        .carousel-btn {
-            width: 55px;
-            height: 55px;
-            font-size: 18px;
+        .tools-grid {
+            grid-template-columns: 1fr;
         }
     }
 
-    /* Клас для ленивого завантаження */
-    .lazy-load {
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-    
-    .lazy-load.loaded {
-        opacity: 1;
+    /* Оптимізація анімацій */
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
     }
 </style>
 </head>
 <body>
 
 <div class="header-container">
-    <button class="burger-menu" onclick="toggleMenu()">
+    <button class="burger-menu" onclick="toggleMenu()" aria-label="Відкрити меню">
         <i class="fas fa-bars"></i>
     </button>
     
     <div class="nav-buttons" id="navButtons">
         <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Головна</a>
         <a href="strava.html" class="nav-btn"><i class="fas fa-utensils"></i> Смачні страви</a>
-        <a href="navfour.html" class="nav-btn"><i class="fas fa-lightbulb"></i> Кухонні поради</a>
+        <a href="navfour.html" class="nav-btn active"><i class="fas fa-lightbulb"></i> Кухонні поради</a>
         <a href="pronas.html" class="nav-btn"><i class="fas fa-info-circle"></i> Про нас</a>
     </div>
     
@@ -777,72 +587,80 @@
     </div>
 </div>
 
-<!-- Герой карусель -->
-<div class="hero-carousel" id="heroCarousel">
-    <!-- Слайди додаються динамічно -->
-</div>
-
-<!-- Навігація каруселі -->
-<div class="carousel-nav" id="carouselDots">
-    <!-- Крапки додаються динамічно -->
-</div>
-
-<!-- Карусель страв -->
-<section class="recipes-carousel-section">
-    <div class="carousel-container">
-        <div class="carousel-title">
-            <h2>Популярні страви</h2>
-            <p>Найкращі рецепти, обрані нашими користувачами</p>
-        </div>
-        
-        <div class="carousel" id="recipeCarousel">
-            <!-- Рецепти додаються динамічно -->
-        </div>
-        
-        <div class="carousel-nav-buttons">
-            <button class="carousel-btn" onclick="scrollRecipesCarousel('left')">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="carousel-btn" onclick="scrollRecipesCarousel('right')">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-    </div>
-</section>
-
-<!-- Особливості -->
-<section class="features-section">
-    <div class="section-title">
-        <h2>Чому обирають CookBook?</h2>
-        <p>Наші переваги для вашої кулінарної насолоди</p>
+<!-- Основний контент -->
+<main class="tips-container">
+    <div class="page-header">
+        <h1>Кухонні поради</h1>
+        <p>Експертні рекомендації та секрети для покращення ваших кулінарних навичок. Від базових технік до професійних трюків.</p>
     </div>
     
-    <div class="features-grid">
-        <div class="feature-card">
-            <div class="feature-icon">
-                <i class="fas fa-book-open"></i>
-            </div>
-            <h3>1000+ рецептів</h3>
-            <p>Велика колекція страв на будь-який смак та нагоду. Від традиційних українських страв до екзотичних делікатесів.</p>
+    <!-- Сітка з порадами -->
+    <div class="tips-grid">
+        <!-- Поради додаються динамічно -->
+    </div>
+    
+    <!-- Секція інструментів -->
+    <div class="tools-section">
+        <div class="section-title">
+            <h2>Обов'язкові кухонні інструменти</h2>
+            <p>Якісні інструменти - запорука успіху на кухні</p>
         </div>
         
-        <div class="feature-card">
-            <div class="feature-icon">
-                <i class="fas fa-clock"></i>
+        <div class="tools-grid">
+            <div class="tool-item">
+                <div class="tool-icon">
+                    <i class="fas fa-utensil-spoon"></i>
+                </div>
+                <h4>Набір ножів</h4>
+                <p>Якісні шеф-ніж, ніж для очищення овочів та хлібний ніж - основа будь-якої кухні.</p>
             </div>
-            <h3>Економія часу</h3>
-            <p>Швидкі рецепти для зайнятих людей. З нашими покроковими інструкціями ви приготуєте смачну страву вчасно.</p>
-        </div>
-        
-        <div class="feature-card">
-            <div class="feature-icon">
-                <i class="fas fa-users"></i>
+            
+            <div class="tool-item">
+                <div class="tool-icon">
+                    <i class="fas fa-thermometer-half"></i>
+                </div>
+                <h4>Кухонний термометр</h4>
+                <p>Точний термометр гарантує ідеальну готовність м'яса та контролює температуру тіста.</p>
             </div>
-            <h3>Активна спільнота</h3>
-            <p>Обговорення та обмін досвідом з іншими кулінарами. Діліться своїми рецептами та отримуйте поради.</p>
+            
+            <div class="tool-item">
+                <div class="tool-icon">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <h4>Кухонні ваги</h4>
+                <p>Електронні ваги з точністю до грама - обов'язковий інструмент для точної кулінарії.</p>
+            </div>
+            
+            <div class="tool-item">
+                <div class="tool-icon">
+                    <i class="fas fa-mortar-pestle"></i>
+                </div>
+                <h4>Ступка з пестиком</h4>
+                <p>Ідеальна для мелення спецій, приготування песто та подрібнення насіння.</p>
+            </div>
         </div>
     </div>
-</section>
+    
+    <!-- Секція безпеки -->
+    <div class="safety-section">
+        <div class="section-title">
+            <h2>Правила безпеки на кухні</h2>
+            <p>Основні принципи безпечного приготування їжі</p>
+        </div>
+        
+        <div class="safety-content">
+            <ul class="safety-list">
+                <li>Завжди мійте руки перед початком приготування їжі та після роботи з сирим м'ясом.</li>
+                <li>Використовуйте окремі дошки для м'яса, риби та овочів, щоб уникнути перехресного забруднення.</li>
+                <li>Не залишайте ручки каструль та сковорідок, що стирчать за межі плити - це небезпечно.</li>
+                <li>Зберігайте сире м'ясо, птицю та рибу на нижніх полицях холодильника, щоб сік не капав на інші продукти.</li>
+                <li>Не використовуйте пошкоджений посуд з тріщинами або зіпсованим покриттям.</li>
+                <li>Майте під рукою вогнегасник або соду для гашення олії, яка може спалахнути.</li>
+                <li>Завжди тримайте ножі заточеними - тупий ніж більш небезпечний, оскільки вимагає більшого зусилля.</li>
+            </ul>
+        </div>
+    </div>
+</main>
 
 <!-- Підвал -->
 <footer>
@@ -862,7 +680,7 @@
             <h3>Навігація</h3>
             <a href="index.html">Головна</a>
             <a href="strava.html">Смачні страви</a>
-            <a href="navfour.html">Кухонні поради</a>
+            <a href="navfour.html" class="active">Кухонні поради</a>
             <a href="pronas.html">Про нас</a>
         </div>
         
@@ -881,228 +699,136 @@
 </footer>
 
 <script>
-// Функція для відкриття/закриття меню
+// Дані для порад
+const tipsData = [
+    {
+        number: 1,
+        title: "Як правильно заточити ножа",
+        image: "https://images.pexels.com/photos/952366/pexels-photo-952366.jpeg",
+        description: "Завжди тримайте ніж під постійним кутом 20 градусів до точильного каменю. Робіть плавні, рівномірні рухи вперед-назад з однаковим тиском з обох сторін леза.",
+        category: "Інструменти"
+    },
+    {
+        number: 2,
+        title: "Правильна температура м'яса",
+        image: "https://images.pexels.com/photos/8694617/pexels-photo-8694617.jpeg",
+        description: "Використовуйте кухонний термометр для перевірки готовності м'яса. Стейк medium rare - 54-57°C, куряче філе - 74°C, свинина - 63°C.",
+        category: "М'ясо"
+    },
+    {
+        number: 3,
+        title: "Секрети використання приправ",
+        image: "https://images.pexels.com/photos/2802527/pexels-photo-2802527.jpeg",
+        description: "Завжди обсмажуйте сухі спеції на сухій сковороді 1-2 хвилини перед додаванням в страву. Це розкриває аромат. Сіль додавайте в кінці.",
+        category: "Приправи"
+    },
+    {
+        number: 4,
+        title: "Як зберегти овочі свіжими",
+        image: "https://images.pexels.com/photos/1435904/pexels-photo-1435904.jpeg",
+        description: "Томати зберігайте при кімнатній температурі, картоплю - у темному прохолодному місці, зелень - у склянці з водою під пакетом.",
+        category: "Овочі"
+    },
+    {
+        number: 5,
+        title: "Ідеальне тісто для випічки",
+        image: "https://images.pexels.com/photos/9510/food-pizza-kitchen-recipe.jpg",
+        description: "Для повітряного тіста завжди просіюйте борошно двічі. Інгредієнти мають бути кімнатної температури.",
+        category: "Випічка"
+    },
+    {
+        number: 6,
+        title: "Секрет ідеальної скоринки",
+        image: "https://images.pexels.com/photos/17419698/pexels-photo-17419698.jpeg",
+        description: "Щоб отримати золотисту скоринку на м'ясі чи рибі, добре обисушіть продукт паперовим рушником перед смаженням.",
+        category: "Техніки"
+    }
+];
+
+let scrollTimeout;
+let isScrolling = false;
+let lazyImageObserver = null;
+
 function toggleMenu() {
     const navButtons = document.getElementById('navButtons');
     navButtons.classList.toggle('active');
 }
 
-// Дані для герой-каруселі
-const heroSlides = [
-    {
-        background: 'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg',
-    },
-    {
-        background: 'https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg',
-    },
-    {
-        background: 'https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg',
-    }
-];
-
-// Фіксований текст для всіх слайдів
-const fixedTitle = 'Ласкаво просимо до CookBook';
-const fixedDescription = 'Відкрийте для себе світ кулінарних шедеврів. Від класичних українських страв до екзотичних делікатесів. Готуйте з насолодою та надихайтеся новими ідеями разом з нами!';
-
-// Дані для каруселі рецептів - оновлено фото борща
-const carouselRecipes = [
-    {
-        title: "Борщ український",
-        image: "https://recepty.24tv.ua/resources/photos/recipe/1200x675_DIR/201912/86d3f0ec08-b061-4a2d-afa7-f053527f4f06.jpg?1582905806000",
-        time: "80 хв",
-        description: "Класичний червоний борщ зі сметаною та свіжою зеленню. Ідеальна страва для сімейної трапези.",
-        link: "strava.html",
-        category: "Супи"
-    },
-    {
-        title: "Панкейки з ягодами",
-        image: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg",
-        time: "25 хв",
-        description: "Повітряні млинці зі свіжими ягодами та солодким сиропом. Ідеальний сніданок для всієї родини.",
-        link: "strava.html",
-        category: "Десерти"
-    },
-    {
-        title: "М'ясна лазанья",
-        image: "https://images.pexels.com/photos/5949896/pexels-photo-5949896.jpeg",
-        time: "75 хв",
-        description: "Класична італійська лазанья з м'ясним соусом та сиром. Справжня італійська страва у вашому домі.",
-        link: "strava.html",
-        category: "М'ясні"
-    },
-    {
-        title: "Сирники",
-        image: "https://images.pexels.com/photos/6168339/pexels-photo-6168339.jpeg",
-        time: "30 хв",
-        description: "Ніжні сирники з родзинками, подаються зі сметаною та варенням. Любимий десерт для дорослих та дітей.",
-        link: "strava.html",
-        category: "Десерти"
-    },
-    {
-        title: "Омлет з овочами",
-        image: "https://images.pexels.com/photos/718742/pexels-photo-718742.jpeg",
-        time: "20 хв",
-        description: "Поживний сніданок зі свіжими овочами та сиром. Справжній заряд енергії на весь день.",
-        link: "strava.html",
-        category: "Сніданки"
-    },
-    {
-        title: "Каррі з куркою та рисом",
-        image: "https://images.pexels.com/photos/674574/pexels-photo-674574.jpeg",
-        time: "45 хв",
-        description: "Ароматне каррі з кокосовим молоком та свіжими овочами. Екзотична страва з доступних інгредієнтів.",
-        link: "strava.html",
-        category: "М'ясні"
-    }
-];
-
-// Глобальні змінні
-let currentSlide = 0;
-let slideInterval = null;
-let isCarouselPaused = false;
-let recipeCarouselObserver = null;
-
-// Оптимізована ініціалізація герой-каруселі
-function initHeroCarousel() {
-    const carousel = document.getElementById('heroCarousel');
-    const dotsContainer = document.getElementById('carouselDots');
+// Оптимізована функція ініціалізації карток
+function initTipsGrid() {
+    const tipsGrid = document.querySelector('.tips-grid');
     
-    heroSlides.forEach((slide, index) => {
-        const slideElement = document.createElement('div');
-        slideElement.className = 'carousel-slide';
-        
-        // Додаємо зображення тільки для першого слайда
-        if (index === 0) {
-            slideElement.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${slide.background}')`;
-        } else {
-            // Для інших слайдів додаємо пізніше
-            slideElement.setAttribute('data-bg', slide.background);
-        }
-        
-        slideElement.innerHTML = `
-            <div class="hero-content">
-                <h1>${fixedTitle}</h1>
-                <p>${fixedDescription}</p>
-                <div class="hero-buttons">
-                    <a href="strava.html" class="hero-btn primary">
-                        <i class="fas fa-utensils"></i> Переглянути рецепти
-                    </a>
-                    <a href="navfour.html" class="hero-btn secondary">
-                        <i class="fas fa-lightbulb"></i> Кухонні поради
-                    </a>
-                </div>
-            </div>
-        `;
-        carousel.appendChild(slideElement);
-        
-        const dot = document.createElement('div');
-        dot.className = 'carousel-dot';
-        if (index === 0) dot.classList.add('active');
-        dot.dataset.index = index;
-        dot.addEventListener('click', () => goToSlide(index));
-        dotsContainer.appendChild(dot);
+    // Додаємо перші 3 картки негайно
+    const initialTips = tipsData.slice(0, 3);
+    
+    initialTips.forEach(tip => {
+        createTipCard(tip, tipsGrid, true);
     });
     
-    document.querySelectorAll('.carousel-slide')[0].classList.add('active');
-    preloadHeroImages();
-}
-
-// Попереднє завантаження зображень для герой-каруселі
-function preloadHeroImages() {
-    heroSlides.forEach((slide, index) => {
-        if (index > 0) {
-            setTimeout(() => {
-                const img = new Image();
-                img.onload = () => {
-                    const slideElement = document.querySelectorAll('.carousel-slide')[index];
-                    if (slideElement) {
-                        slideElement.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${slide.background}')`;
-                    }
-                };
-                img.src = slide.background;
-            }, index * 1000);
-        }
-    });
-}
-
-// Оптимізована ініціалізація каруселі рецептів
-function initRecipesCarousel() {
-    const carousel = document.getElementById('recipeCarousel');
-    
-    // Додаємо тільки перші 3 елементи спочатку
-    const initialRecipes = carouselRecipes.slice(0, 3);
-    
-    initialRecipes.forEach(recipe => {
-        createRecipeCard(recipe, carousel, true);
-    });
-    
-    // Решта рецептів додаються пізніше
+    // Решту карток додаємо пізніше з лінивим завантаженням
     setTimeout(() => {
-        const remainingRecipes = carouselRecipes.slice(3);
-        remainingRecipes.forEach(recipe => {
-            createRecipeCard(recipe, carousel, false);
+        const remainingTips = tipsData.slice(3);
+        remainingTips.forEach(tip => {
+            createTipCard(tip, tipsGrid, false);
         });
         setupLazyLoading();
     }, 500);
 }
 
-// Функція для створення картки рецепту
-function createRecipeCard(recipe, container, loadImmediately = true) {
-    const item = document.createElement('a');
-    item.className = 'carousel-item';
-    item.href = recipe.link;
+// Створення картки поради
+function createTipCard(tip, container, loadImmediately = true) {
+    const card = document.createElement('div');
+    card.className = 'tip-card';
     
     if (loadImmediately) {
-        // Безпосереднє завантаження для перших трьох карток
-        item.innerHTML = `
-            <div class="recipe-category-badge">${recipe.category}</div>
-            <img src="${recipe.image}" alt="${recipe.title}" loading="eager">
-            <div class="carousel-content">
-                <h3>${recipe.title}</h3>
-                <p>${recipe.description}</p>
-                <div class="recipe-time">
-                    <i class="far fa-clock"></i> ${recipe.time}
-                </div>
+        card.innerHTML = `
+            <div class="tip-image">
+                <img src="${tip.image}" alt="${tip.title}" loading="eager">
+            </div>
+            <div class="tip-content">
+                <div class="tip-number">${tip.number}</div>
+                <h3>${tip.title}</h3>
+                <p>${tip.description}</p>
+                <span class="tip-category">${tip.category}</span>
             </div>
         `;
     } else {
-        // Ліниве завантаження для решти карток
-        item.innerHTML = `
-            <div class="recipe-category-badge">${recipe.category}</div>
-            <img class="lazy-load" data-src="${recipe.image}" alt="${recipe.title}" loading="lazy">
-            <div class="carousel-content">
-                <h3>${recipe.title}</h3>
-                <p>${recipe.description}</p>
-                <div class="recipe-time">
-                    <i class="far fa-clock"></i> ${recipe.time}
-                </div>
+        card.innerHTML = `
+            <div class="tip-image">
+                <img class="lazy-load" data-src="${tip.image}" alt="${tip.title}" loading="lazy">
+            </div>
+            <div class="tip-content">
+                <div class="tip-number">${tip.number}</div>
+                <h3>${tip.title}</h3>
+                <p>${tip.description}</p>
+                <span class="tip-category">${tip.category}</span>
             </div>
         `;
     }
     
-    container.appendChild(item);
+    container.appendChild(card);
 }
 
-// Налаштування лінивого завантаження
+// Налаштування лінивого завантаження зображень
 function setupLazyLoading() {
     const lazyImages = document.querySelectorAll('img.lazy-load');
     
     if ('IntersectionObserver' in window) {
-        recipeCarouselObserver = new IntersectionObserver((entries) => {
+        lazyImageObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const img = entry.target;
                     img.src = img.dataset.src;
                     img.classList.add('loaded');
-                    recipeCarouselObserver.unobserve(img);
+                    lazyImageObserver.unobserve(img);
                 }
             });
         }, {
-            rootMargin: '50px', // Починає завантажувати трохи раніше
-            threshold: 0.1
+            rootMargin: '100px', // Починає завантажувати раніше
+            threshold: 0.01
         });
         
-        lazyImages.forEach(img => recipeCarouselObserver.observe(img));
+        lazyImages.forEach(img => lazyImageObserver.observe(img));
     } else {
         // Фолбек для старих браузерів
         lazyImages.forEach(img => {
@@ -1112,81 +838,41 @@ function setupLazyLoading() {
     }
 }
 
-// Оптимізована прокрутка каруселі рецептів
-function scrollRecipesCarousel(direction) {
-    const carousel = document.getElementById('recipeCarousel');
-    if (!carousel) return;
-    
-    const scrollAmount = carousel.offsetWidth * 0.8; // 80% ширини каруселі
-    const targetScroll = direction === 'right' ? 
-        carousel.scrollLeft + scrollAmount : 
-        carousel.scrollLeft - scrollAmount;
-    
-    // Використовуємо requestAnimationFrame для плавності
-    const startTime = performance.now();
-    const startScroll = carousel.scrollLeft;
-    const duration = 300; // мс
-    
-    function animateScroll(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+// Оптимізований обробник скролу
+function handleScrollOptimization() {
+    if (!isScrolling) {
+        isScrolling = true;
         
-        // Використовуємо easeOutCubic для плавності
-        const easeProgress = 1 - Math.pow(1 - progress, 3);
-        carousel.scrollLeft = startScroll + (targetScroll - startScroll) * easeProgress;
+        // Додаємо клас для зменшення анімацій під час скролу
+        document.body.classList.add('scrolling');
         
-        if (progress < 1) {
-            requestAnimationFrame(animateScroll);
-        }
-    }
-    
-    requestAnimationFrame(animateScroll);
-}
-
-// Оптимізована зміна слайдів герой-каруселі
-function goToSlide(index) {
-    const slides = document.querySelectorAll('.carousel-slide');
-    const dots = document.querySelectorAll('.carousel-dot');
-    
-    if (slides.length === 0 || index < 0 || index >= slides.length) return;
-    
-    // Завантажуємо зображення для цього слайда, якщо ще не завантажено
-    const slide = slides[index];
-    if (slide.hasAttribute('data-bg')) {
-        const bg = slide.getAttribute('data-bg');
-        slide.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${bg}')`;
-        slide.removeAttribute('data-bg');
-    }
-    
-    // Анімація переходу
-    slides[currentSlide].classList.remove('active');
-    dots[currentSlide].classList.remove('active');
-    
-    currentSlide = index;
-    
-    slides[currentSlide].classList.add('active');
-    dots[currentSlide].classList.add('active');
-    
-    resetCarouselInterval();
-}
-
-function startCarousel() {
-    if (slideInterval) clearInterval(slideInterval);
-    slideInterval = setInterval(() => {
-        if (!isCarouselPaused) {
-            goToSlide((currentSlide + 1) % heroSlides.length);
-        }
-    }, 4000);
-}
-
-function resetCarouselInterval() {
-    if (slideInterval) {
-        clearInterval(slideInterval);
-        startCarousel();
+        // Після завершення скролу повертаємо анімації
+        setTimeout(() => {
+            document.body.classList.remove('scrolling');
+            isScrolling = false;
+        }, 150);
     }
 }
 
-// Оптимізація подій
+// Дебаунс для скролу
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+const debouncedScroll = debounce(handleScrollOptimization, 50);
+
+// Оптимізація анімацій при скролі
+document.addEventListener('scroll', debouncedScroll, { passive: true });
+
+// Закриття меню при кліку поза ним
 document.addEventListener('click', (e) => {
     const navButtons = document.getElementById('navButtons');
     const burgerMenu = document.querySelector('.burger-menu');
@@ -1201,87 +887,35 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Пауза каруселі при наведенні
-const heroCarousel = document.getElementById('heroCarousel');
-if (heroCarousel) {
-    heroCarousel.addEventListener('mouseenter', () => {
-        isCarouselPaused = true;
-    });
-    
-    heroCarousel.addEventListener('mouseleave', () => {
-        isCarouselPaused = false;
-    });
-}
-
-// Оптимізація для тач-пристроїв
-let touchStartX = 0;
-let touchEndX = 0;
-
-const recipeCarousel = document.getElementById('recipeCarousel');
-if (recipeCarousel) {
-    recipeCarousel.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-    
-    recipeCarousel.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
-}
-
-function handleSwipe() {
-    const swipeThreshold = 50;
-    const diff = touchStartX - touchEndX;
-    
-    if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0) {
-            // Свайп вліво - прокрутка вправо
-            scrollRecipesCarousel('right');
-        } else {
-            // Свайп вправо - прокрутка вліво
-            scrollRecipesCarousel('left');
-        }
-    }
-}
-
 // Дебаунс для ресайзу
 let resizeTimeout;
-function debouncedResize() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-        // Перезавантажуємо ліниві зображення при ресайзі
-        if (recipeCarouselObserver) {
-            recipeCarouselObserver.disconnect();
-            setupLazyLoading();
-        }
-    }, 250);
-}
+const optimizedResize = debounce(() => {
+    // Оновлюємо ліниві зображення при ресайзі
+    if (lazyImageObserver) {
+        lazyImageObserver.disconnect();
+        setupLazyLoading();
+    }
+}, 250);
 
 // Ініціалізація при завантаженні
 document.addEventListener('DOMContentLoaded', () => {
-    // Швидка ініціалізація основних елементів
-    initHeroCarousel();
-    initRecipesCarousel();
+    // Ініціалізуємо сітку порад
+    initTipsGrid();
     
-    // Запускаємо карусель через невелику затримку
-    setTimeout(() => {
-        startCarousel();
-    }, 1000);
+    // Додаємо обробник ресайзу
+    window.addEventListener('resize', optimizedResize);
     
-    // Додаємо обробники подій
-    window.addEventListener('resize', debouncedResize);
-    
-    // Оптимізація анімацій
-    if ('requestAnimationFrame' in window) {
-        // Використовуємо rAF для плавних анімацій
-        console.log('Using requestAnimationFrame for smooth animations');
+    // Оптимізація для слабких пристроїв
+    if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) {
+        console.log('Weak device detected, optimizing performance');
+        // Вимикаємо деякі анімації на слабких пристроях
+        document.documentElement.style.setProperty('--animation-speed', '0.1s');
     }
     
-    // Перевірка WebGL для апаратного прискорення
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    if (gl && gl instanceof WebGLRenderingContext) {
-        console.log('WebGL is available for hardware acceleration');
+    // Відключаємо анімації для користувачів, які цього бажають
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        console.log('Reduced motion preferred');
+        document.documentElement.classList.add('reduced-motion');
     }
 });
 
@@ -1299,9 +933,26 @@ document.addEventListener('click', (e) => {
 
 // Cleanup при виході
 window.addEventListener('beforeunload', () => {
-    if (slideInterval) clearInterval(slideInterval);
-    if (recipeCarouselObserver) recipeCarouselObserver.disconnect();
+    if (lazyImageObserver) lazyImageObserver.disconnect();
 });
+
+// Додаємо CSS для режиму скролу
+const style = document.createElement('style');
+style.textContent = `
+    .scrolling .tip-card,
+    .scrolling .tool-item {
+        transition: none !important;
+    }
+    
+    .reduced-motion *,
+    .reduced-motion *::before,
+    .reduced-motion *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+`;
+document.head.appendChild(style);
 </script>
 
 </body>
