@@ -898,7 +898,7 @@ const heroSlides = [
 const fixedTitle = 'Ласкаво просимо до CookBook';
 const fixedDescription = 'Відкрийте для себе світ кулінарних шедеврів. Від класичних українських страв до екзотичних делікатесів. Готуйте з насолодою та надихайтеся новими ідеями разом з нами!';
 
-// Дані для каруселі рецептів - ОПТИМІЗОВАНІ зображення
+// Дані для каруселі рецептів
 const carouselRecipes = [
     {
         title: "Борщ український",
@@ -953,7 +953,6 @@ const carouselRecipes = [
 // Глобальні змінні
 let currentSlide = 0;
 let slideInterval = null;
-let isCarouselPaused = false;
 
 // Ініціалізація герой-каруселі
 function initHeroCarousel() {
@@ -1015,7 +1014,7 @@ function preloadHeroImages() {
     });
 }
 
-// Оптимізована ініціалізація каруселі рецептів
+// Ініціалізація каруселі рецептів
 function initRecipesCarousel() {
     const carousel = document.getElementById('recipeCarousel');
     if (!carousel) return;
@@ -1047,7 +1046,7 @@ function initRecipesCarousel() {
     });
 }
 
-// ПРОСТА та швидка прокрутка каруселі
+// Прокрутка каруселі рецептів
 function scrollRecipesCarousel(direction) {
     const carousel = document.getElementById('recipeCarousel');
     if (!carousel) return;
@@ -1065,7 +1064,7 @@ function scrollRecipesCarousel(direction) {
     });
 }
 
-// Оптимізована навігація для тач-пристроїв
+// Навігація для тач-пристроїв
 let touchStartX = 0;
 let touchEndX = 0;
 
@@ -1119,9 +1118,7 @@ function goToSlide(index) {
 function startCarousel() {
     if (slideInterval) clearInterval(slideInterval);
     slideInterval = setInterval(() => {
-        if (!isCarouselPaused) {
-            goToSlide((currentSlide + 1) % heroSlides.length);
-        }
+        goToSlide((currentSlide + 1) % heroSlides.length);
     }, 4000);
 }
 
@@ -1141,18 +1138,6 @@ document.addEventListener('click', (e) => {
         navButtons.classList.remove('active');
     }
 });
-
-// Пауза каруселі при наведенні
-const heroCarousel = document.getElementById('heroCarousel');
-if (heroCarousel) {
-    heroCarousel.addEventListener('mouseenter', () => {
-        isCarouselPaused = true;
-    });
-    
-    heroCarousel.addEventListener('mouseleave', () => {
-        isCarouselPaused = false;
-    });
-}
 
 // Ініціалізація при завантаженні
 document.addEventListener('DOMContentLoaded', () => {
@@ -1181,5 +1166,6 @@ document.addEventListener('click', (e) => {
 
 </body>
 </html>
+
 
 
